@@ -4,3 +4,9 @@ node_modules/
 storage/
 dist/
 
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
