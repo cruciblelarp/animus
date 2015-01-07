@@ -1,6 +1,6 @@
 define([
-    'angular'
+	'angular'
 ], function(angular) {
-    return angular.module('crucible', [
-    ]);
+	return angular.module('crucible', [
+	]);
 });
