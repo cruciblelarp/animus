@@ -7,6 +7,7 @@ gulp.task('run', function() {
 		script: 'src/server/server.js',
 		ext: 'html js css',
 		ignore: [
+			'src/client/*'
 		]
 	});
 });
