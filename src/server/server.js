@@ -16,9 +16,6 @@ var httpServer = http.createServer(function(request, response) {
 	    fileServer.serve(request, response, function (err, result) {
 	        if (err) {
 				
-				// There was an error serving the file
-	            sys.error("Error serving " + request.url + " - " + err.message);
-
 	            // Respond to the client
 	            response.writeHead(err.status, err.headers);
 	            response.end();
@@ -30,12 +27,10 @@ var httpServer = http.createServer(function(request, response) {
 
 httpServer.listen(8000, function (err) {
 
-	if (err) 
-		console.warn('Can\'t start server. Error: ', err, err.stack);
+	if (err) { 
 		return;
 	}
 
-	console.log('swarm server started at port 8000');
 
 });
 
@@ -46,7 +41,6 @@ var wsServer = new socket.Server({
 
 // accept incoming WebSockets connections
 wsServer.on('connection', function (ws) {
-	console.log('new incoming WebSocket connection');
 	swarmHost.accept(new swarm.EinarosWSStream(ws), {
 	   delay: 50
 	});
