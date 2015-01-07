@@ -1,0 +1,29 @@
+{
+  "name": "crucible-manager",
+  "version": "0.0.1",
+  "description": "A management utility for the NZ Crucible LARP.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cruciblelarp/manager.git"
+  },
+  "keywords": [
+    "webapp"
+  ],
+  "author": "Peter Cummuskey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cruciblelarp/manager/issues"
+  },
+  "homepage": "https://github.com/cruciblelarp/manager",
+  "devDependencies": {
+    "requirejs": "^2.1.15"
+  },
+  "dependencies": {
+    "swarm": "^0.3.25",
+    "ws": "^0.6.5"
+  }
+}
