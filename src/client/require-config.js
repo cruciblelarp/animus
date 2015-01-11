@@ -1,5 +1,5 @@
 require.config({
-	
+
 	paths: {
 
 		'angular': [
