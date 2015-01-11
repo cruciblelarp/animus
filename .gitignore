@@ -10,3 +10,6 @@ dist/
 *.ipr
 *.iws
 
+# Generated Sources
+src/client/lib/swarm-client.js
+src/client/lib/swarm-client.min.js

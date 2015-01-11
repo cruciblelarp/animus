@@ -25,6 +25,10 @@ require.config({
 		'bootstrap': [
 			'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min',
 			'lib/bootstrap.min'
+		],
+
+		'swarm' : [
+			'lib/swarm-client.min'
 		]
 
 	},
