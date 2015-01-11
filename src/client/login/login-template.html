@@ -1,20 +1,41 @@
 <div id="login-panel" class="login-template panel panel-default">
-	<div class="row">
-		
-		<div class="col-md-5">
+
+	<form class="form-inline row">
+
+		<div class="form-group col-md-5">
 			<input id="username" name="username" type="text"
 			       placeholder="username" ng-model="username" />
 		</div>
 
-		<div class="col-md-5">
+		<div class="form-group col-md-5">
 			<input id="password" name="password" type="password"
 			       placeholder="password" ng-model="password" />
 		</div>
 
-		<div class="col-md-2">
-			<input id="login" name="login" type="submit"
-			       value="Go" ng-click="login($event)" />
+		<div class="form-group col-md-2">
+			<button id="login" name="login" class="btn btn-primary"
+			        ng-click="login($event)">Login</button>
 		</div>
 
-	</div>
+	</form>
+
+	<form class="form-inline row">
+
+		<div class="form-group col-md-5">
+			<input id="email1" name="email1" type="email"
+			       placeholder="Email Address" ng-model="email1" />
+		</div>
+
+		<div class="form-group col-md-5">
+			<input id="email2" name="email2" type="email"
+			       placeholder="Confirm Email Address" ng-model="email2" />
+		</div>
+
+		<div class="form-group col-md-2">
+			<button id="register" name="register" class="btn btn-default"
+			        ng-click="register($event)">Register</button>
+		</div>
+
+	</form>
+
 </div>

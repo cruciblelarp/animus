@@ -1,6 +1,6 @@
 define([
 	'angular-config',
-	'login/login-controller.js',
+	'login/login-controller',
 	'text!login/login-template.html',
 	'css!login/login-style.css'
 ], function (module, controller, template) {
