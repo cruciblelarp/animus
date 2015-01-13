@@ -1,32 +1,30 @@
-define([
-	'angular-config',
-	'swarm'
-], function(module, swarm) {
-	module.service('$swarm', [
-		'$rootScope'
-	], function($root) {
+var app = require('angular-module');
+var swarm = require('swarm');
 
-		var host = new swarm.Host('cruciblemanager');
+module.exports = app.service('$swarm', [
+	'$rootScope'
+], function($root) {
 
-		$root.$watch('storage.config.swarmhost', function(newval, oldval) {
+	var host = new swarm.Host('cruciblemanager');
 
-			if (!newval || newval != oldval) {
-				host.disconnect();
-			}
+	$root.$watch('storage.config.swarmhost', function(newval, oldval) {
 
-			if (newval) {
-				host.connect(newval);
-			}
+		if (!newval || newval != oldval) {
+			host.disconnect();
+		}
 
-		});
-
-		return {
-
-			watch: function(identifier) {
-				return host.get(identifier);
-			}
-
+		if (newval) {
+			host.connect(newval);
 		}
 
 	});
+
+	return {
+
+		watch: function(identifier) {
+			return host.get(identifier);
+		}
+
+	}
+
 });

@@ -1,16 +1,13 @@
-define([
-	'angular-config',
-	'login/login-controller',
-	'text!login/login-template.html',
-	'css!login/login-style.css'
-], function (module, controller, template) {
-	module.directive('loginPanel', function() {
+var app = require('angular-module');
+var template = require('login/login-template.html');
+var controller = require('login/login-controller');
 
-		return {
-			restrict: 'A',
-			template: template,
-			controller: controller
-		};
+module.exports = app.directive('loginPanel', function() {
 
-	});
+	return {
+		restrict: 'A',
+		template: template,
+		controller: controller
+	};
+
 });

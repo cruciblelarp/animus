@@ -1,14 +1,10 @@
-define([
-    'angular-config',
-    'text!banner/banner-template.html',
-    'css!banner/banner-style.css'
-], function(module, template) {
-    return module.directive('banner', function() {
+var app = require('angular-module');
 
-        return {
-            restrict: 'A',
-            template: template
-        };
+module.exports = app.directive('banner', function () {
 
-    });
+	return {
+		restrict: 'A',
+		template: require('banner/banner-template.html')
+	};
+
 });
