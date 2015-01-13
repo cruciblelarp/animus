@@ -1,15 +1,16 @@
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
+var gutil = require('gulp-util');
 var browserify = require('browserify');
 var uglify = require('gulp-uglify');
 var sass = require('gulp-sass');
 var stringify = require('stringify');
-var gulpif = require('gulp-if');
 var watchify = require('watchify');
 var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var clean = require('gulp-clean');
+var shim = require('browserify-shim');
 
 var mode_prod = false;
 
@@ -24,7 +25,6 @@ gulp.task('run', [ 'build' ], function() {
 });
 
 gulp.task('build', [
-	'build-clean',
 	'build-client',
 	'build-styles'
 ]);
@@ -42,7 +42,7 @@ gulp.task('build-styles', function() {
 
 });
 
-var bundler = watchify(browserify(watchify.args), {
+var bundler = watchify(browserify({
 
 	debug: !mode_prod,
 	basedir: __dirname + '/src/client',
@@ -56,19 +56,25 @@ var bundler = watchify(browserify(watchify.args), {
 		'./login/login-directive'
 	]
 
-});
+}));
 
 bundler.transform(stringify({
 	extensions: [ '.html' ],
 	minify: mode_prod
 }));
 
+bundler.transform(shim({
+	'./lib/angular.min.js': 'angular',
+	'./lib/underscore-min.js': '_'
+}));
+
 function bundle() {
 	return bundler.bundle()
+		.on('error', gutil.log.bind(gutil, 'Browserify Error'))
 		.pipe(source('client.js'))
 		.pipe(buffer())
 		.pipe(sourcemaps.init({ loadMaps: true }))
-		.pipe(gulpif(mode_prod, uglify()))
+		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('src/client/dist'));
 }
