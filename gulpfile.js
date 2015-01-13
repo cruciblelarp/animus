@@ -64,8 +64,7 @@ bundler.transform(stringify({
 }));
 
 bundler.transform(shim({
-	'./lib/angular.min.js': 'angular',
-	'./lib/underscore-min.js': '_'
+	'./lib/angular.min.js': 'angular'
 }));
 
 function bundle() {
