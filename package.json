@@ -42,5 +42,8 @@
     "swarm": "^0.3.25",
     "underscore": "^1.7.0",
     "ws": "^0.6.5"
+  },
+  "browserify-shim": {
+    "./node_modules/angular/angular.js": "angular"
   }
 }

@@ -1,7 +1,8 @@
 var _ = require('underscore');
-var app = require('angular-module');
 
-require('swarm/swarm-service');
+var app = require('../angular-module.js');
+
+require('../swarm/swarm-service.js');
 
 module.exports = app.controller('login', [
 	'$scope', '$swarm',

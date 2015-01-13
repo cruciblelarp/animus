@@ -1,6 +1,6 @@
-var app = require('angular-module');
-var template = require('login/login-template.html');
-var controller = require('login/login-controller');
+var app = require('../angular-module.js');
+var template = require('./login-template.html');
+var controller = require('./login-controller.js');
 
 module.exports = app.directive('loginPanel', function() {
 

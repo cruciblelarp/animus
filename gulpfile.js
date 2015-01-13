@@ -10,7 +10,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var clean = require('gulp-clean');
-var shim = require('browserify-shim');
 
 var mode_prod = false;
 
@@ -46,30 +45,32 @@ var bundler = watchify(browserify({
 
 	debug: !mode_prod,
 	basedir: __dirname,
+
+	// Watchify params
 	cache: {},
 	packageCache: {},
 	fullPaths: true,
 
 	entries: [
-		'./src/client/angular-module.js',
-		'./src/client/banner/banner-directive.js',
-		'./src/client/login/login-directive'
+		'./src/client/angular-module.js'
+	],
+
+	transform: [
+		'browserify-shim',
+		stringify({
+			extensions: [ '.html' ],
+			minify: mode_prod
+		})
 	]
 
 }));
 
-bundler.transform(stringify({
-	extensions: [ '.html' ],
-	minify: mode_prod
-}));
-
-bundler.transform(shim({
-	'./node_modules/angular/angular.js': 'angular'
-}));
-
 function bundle() {
 	return bundler.bundle()
-		.on('error', gutil.log.bind(gutil, 'Browserify Error'))
+		.on('error', function (error) {
+			gutil.log('Browserify Error', error.stack);
+			this.emit('end');
+		})
 		.pipe(source('client.js'))
 		.pipe(buffer())
 		.pipe(sourcemaps.init({ loadMaps: true }))

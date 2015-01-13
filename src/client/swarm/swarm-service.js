@@ -1,5 +1,6 @@
-var app = require('angular-module');
 var swarm = require('swarm');
+
+var app = require('../angular-module.js');
 
 module.exports = app.service('$swarm', [
 	'$rootScope'
