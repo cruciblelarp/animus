@@ -7,7 +7,7 @@ var static = require('node-static');
 var fileStorage = new swarm.FileStorage('storage');
 var swarmHost = new swarm.Host('swarm~nodejs', 0, fileStorage);
 
-var fileServer = new static.Server('src/server/static');
+var fileServer = new static.Server('src/client');
 
 // create and start the HTTP server with static file serving.
 var httpServer = http.createServer(function (request, response) {
