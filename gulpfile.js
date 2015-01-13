@@ -41,7 +41,7 @@ gulp.task('build-styles', function() {
 
 });
 
-var bundler = watchify(browserify({
+var bundler = browserify({
 
 	debug: !mode_prod,
 	basedir: __dirname,
@@ -63,21 +63,31 @@ var bundler = watchify(browserify({
 		})
 	]
 
-}));
+});
 
-function bundle() {
-	return bundler.bundle()
-		.on('error', function (error) {
-			gutil.log('Browserify Error', error.stack);
-			this.emit('end');
-		})
-		.pipe(source('client.js'))
-		.pipe(buffer())
-		.pipe(sourcemaps.init({ loadMaps: true }))
-		.pipe(uglify())
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('src/client/dist'));
+function bundle(subject) {
+	return function() {
+		return subject.bundle()
+			.on('error', function (error) {
+				gutil.log('Browserify Error', error.stack);
+				this.emit('end');
+			})
+			.pipe(source('client.js'))
+			.pipe(buffer())
+			.pipe(sourcemaps.init({ loadMaps: true }))
+			.pipe(uglify())
+			.pipe(sourcemaps.write('.'))
+			.pipe(gulp.dest('src/client/dist'));
+	}
 }
 
-gulp.task('build-client', bundle);
-bundler.on('update', bundle);
+gulp.task('build-client', bundle(bundler));
+
+gulp.task('build-client-watch', function() {
+
+	var watcher = watchify(bundler);
+	watcher.on('update', bundle(watcher));
+
+	return bundle(watcher);
+
+});
