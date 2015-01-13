@@ -45,15 +45,15 @@ gulp.task('build-styles', function() {
 var bundler = watchify(browserify({
 
 	debug: !mode_prod,
-	basedir: __dirname + '/src/client',
+	basedir: __dirname,
 	cache: {},
 	packageCache: {},
 	fullPaths: true,
 
 	entries: [
-		'./angular-module.js',
-		'./banner/banner-directive.js',
-		'./login/login-directive'
+		'./src/client/angular-module.js',
+		'./src/client/banner/banner-directive.js',
+		'./src/client/login/login-directive'
 	]
 
 }));
@@ -64,7 +64,7 @@ bundler.transform(stringify({
 }));
 
 bundler.transform(shim({
-	'./lib/angular.min.js': 'angular'
+	'./node_modules/angular/angular.js': 'angular'
 }));
 
 function bundle() {
