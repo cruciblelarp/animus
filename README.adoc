@@ -1,0 +1,4 @@
+# Animus
+
+A management utility for the NZ Crucible LARP.
+

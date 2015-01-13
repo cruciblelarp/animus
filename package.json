@@ -1,14 +1,16 @@
 {
-  "name": "crucible-manager",
+  "name": "animus",
   "version": "0.0.1",
   "description": "A management utility for the NZ Crucible LARP.",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+	"run": "gulp run",
+	"build": "gulp build"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cruciblelarp/manager.git"
+    "url": "git@github.com:cruciblelarp/animus.git"
   },
   "keywords": [
     "webapp"
@@ -16,9 +18,9 @@
   "author": "Peter Cummuskey",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cruciblelarp/manager/issues"
+    "url": "https://github.com/cruciblelarp/animus/issues"
   },
-  "homepage": "https://github.com/cruciblelarp/manager",
+  "homepage": "https://github.com/cruciblelarp/animus",
   "devDependencies": {
     "browserify": "^8.1.0",
     "browserify-shim": "^3.8.2",

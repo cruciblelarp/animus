@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = angular.module('crucible', [
+module.exports = angular.module('animus', [
 ]);
 
 // "Leaf" components
