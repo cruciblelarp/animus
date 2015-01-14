@@ -1,33 +1,35 @@
-var ng = require('angular');
-var swarm = require('swarm');
+define([
+	'angular',
+	'swarm',
+	'angular-module'
+], function(ng, swarm) {
 
-require('../angular-module.js');
+	ng.module('animus').service('$swarm', [
+		'$rootScope'
+	], function($root) {
 
-angular.module('animus').service('$swarm', [
-	'$rootScope'
-], function($root) {
+		var host = new swarm.Host('cruciblemanager');
 
-	var host = new swarm.Host('cruciblemanager');
+		$root.$watch('storage.config.swarmhost', function(newval, oldval) {
 
-	$root.$watch('storage.config.swarmhost', function(newval, oldval) {
+			if (!newval || newval != oldval) {
+				host.disconnect();
+			}
 
-		if (!newval || newval != oldval) {
-			host.disconnect();
-		}
+			if (newval) {
+				host.connect(newval);
+			}
 
-		if (newval) {
-			host.connect(newval);
+		});
+
+		return {
+
+			watch: function(identifier) {
+				return host.get(identifier);
+			}
+
 		}
 
 	});
 
-	return {
-
-		watch: function(identifier) {
-			return host.get(identifier);
-		}
-
-	}
-
 });
-

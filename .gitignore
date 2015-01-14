@@ -12,3 +12,5 @@ dist/
 
 # Generated Sources
 src/client/dist/
+src/client/lib/
+src/client/app.manifest

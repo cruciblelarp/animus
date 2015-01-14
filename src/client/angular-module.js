@@ -1,4 +1,8 @@
-var ng = require('angular');
+define([
+	'angular'
+], function(ng) {
 
-angular.module('animus', [
-]);
+	ng.module('animus', [
+	]);
+
+});

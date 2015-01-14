@@ -1,16 +1,18 @@
-var ng = require('angular');
-var template = require('./login-template.html');
+define([
+	'angular',
+	'text!login/login-template.html',
+	'angular-module',
+	'login/login-controller.js'
+], function(ng, template) {
 
-require('../angular-module.js');
-require('./login-controller.js');
+	ng.module('animus').directive('loginPanel', function() {
 
-angular.module('animus').directive('loginPanel', function() {
+		return {
+			restrict: 'A',
+			template: template,
+			controller: 'loginController'
+		};
 
-	return {
-		restrict: 'A',
-		template: template,
-		controller: 'loginController'
-	};
+	});
 
 });
-
