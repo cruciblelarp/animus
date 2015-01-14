@@ -1,16 +1,9 @@
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
-var gutil = require('gulp-util');
-var browserify = require('browserify');
-var uglify = require('gulp-uglify');
 var sass = require('gulp-sass');
-var stringify = require('stringify');
-var watchify = require('watchify');
-var sourcemaps = require('gulp-sourcemaps');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
 var clean = require('gulp-clean');
 var manifest = require('gulp-cache-manifest');
+var requirejs = require('gulp-requirejs');
 
 var mode_prod = false;
 
@@ -25,7 +18,6 @@ gulp.task('run', [ 'build' ], function() {
 });
 
 gulp.task('build', [
-	'build-client',
 	'build-styles',
 	'build-manifest'
 ]);
@@ -52,55 +44,4 @@ gulp.task('build-manifest', function() {
 	gulp.src('src/client/**')
 		.pipe(manifest(CONFIG_MANIFEST))
 		.pipe(gulp.dest('src/client/dist'));
-});
-
-var bundler = browserify({
-
-	debug: !mode_prod,
-	basedir: __dirname,
-
-	// Watchify params
-	cache: {},
-	packageCache: {},
-	fullPaths: true,
-
-	entries: [
-		'./src/client/banner/banner-directive.js',
-		'./src/client/login/login-directive.js'
-	],
-
-	transform: [
-		stringify({
-			extensions: [ '.html' ],
-			minify: mode_prod
-		})
-	]
-
-});
-
-function bundle(subject) {
-	return function() {
-		return subject.bundle()
-			.on('error', function (error) {
-				gutil.log('Browserify Error', error.stack);
-				this.emit('end');
-			})
-			.pipe(source('client.js'))
-			.pipe(buffer())
-			.pipe(sourcemaps.init({ loadMaps: true }))
-			.pipe(uglify())
-			.pipe(sourcemaps.write('.'))
-			.pipe(gulp.dest('src/client/dist'));
-	}
-}
-
-gulp.task('build-client', bundle(bundler));
-
-gulp.task('build-client-watch', function() {
-
-	var watcher = watchify(bundler);
-	watcher.on('update', bundle(watcher));
-
-	return bundle(watcher);
-
 });
