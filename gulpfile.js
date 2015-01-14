@@ -15,13 +15,13 @@ CONFIG_CLIENT_GLOBS = [
 	'src/client/**.html'
 ];
 
-gulp.task('run', [ 'build' ], function() {
+gulp.task('run', function() {
 
 	var WATCH_CONFIG = { read: false };
 
-	var lw = gulp.watch('node_modules', WATCH_CONFIG, [ 'build-libs' ]);
-	var sw = gulp.watch('src/client/**.scss', WATCH_CONFIG, [ 'build-styles' ]);
-	var rw = gulp.watch(CONFIG_CLIENT_GLOBS, WATCH_CONFIG, [ 'build-manifest' ]);
+	var lw = gulp.watch('node_modules', WATCH_CONFIG, [ 'libs' ]);
+	var sw = gulp.watch('src/client/**.scss', WATCH_CONFIG, [ 'styles' ]);
+	var rw = gulp.watch(CONFIG_CLIENT_GLOBS, WATCH_CONFIG, [ 'manifest' ]);
 
 	nodemon({
 		script: 'src/server/server.js',
@@ -38,12 +38,12 @@ gulp.task('run', [ 'build' ], function() {
 });
 
 gulp.task('build', [
-	'build-libs',
-	'build-styles',
-	'build-manifest'
+	'libs',
+	'styles',
+	'manifest'
 ]);
 
-gulp.task('build-libs', function() {
+gulp.task('libs', function() {
 
 	gulp.src([
 		'node_modules/angular/angular.js',
@@ -59,17 +59,20 @@ gulp.task('build-libs', function() {
 
 });
 
-gulp.task('build-clean', function() {
+gulp.task('clean', function() {
 	gulp.src([
-		'src/client/dist',
-		'src/client/lib'
-	]).pipe(clean({ force: true }));
+		'src/client/lib',
+		'src/client/app.manifest',
+		'src/client/styles.css'
+	]).pipe(clean({
+		force: true
+	}));
 });
 
-gulp.task('build-styles', function() {
+gulp.task('styles', function() {
 	gulp.src('src/client/**.scss')
 		.pipe(sass())
-		.pipe(gulp.dest('src/client/dist'));
+		.pipe(gulp.dest('src/client'));
 });
 
 var CONFIG_MANIFEST = {
@@ -79,7 +82,7 @@ var CONFIG_MANIFEST = {
 	]
 };
 
-gulp.task('build-manifest', function() {
+gulp.task('manifest', function() {
 	gulp.src('src/client/**')
 		.pipe(manifest(CONFIG_MANIFEST))
 		.pipe(gulp.dest('src/client'));
