@@ -38,13 +38,13 @@ gulp.task('build-clean', function() {
 gulp.task('build-styles', function() {
 	gulp.src('src/client/**.scss')
 		.pipe(sass())
-		.pipe(gulp.dest('src/client'));
+		.pipe(gulp.dest('src/client/dist'));
 });
 
 var CONFIG_MANIFEST = {
 	hash: true,
 	exclude: [
-		'src/client/app.manifest'
+		'src/client/dist/app.manifest'
 	]
 };
 
