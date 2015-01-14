@@ -1,8 +1,9 @@
+var ng = require('angular');
 var swarm = require('swarm');
 
-var app = require('../angular-module.js');
+require('../angular-module.js');
 
-module.exports = app.service('$swarm', [
+ng.module('animus').service('$swarm', [
 	'$rootScope'
 ], function($root) {
 
@@ -29,3 +30,4 @@ module.exports = app.service('$swarm', [
 	}
 
 });
+

@@ -1,7 +1,9 @@
-var app = require('../angular-module.js');
+var ng = require('angular');
 var template = require('./banner-template.html');
 
-module.exports = app.directive('banner', function () {
+require('../angular-module.js');
+
+ng.module('animus').directive('banner', function () {
 
 	return {
 		restrict: 'A',
@@ -9,3 +11,4 @@ module.exports = app.directive('banner', function () {
 	};
 
 });
+

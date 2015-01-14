@@ -1,8 +1,4 @@
-var angular = require('angular');
+var ng = require('angular');
 
-module.exports = angular.module('animus', [
+ng.module('animus', [
 ]);
-
-// "Leaf" components
-require('./banner/banner-directive.js');
-require('./login/login-directive.js');

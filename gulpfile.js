@@ -52,11 +52,11 @@ var bundler = browserify({
 	fullPaths: true,
 
 	entries: [
-		'./src/client/angular-module.js'
+		'./src/client/banner/banner-directive.js',
+		'./src/client/login/login-directive.js'
 	],
 
 	transform: [
-		'browserify-shim',
 		stringify({
 			extensions: [ '.html' ],
 			minify: mode_prod

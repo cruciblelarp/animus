@@ -1,10 +1,10 @@
 var _ = require('underscore');
+var ng = require('angular');
 
-var app = require('../angular-module.js');
-
+require('../angular-module.js');
 require('../swarm/swarm-service.js');
 
-module.exports = app.controller('login', [
+ng.module('animus').controller('loginController', [
 	'$scope', '$swarm',
 	function($scope, $swarm) {
 
