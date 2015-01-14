@@ -4,7 +4,7 @@ var ng = require('angular');
 require('../angular-module.js');
 require('../swarm/swarm-service.js');
 
-ng.module('animus').controller('loginController', [
+angular.module('animus').controller('loginController', [
 	'$scope', '$swarm',
 	function($scope, $swarm) {
 

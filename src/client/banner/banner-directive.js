@@ -3,7 +3,7 @@ var template = require('./banner-template.html');
 
 require('../angular-module.js');
 
-ng.module('animus').directive('banner', function () {
+angular.module('animus').directive('banner', function () {
 
 	return {
 		restrict: 'A',

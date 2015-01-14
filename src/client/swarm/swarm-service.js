@@ -3,7 +3,7 @@ var swarm = require('swarm');
 
 require('../angular-module.js');
 
-ng.module('animus').service('$swarm', [
+angular.module('animus').service('$swarm', [
 	'$rootScope'
 ], function($root) {
 
