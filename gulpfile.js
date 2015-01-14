@@ -10,6 +10,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var clean = require('gulp-clean');
+var manifest = require('gulp-cache-manifest');
 
 var mode_prod = false;
 
@@ -25,7 +26,8 @@ gulp.task('run', [ 'build' ], function() {
 
 gulp.task('build', [
 	'build-client',
-	'build-styles'
+	'build-styles',
+	'build-manifest'
 ]);
 
 gulp.task('build-clean', function() {
@@ -34,11 +36,22 @@ gulp.task('build-clean', function() {
 });
 
 gulp.task('build-styles', function() {
-
 	gulp.src('src/client/**.scss')
 		.pipe(sass())
-		.pipe(gulp.dest('src/client/dist'));
+		.pipe(gulp.dest('src/client'));
+});
 
+var CONFIG_MANIFEST = {
+	hash: true,
+	exclude: [
+		'src/client/app.manifest'
+	]
+};
+
+gulp.task('build-manifest', function() {
+	gulp.src('src/client/**')
+		.pipe(manifest(CONFIG_MANIFEST))
+		.pipe(gulp.dest('src/client/dist'));
 });
 
 var bundler = browserify({
