@@ -11,6 +11,6 @@ dist/
 *.iws
 
 # Generated Sources
-src/client/dist/
 src/client/lib/
-src/client/app.manifest
+*.css
+*.manifest
