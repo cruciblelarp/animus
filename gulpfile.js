@@ -83,7 +83,7 @@ var CONFIG_MANIFEST = {
 };
 
 gulp.task('manifest', function() {
-	gulp.src('src/client/**')
+	gulp.src(mode_prod ? CONFIG_CLIENT_GLOBS : [])
 		.pipe(manifest(CONFIG_MANIFEST))
 		.pipe(gulp.dest('src/client'));
 });

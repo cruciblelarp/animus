@@ -1,36 +1,25 @@
 var http = require('http');
 var socket = require('ws');
 var swarm = require('swarm');
-var static = require('node-static');
+var express = require('express');
+var express_static = require('serve-static');
 
 // Create the swarm server
 var fileStorage = new swarm.FileStorage('storage');
 var swarmHost = new swarm.Host('swarm~nodejs', 0, fileStorage);
 
-var fileServer = new static.Server('src/client');
+var app = express();
+
+app.use(express_static(__dirname + '/../../src/client', {
+	index: 'client.html',
+	setHeaders: function (response, path, stat) {
+		response.setHeader('Pragma', 'no-cache');
+		response.setHeader('Cache-Control', 'no-cache');
+	}
+}));
 
 // create and start the HTTP server with static file serving.
-var httpServer = http.createServer(function (request, response) {
-	request.addListener('end', function () {
-		fileServer.serve(request, response, function (err, result) {
-			if (err) {
-
-				// Respond to the client
-				response.writeHead(err.status, err.headers);
-				response.end();
-
-			}
-		});
-	}).resume();
-});
-
-httpServer.listen(8000, function (err) {
-
-	if (err) {
-		return;
-	}
-
-});
+var httpServer = http.createServer(app);
 
 // start WebSocket server
 var wsServer = new socket.Server({
@@ -44,3 +33,4 @@ wsServer.on('connection', function (ws) {
 	});
 });
 
+app.listen(8000);
