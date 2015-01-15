@@ -53,7 +53,7 @@ gulp.task('libs', function() {
 	]).pipe(gulp.dest('src/client/lib'));
 
 	gulp.src('node_modules/swarm/lib/Html5Client.js')
-		.pipe(browserify({ debug: !mode_prod }))
+		.pipe(browserify({ debug: false }))
 		.pipe(rename('swarm-client.js'))
 		.pipe(gulp.dest('src/client/lib'));
 
