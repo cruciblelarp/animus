@@ -2,7 +2,7 @@ define([
 	'angular'
 ], function(ng) {
 
-	ng.module('animus', [
+	return ng.module('animus', [
 	]);
 
 });

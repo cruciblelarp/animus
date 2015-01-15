@@ -1,0 +1,13 @@
+<div id="news-panel" class="row">
+
+	<div class="col-xs-12" ng-hide="stories && stories.length">
+		<p>No news is good news.</p>
+	</div>
+
+	<div class="col-lg-3 col-md-4 col-sm-6"
+	     ng-if="stories && stories.length"
+	     ng-repeat="story in stories">
+		<p ng-bind="story.content"></p>
+	</div>
+
+</div>
