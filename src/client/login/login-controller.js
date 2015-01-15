@@ -1,11 +1,10 @@
 define([
-	'angular',
 	'underscore',
 	'angular-module',
 	'swarm/swarm-service'
-], function(ng, _) {
+], function(_, animus) {
 
-	ng.module('animus').controller('loginCtrl', [
+	animus.controller('loginCtrl', [
 		'$scope', '$swarm',
 		function($scope, $swarm) {
 

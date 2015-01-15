@@ -1,16 +1,16 @@
 define([
-	'angular',
-	'text!login/login-template.html',
 	'angular-module',
-	'login/login-controller.js'
-], function(ng, template) {
+	'login/login-controller',
+	'text!login/login-template.html'
+], function(animus, controller, template) {
 
-	ng.module('animus').directive('panelLogin', function() {
+	animus.directive('panelLogin', function() {
 
 		return {
 			restrict: 'A',
-			template: template,
-			controller: 'loginCtrl'
+			replace: true,
+			controller: controller,
+			template: template
 		};
 
 	});

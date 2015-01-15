@@ -1,13 +1,13 @@
 define([
-	'angular',
-	'text!banner/banner-template.html',
-	'angular-module'
-], function(ng, template) {
+	'angular-module',
+	'text!banner/banner-template.html'
+], function(animus, template) {
 
-	ng.module('animus').directive('panelBanner', function () {
+	return animus.directive('panelBanner', function () {
 
 		return {
 			restrict: 'A',
+			replace: true,
 			template: template
 		};
 

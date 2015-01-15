@@ -22,6 +22,7 @@ require.config({
 	deps: [
 		'banner/banner-directive.js',
 		'login/login-directive.js',
+		'news/news-directive.js',
 		'layout/layout-directive.js'
 	]
 
