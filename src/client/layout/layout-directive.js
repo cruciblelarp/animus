@@ -7,7 +7,6 @@ define([
 	ng.module('animus').directive('wrapLayout', function() {
 		return {
 			restrict: 'A',
-			replace: true,
 			transclude: true,
 			template: template
 		}
