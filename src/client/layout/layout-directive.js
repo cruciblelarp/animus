@@ -4,7 +4,7 @@ define([
 	'angular-module'
 ], function(ng, template) {
 
-	ng.module('animus').directive('appLayout', function() {
+	ng.module('animus').directive('wrapLayout', function() {
 		return {
 			restrict: 'A',
 			replace: true,

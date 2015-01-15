@@ -1,41 +1,49 @@
-<div id="login-panel" class="login-template panel panel-default">
+<div id="login-panel" class="panel panel-default">
 
-	<form class="form-inline row">
+	<div class="panel-heading">
+		<h2>Login/Register</h2>
+	</div>
 
-		<div class="form-group col-md-5">
-			<input id="username" name="username" type="text"
-			       placeholder="username" ng-model="username" />
-		</div>
+	<div class="panel-content">
 
-		<div class="form-group col-md-5">
-			<input id="password" name="password" type="password"
-			       placeholder="password" ng-model="password" />
-		</div>
+		<form class="form-inline row">
 
-		<div class="form-group col-md-2">
-			<button id="login" name="login" class="btn btn-primary"
-			        ng-click="login($event)">Login</button>
-		</div>
+			<div class="form-group col-md-5">
+				<input id="username" name="username" type="text"
+				       placeholder="username" ng-model="username" />
+			</div>
 
-	</form>
+			<div class="form-group col-md-5">
+				<input id="password" name="password" type="password"
+				       placeholder="password" ng-model="password" />
+			</div>
 
-	<form class="form-inline row">
+			<div class="form-group col-md-2">
+				<button id="login" name="login" class="btn btn-primary"
+				        ng-click="login($event)">Login</button>
+			</div>
 
-		<div class="form-group col-md-5">
-			<input id="email1" name="email1" type="email"
-			       placeholder="Email Address" ng-model="email1" />
-		</div>
+		</form>
 
-		<div class="form-group col-md-5">
-			<input id="email2" name="email2" type="email"
-			       placeholder="Confirm Email Address" ng-model="email2" />
-		</div>
+		<form class="form-inline row">
 
-		<div class="form-group col-md-2">
-			<button id="register" name="register" class="btn btn-default"
-			        ng-click="register($event)">Register</button>
-		</div>
+			<div class="form-group col-md-5">
+				<input id="email1" name="email1" type="email"
+				       placeholder="Email Address" ng-model="email1" />
+			</div>
 
-	</form>
+			<div class="form-group col-md-5">
+				<input id="email2" name="email2" type="email"
+				       placeholder="Confirm Email Address" ng-model="email2" />
+			</div>
+
+			<div class="form-group col-md-2">
+				<button id="register" name="register" class="btn btn-default"
+				        ng-click="register($event)">Register</button>
+			</div>
+
+		</form>
+
+	</div>
 
 </div>

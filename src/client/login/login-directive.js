@@ -5,12 +5,12 @@ define([
 	'login/login-controller.js'
 ], function(ng, template) {
 
-	ng.module('animus').directive('loginPanel', function() {
+	ng.module('animus').directive('panelLogin', function() {
 
 		return {
 			restrict: 'A',
 			template: template,
-			controller: 'loginController'
+			controller: 'loginCtrl'
 		};
 
 	});

@@ -4,7 +4,7 @@ define([
 	'angular-module'
 ], function(ng, template) {
 
-	ng.module('animus').directive('banner', function () {
+	ng.module('animus').directive('panelBanner', function () {
 
 		return {
 			restrict: 'A',

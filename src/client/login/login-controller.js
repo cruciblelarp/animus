@@ -5,7 +5,7 @@ define([
 	'swarm/swarm-service'
 ], function(ng, _) {
 
-	ng.module('animus').controller('loginController', [
+	ng.module('animus').controller('loginCtrl', [
 		'$scope', '$swarm',
 		function($scope, $swarm) {
 
