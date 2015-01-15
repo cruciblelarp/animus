@@ -4,7 +4,7 @@ require.config({
 		'angular': 'lib/angular',
 		'text': 'lib/text',
 		'underscore': 'lib/underscore',
-		'swarm' : 'lib/swarm-client'
+		'swarm-client' : 'lib/swarm-client'
 	},
 
 	shim: {
@@ -21,7 +21,8 @@ require.config({
 
 	deps: [
 		'banner/banner-directive.js',
-		'login/login-directive.js'
+		'login/login-directive.js',
+		'layout/layout-directive.js'
 	]
 
 });

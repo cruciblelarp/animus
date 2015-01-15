@@ -1,6 +1,6 @@
 define([
 	'angular',
-	'swarm',
+	'swarm-client',
 	'angular-module'
 ], function(ng, swarm) {
 

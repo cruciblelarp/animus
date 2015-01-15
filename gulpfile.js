@@ -9,19 +9,32 @@ var requirejs = require('gulp-requirejs');
 
 var mode_prod = false;
 
-CONFIG_CLIENT_GLOBS = [
+var CONFIG_CLIENT_GLOBS = [
 	'src/client/**.js',
 	'src/client/**.css',
 	'src/client/**.html'
 ];
 
+var WATCH_CFG_NOREAD = {
+	read: false
+};
+
 gulp.task('run', function() {
 
-	var WATCH_CONFIG = { read: false };
+	var lw = gulp.watch('node_modules', WATCH_CFG_NOREAD, [ 'libs' ]);
+	lw.on('change', function() {
+		console.log('Changes in library code. Recompiling.');
+	});
 
-	var lw = gulp.watch('node_modules', WATCH_CONFIG, [ 'libs' ]);
-	var sw = gulp.watch('src/client/**.scss', WATCH_CONFIG, [ 'styles' ]);
-	var rw = gulp.watch(CONFIG_CLIENT_GLOBS, WATCH_CONFIG, [ 'manifest' ]);
+	var sw = gulp.watch('src/client/**.scss', WATCH_CFG_NOREAD, [ 'styles' ]);
+	sw.on('change', function() {
+		console.log('Changes in style code. Recompiling.');
+	});
+
+	var rw = gulp.watch(CONFIG_CLIENT_GLOBS, WATCH_CFG_NOREAD, [ 'manifest' ]);
+	rw.on('change', function() {
+		console.log('Changes in client code. Recompiling.');
+	});
 
 	nodemon({
 		script: 'src/server/server.js',
