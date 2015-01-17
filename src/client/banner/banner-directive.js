@@ -8,7 +8,8 @@ define([
 		return {
 			restrict: 'A',
 			replace: true,
-			template: template
+			template: template,
+			scope: true
 		};
 
 	});

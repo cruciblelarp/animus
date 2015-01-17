@@ -11,7 +11,7 @@ define([
 			replace: true,
 			controller: controller,
 			template: template,
-			scope: {}
+			scope: true
 		};
 
 	})

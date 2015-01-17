@@ -10,7 +10,8 @@ define([
 			restrict: 'A',
 			replace: true,
 			controller: controller,
-			template: template
+			template: template,
+			scope: true
 		};
 
 	})
