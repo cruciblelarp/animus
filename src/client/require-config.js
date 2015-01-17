@@ -23,6 +23,7 @@ require.config({
 		'banner/banner-directive',
 		'login/login-directive',
 		'news/news-directive',
+		'character/character-directive',
 		'layout/layout-directive'
 	]
 
