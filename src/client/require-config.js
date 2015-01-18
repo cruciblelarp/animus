@@ -20,11 +20,7 @@ require.config({
 	},
 
 	deps: [
-		'banner/banner-directive',
-		'login/login-directive',
-		'news/news-directive',
-		'character/character-directive',
-		'layout/layout-directive'
+		'angular-bootstrap'
 	]
 
 });

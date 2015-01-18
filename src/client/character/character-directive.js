@@ -1,19 +1,25 @@
 define([
-	'angular-module',
-	'character/character-controller',
-	'text!character/character-template.html'
-], function(animus, controller, template) {
 
-	animus.directive('panelCharacter', function() {
+	'angular',
+	'text!character/character-template.html',
+
+	'angular-module',
+	'character/character-controller'
+
+], function(ng, template, _animus, _controller) {
+	var COMPONENT_NAME = 'panelCharacter';
+
+	ng.module(_animus).directive(COMPONENT_NAME, function() {
 
 		return {
 			restrict: 'A',
 			replace: true,
-			controller: controller,
+			controller: _controller,
 			template: template,
 			scope: true
 		};
 
-	})
+	});
 
+	return COMPONENT_NAME;
 });

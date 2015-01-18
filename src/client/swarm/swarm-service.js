@@ -1,10 +1,14 @@
 define([
+
 	'angular',
 	'swarm-client',
-	'angular-module'
-], function(ng, swarm) {
 
-	ng.module('animus').service('$swarm', [
+	'angular-module'
+
+], function(ng, swarm, _animus) {
+	var COMPONENT_NAME = '$swarm';
+
+	ng.module(_animus).service(COMPONENT_NAME, [
 		'$rootScope'
 	], function($root) {
 
@@ -32,4 +36,5 @@ define([
 
 	});
 
+	return COMPONENT_NAME;
 });

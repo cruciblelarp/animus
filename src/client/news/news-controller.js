@@ -1,12 +1,17 @@
 define([
+
 	'underscore',
+	'angular',
+
 	'angular-module',
 	'swarm/swarm-service'
-], function(_, animus) {
 
-	return animus.controller('newsCtrl', [
+], function(_, ng, _animus, _swarm) {
+	var COMPONENT_NAME = 'newsCtrl';
+
+	ng.module(_animus).controller(COMPONENT_NAME, [
 		'$scope',
-		'$swarm',
+		_swarm,
 		function($scope, $swarm) {
 
 			_.extend($scope, {
@@ -46,4 +51,5 @@ define([
 		}
 	]);
 
+	return COMPONENT_NAME
 });

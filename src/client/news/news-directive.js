@@ -1,19 +1,25 @@
 define([
-	'angular-module',
-	'news/news-controller',
-	'text!news/news-template.html'
-], function(animus, controller, template) {
 
-	return animus.directive('panelNews', function() {
+	'angular',
+	'text!news/news-template.html',
+
+	'angular-module',
+	'news/news-controller'
+
+], function(ng, template, _animus, _controller) {
+	var COMPONENT_NAME = 'panelNews';
+
+	ng.module(_animus).directive(COMPONENT_NAME, function() {
 
 		return {
 			restrict: 'A',
 			replace: true,
-			controller: controller,
+			controller: _controller,
 			template: template,
 			scope: true
 		};
 
-	})
+	});
 
+	return COMPONENT_NAME;
 });
