@@ -37,7 +37,7 @@ app.use(tamper(function(req, res) {
 		var init = doc('script#init');
 
 		var paths = {};
-		var mainFileName = init.attr('data-main');
+		var mainFileName = init.data('main');
 		var mainFile = fs.readFileSync(dir_serve + '/' + mainFileName, 'utf-8');
 		var pathArrayString = mainFile.match(new RegExp('paths *?: *?\\{([\\s\\S]*?)\\}'))[1];
 		var pathEntryStrings = pathArrayString.match(new RegExp('\\S+ *?: *?\\S+', 'g'));
@@ -59,12 +59,11 @@ app.use(tamper(function(req, res) {
 			var fileName = ( paths[dependency] || dependency ) + '.js';
 
 			// Add the script to the page.
-			var script = cheerio.load('<script/>')('script')
-				.attr('src', './' + fileName)
-				.attr('type', 'text/javascript')
-				.attr('async', true)
+			var script = cheerio.load('<script type="text/javascript" async />');
+			script('script')
 				.attr('data-requirecontext', '_')
-				.attr('data-requiremodule', fileName);
+				.attr('data-requiremodule', dependency)
+				.attr('src', './' + fileName);
 			init.append(script.html());
 
 			if (paths[dependency]) {
@@ -72,7 +71,7 @@ app.use(tamper(function(req, res) {
 				return;
 			}
 
-			scrapeDeps(fileName, 'define\\(\\[([\\s\\S]*?)\\],', function(subdependency) {
+			scrapeDeps(fileName, 'define\\(.*?\\[([\\s\\S]*?)\\],', function(subdependency) {
 				if (!subdependency.match(new RegExp('^\\w+!'))) {
 					scripts.push(subdependency);
 				}
