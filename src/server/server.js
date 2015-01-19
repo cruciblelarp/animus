@@ -37,7 +37,7 @@ app.use(tamper(function(req, res) {
 		var init = doc('script#init');
 
 		var paths = {};
-		var mainFileName = init.data('main');
+		var mainFileName = init.attr('data-main');
 		var mainFile = fs.readFileSync(dir_serve + '/' + mainFileName, 'utf-8');
 		var pathArrayString = mainFile.match(new RegExp('paths *?: *?\\{([\\s\\S]*?)\\}'))[1];
 		var pathEntryStrings = pathArrayString.match(new RegExp('\\S+ *?: *?\\S+', 'g'));
@@ -59,7 +59,13 @@ app.use(tamper(function(req, res) {
 			var fileName = ( paths[dependency] || dependency ) + '.js';
 
 			// Add the script to the page.
-			init.append('<script src="' + fileName + '" type="javascript" charset="utf-8" async="true"/>');
+			var script = cheerio.load('<script/>')('script')
+				.attr('src', './' + fileName)
+				.attr('type', 'text/javascript')
+				.attr('async', true)
+				.attr('data-requirecontext', '_')
+				.attr('data-requiremodule', fileName);
+			init.append(script.html());
 
 			if (paths[dependency]) {
 				processed[dependency] = true;
