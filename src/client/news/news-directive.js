@@ -1,4 +1,4 @@
-define([
+define('news/news-directive', [
 
 	'angular',
 	'text!news/news-template.html',

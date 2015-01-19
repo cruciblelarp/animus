@@ -1,4 +1,4 @@
-define([
+define('banner/banner-directive', [
 
 	'angular',
 	'text!banner/banner-template.html',

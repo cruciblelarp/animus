@@ -1,4 +1,4 @@
-define([
+define('angular-bootstrap', [
 
 	'angular',
 

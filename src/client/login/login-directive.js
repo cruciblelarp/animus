@@ -1,4 +1,4 @@
-define([
+define('login/login-directive', [
 
 	'angular',
 	'text!login/login-template.html',

@@ -1,4 +1,4 @@
-define([
+define('character/character-controller', [
 
 	'angular',
 	'text!character/character-template.html',

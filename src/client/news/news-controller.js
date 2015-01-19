@@ -1,4 +1,4 @@
-define([
+define('news/news-controller', [
 
 	'underscore',
 	'angular',

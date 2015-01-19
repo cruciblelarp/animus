@@ -1,4 +1,4 @@
-define([
+define('login/login-controller', [
 
 	'underscore',
 	'angular',

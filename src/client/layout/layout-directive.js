@@ -1,4 +1,4 @@
-define([
+define('layout/layout-directive', [
 
 	'angular',
 	'text!layout/layout-template.html',

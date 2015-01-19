@@ -1,4 +1,4 @@
-define([
+define('swarm/swarm-service', [
 
 	'angular',
 	'swarm-client',
