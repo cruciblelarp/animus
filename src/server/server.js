@@ -48,14 +48,21 @@ app.use(tamper(function(req, res) {
 			}
 		}
 
+		var processed = {};
 		var scripts = [];
 		function processDependency(dependency) {
+
+			if (processed[dependency]) {
+				return;
+			}
+
 			var fileName = ( paths[dependency] || dependency ) + '.js';
 
 			// Add the script to the page.
-			init.append('<script src="' + fileName + '"/>');
+			init.append('<script src="' + fileName + '" type="javascript" charset="utf-8" async="true"/>');
 
 			if (paths[dependency]) {
+				processed[dependency] = true;
 				return;
 			}
 
@@ -65,6 +72,7 @@ app.use(tamper(function(req, res) {
 				}
 			});
 
+			processed[dependency] = true;
 		}
 
 		scrapeDeps(mainFileName, 'deps *?: *\\[([\\s\\S]*?)\\]', processDependency);
