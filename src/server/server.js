@@ -17,8 +17,8 @@ var dir_serve = __dirname + '/../../src/client';
 
 function scrapeDeps(filePath, regex, callback) {
 	var file = fs.readFileSync(dir_serve + '/' + filePath, 'utf-8');
-	var dependencyArrayString = file.match(new RegExp(regex))[1];
-	var deps = dependencyArrayString.match(new RegExp('[\'"].*?[\'"]', 'g'));
+	var dependencyList = file.match(new RegExp(regex));
+	var deps = dependencyList[1].match(new RegExp('[\'"].*?[\'"]', 'g'));
 	for (var idx = 0; idx < deps.length; idx++) {
 		callback(deps[idx].replace(new RegExp('[\'"]', 'g'), ''));
 	}
@@ -37,7 +37,10 @@ app.use(tamper(function(req, res) {
 		var init = doc('script#init');
 
 		var paths = {};
-		var mainFileName = init.data('main');
+
+		var mainFileName = init.attr('data-main');
+		init.removeAttr('data-main');
+
 		var mainFile = fs.readFileSync(dir_serve + '/' + mainFileName, 'utf-8');
 		var pathArrayString = mainFile.match(new RegExp('paths *?: *?\\{([\\s\\S]*?)\\}'))[1];
 		var pathEntryStrings = pathArrayString.match(new RegExp('\\S+ *?: *?\\S+', 'g'));
@@ -48,8 +51,11 @@ app.use(tamper(function(req, res) {
 			}
 		}
 
+		var mainFileModule = mainFileName.replace('.js', '');
+		paths[mainFileModule] = mainFileModule;
+
 		var processed = {};
-		var scripts = [];
+		var scripts = [ mainFileModule ];
 		function processDependency(dependency) {
 
 			if (processed[dependency]) {
