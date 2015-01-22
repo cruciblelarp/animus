@@ -5,41 +5,26 @@ var clean = require('gulp-clean');
 var manifest = require('gulp-cache-manifest');
 var browserify = require('gulp-browserify');
 var rename = require('gulp-rename');
-var requirejs = require('gulp-requirejs');
+var optimise = require('amd-optimize');
+var concat = require('gulp-concat');
 
 var mode_prod = false;
-
-var CONFIG_CLIENT_GLOBS = [
-	'src/client/**.js',
-	'src/client/**.css',
-	'src/client/**.html'
-];
 
 var WATCH_CFG_NOREAD = {
 	read: false
 };
 
-gulp.task('run', function() {
+gulp.task('run', [ 'build' ], function() {
 
 	var lw = gulp.watch('node_modules', WATCH_CFG_NOREAD, [ 'libs' ]);
-	lw.on('change', function() {
-		console.log('Changes in library code. Recompiling.');
-	});
-
 	var sw = gulp.watch('src/client/**.scss', WATCH_CFG_NOREAD, [ 'styles' ]);
-	sw.on('change', function() {
-		console.log('Changes in style code. Recompiling.');
-	});
-
-	var mw = gulp.watch('src/server/static/**', WATCH_CFG_NOREAD, [ 'manifest' ]);
-	mw.on('change', function() {
-		console.log('Changes in static code. Recompiling.');
-	});
-
 	var cw = gulp.watch('src/client/**.js', WATCH_CFG_NOREAD, [ 'code' ]);
-	cw.on('change', function() {
-		console.log('Changes in client code. Recompiling.');
-	});
+
+	var mw = gulp.watch([
+		'src/server/static/**.js',
+		'src/server/static/**.css',
+		'src/server/static/**.html'
+	], WATCH_CFG_NOREAD, [ 'manifest' ]);
 
 	nodemon({
 		script: 'src/server/server.js',
@@ -65,13 +50,12 @@ gulp.task('build', [
 
 var CONFIG_REQUIREJS = {
 
-	name: 'angular-bootstrap',
 	baseUrl: 'src/client',
-	out: 'client.js',
 
 	paths: {
-		'angular': 'lib/angular',
+		'require': 'lib/require',
 		'text': 'lib/text',
+		'angular': 'lib/angular',
 		'underscore': 'lib/underscore',
 		'swarm-client' : 'lib/swarm-client'
 	},
@@ -79,11 +63,16 @@ var CONFIG_REQUIREJS = {
 	shim: {
 
 		'angular': {
-			exports: 'angular'
+			exports: 'angular',
+			deps: [
+				'require'
+			]
 		},
 
-		'underscore': {
-			exports: '_'
+		'text': {
+			deps: [
+				'require'
+			]
 		}
 
 	}
@@ -92,7 +81,9 @@ var CONFIG_REQUIREJS = {
 
 gulp.task('code', function() {
 
-	requirejs(CONFIG_REQUIREJS)
+	gulp.src('src/client/**.js')
+		.pipe(optimise('angular-bootstrap', CONFIG_REQUIREJS))
+		.pipe(concat('client.js'))
 		.pipe(gulp.dest('src/server/static'));
 
 	gulp.src('src/client/client.html')
