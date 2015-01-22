@@ -12,5 +12,4 @@ dist/
 
 # Generated Sources
 src/client/lib/
-*.css
-*.manifest
+src/server/static/

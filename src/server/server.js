@@ -10,7 +10,7 @@ var swarmHost = new swarm.Host('swarm~nodejs', 0, fileStorage);
 
 var app = express();
 
-app.use(express_static(__dirname + '/../../src/client', {
+app.use(express_static(__dirname + '/static', {
 	index: 'client.html',
 	setHeaders: function (response, path, stat) {
 		response.setHeader('Pragma', 'no-cache');

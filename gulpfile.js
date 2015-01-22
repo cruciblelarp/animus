@@ -31,8 +31,13 @@ gulp.task('run', function() {
 		console.log('Changes in style code. Recompiling.');
 	});
 
-	var rw = gulp.watch(CONFIG_CLIENT_GLOBS, WATCH_CFG_NOREAD, [ 'manifest' ]);
-	rw.on('change', function() {
+	var mw = gulp.watch('src/server/static/**', WATCH_CFG_NOREAD, [ 'manifest' ]);
+	mw.on('change', function() {
+		console.log('Changes in static code. Recompiling.');
+	});
+
+	var cw = gulp.watch('src/client/**.js', WATCH_CFG_NOREAD, [ 'code' ]);
+	cw.on('change', function() {
 		console.log('Changes in client code. Recompiling.');
 	});
 
@@ -45,7 +50,8 @@ gulp.task('run', function() {
 	}).on('end', function() {
 		lw.emit('end');
 		sw.emit('end');
-		rw.emit('end');
+		mw.emit('end');
+		cw.emit('end');
 	});
 
 });
@@ -53,8 +59,46 @@ gulp.task('run', function() {
 gulp.task('build', [
 	'libs',
 	'styles',
+	'code',
 	'manifest'
 ]);
+
+var CONFIG_REQUIREJS = {
+
+	name: 'angular-bootstrap',
+	baseUrl: 'src/client',
+	out: 'client.js',
+
+	paths: {
+		'angular': 'lib/angular',
+		'text': 'lib/text',
+		'underscore': 'lib/underscore',
+		'swarm-client' : 'lib/swarm-client'
+	},
+
+	shim: {
+
+		'angular': {
+			exports: 'angular'
+		},
+
+		'underscore': {
+			exports: '_'
+		}
+
+	}
+
+};
+
+gulp.task('code', function() {
+
+	requirejs(CONFIG_REQUIREJS)
+		.pipe(gulp.dest('src/server/static'));
+
+	gulp.src('src/client/client.html')
+		.pipe(gulp.dest('src/server/static'));
+
+});
 
 gulp.task('libs', function() {
 
@@ -74,9 +118,8 @@ gulp.task('libs', function() {
 
 gulp.task('clean', function() {
 	gulp.src([
-		'src/client/lib',
-		'src/client/app.manifest',
-		'src/client/styles.css'
+		'src/server/static',
+		'src/client/lib'
 	]).pipe(clean({
 		force: true
 	}));
@@ -85,7 +128,7 @@ gulp.task('clean', function() {
 gulp.task('styles', function() {
 	gulp.src('src/client/**.scss')
 		.pipe(sass())
-		.pipe(gulp.dest('src/client'));
+		.pipe(gulp.dest('src/server/static'));
 });
 
 var CONFIG_MANIFEST = {
@@ -96,7 +139,7 @@ var CONFIG_MANIFEST = {
 };
 
 gulp.task('manifest', function() {
-	gulp.src(mode_prod ? CONFIG_CLIENT_GLOBS : [])
+	gulp.src('src/server/static/**')
 		.pipe(manifest(CONFIG_MANIFEST))
-		.pipe(gulp.dest('src/client'));
+		.pipe(gulp.dest('src/server/static'));
 });
