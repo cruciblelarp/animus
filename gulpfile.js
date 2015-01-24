@@ -6,9 +6,14 @@ var manifest = require('gulp-cache-manifest');
 var browserify = require('gulp-browserify');
 var rename = require('gulp-rename');
 var optimise = require('amd-optimize');
-var concat = require('gulp-concat');
+var jade = require('gulp-jade');
+var reduce = require('stream-reduce');
+var path = require('path');
 
 var mode_prod = false;
+
+var PATH_STATIC = 'src/server/static';
+var PATH_STATIC_ABS = path.resolve(__dirname, PATH_STATIC);
 
 var WATCH_CFG_NOREAD = {
 	read: false
@@ -21,9 +26,9 @@ gulp.task('run', [ 'build' ], function() {
 	var cw = gulp.watch('src/client/**.js', WATCH_CFG_NOREAD, [ 'code' ]);
 
 	var mw = gulp.watch([
-		'src/server/static/**.js',
-		'src/server/static/**.css',
-		'src/server/static/**.html'
+		PATH_STATIC + '/**.js',
+		PATH_STATIC + '/**.css',
+		PATH_STATIC + '/**.jade'
 	], WATCH_CFG_NOREAD, [ 'manifest' ]);
 
 	nodemon({
@@ -79,15 +84,32 @@ var CONFIG_REQUIREJS = {
 
 };
 
-gulp.task('code', function() {
+function amd_reduction(memo, item) {
+	memo.push(path.relative(PATH_STATIC_ABS, item.path));
+	return memo;
+}
+
+gulp.task('code', [ 'libs' ], function() {
 
 	gulp.src('src/client/**.js')
 		.pipe(optimise('angular-bootstrap', CONFIG_REQUIREJS))
-		.pipe(concat('client.js'))
-		.pipe(gulp.dest('src/server/static'));
+		.pipe(gulp.dest(PATH_STATIC))
+		.pipe(reduce(amd_reduction, []))
+		.on('data', function(list) {
 
-	gulp.src('src/client/client.html')
-		.pipe(gulp.dest('src/server/static'));
+			var config_jade = {
+				pretty: '\t',
+				data: {
+					scripts: list
+				}
+			};
+			
+			gulp.src('src/client/client.jade')
+				.pipe(jade(config_jade))
+				.pipe(gulp.dest(PATH_STATIC));
+
+		});
+
 
 });
 
@@ -109,7 +131,7 @@ gulp.task('libs', function() {
 
 gulp.task('clean', function() {
 	gulp.src([
-		'src/server/static',
+		PATH_STATIC,
 		'src/client/lib'
 	]).pipe(clean({
 		force: true
@@ -119,7 +141,7 @@ gulp.task('clean', function() {
 gulp.task('styles', function() {
 	gulp.src('src/client/**.scss')
 		.pipe(sass())
-		.pipe(gulp.dest('src/server/static'));
+		.pipe(gulp.dest(PATH_STATIC));
 });
 
 var CONFIG_MANIFEST = {
@@ -132,5 +154,5 @@ var CONFIG_MANIFEST = {
 gulp.task('manifest', function() {
 	gulp.src('src/server/static/**')
 		.pipe(manifest(CONFIG_MANIFEST))
-		.pipe(gulp.dest('src/server/static'));
+		.pipe(gulp.dest(PATH_STATIC));
 });
