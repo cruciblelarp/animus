@@ -1,0 +1,12 @@
+#news-panel {
+	.news-item {
+		cursor: pointer;
+
+		&.collapsed .panel-body p {
+			height: 150px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+	}
+}

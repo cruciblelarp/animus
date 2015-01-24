@@ -11,13 +11,24 @@
 				<p>No news is good news.</p>
 			</div>
 
-			<div class="col-lg-3 col-md-4 col-sm-6"
+			<div class="news-item"
+			     ng-repeat="story in stories"
 			     ng-if="stories && stories.length"
-			     ng-repeat="story in stories">
-				<p ng-bind="story.content"></p>
-			</div>
+			     ng-class="{ 'col-lg-3 col-md-4 col-sm-6 collapsed': !story.selected, 'col-xs-12': story.selected }">
 
-			{{ $scope | json }}
+				<div class="panel panel-info" data-collapsed ng-click="toggle($event, story)">
+
+					<div class="panel-heading">
+						<strong ng-bind="story.title"></strong>
+					</div>
+
+					<div class="panel-body">
+						<p ng-bind="story.content"></p>
+					</div>
+
+				</div>
+
+			</div>
 
 		</div>
 	</div>
