@@ -78,6 +78,13 @@ var CONFIG_REQUIREJS = {
 			deps: [
 				'require'
 			]
+		},
+
+		'swarm-client': {
+			exports: 'Swarm',
+			deps: [
+				'require'
+			]
 		}
 
 	}

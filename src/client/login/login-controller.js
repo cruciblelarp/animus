@@ -4,7 +4,9 @@ define([
 	'angular',
 
 	'angular-module',
-	'swarm/swarm-service'
+	'swarm/swarm-service',
+
+	'data/user-data'
 
 ], function(_, ng, _animus, _swarm) {
 	var COMPONENT_NAME = 'loginCtrl';

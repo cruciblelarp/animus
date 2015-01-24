@@ -9,32 +9,33 @@ define([
 	var COMPONENT_NAME = '$swarm';
 
 	ng.module(_animus).service(COMPONENT_NAME, [
-		'$rootScope'
-	], function($root) {
+		'$rootScope',
+		function($root) {
 
-		var host = new swarm.Host('cruciblemanager');
+			var host = new swarm.Host('cruciblemanager');
 
-		$root.$watch('storage.config.swarmhost', function(newval, oldval) {
+			$root.$watch('storage.config.swarmhost', function(newval, oldval) {
 
-			if (!newval || newval != oldval) {
-				host.disconnect();
-			}
+				if (!newval || newval != oldval) {
+					host.disconnect();
+				}
 
-			if (newval) {
-				host.connect(newval);
-			}
+				if (newval) {
+					host.connect(newval);
+				}
 
-		});
+			});
 
-		return {
+			return {
 
-			watch: function(identifier) {
-				return host.get(identifier);
+				watch: function(identifier) {
+					return host.get('/' + identifier);
+				}
+
 			}
 
 		}
-
-	});
+	]);
 
 	return COMPONENT_NAME;
 });
