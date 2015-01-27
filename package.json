@@ -43,6 +43,6 @@
     "swarm": "^0.3.25",
     "underscore": "^1.7.0",
     "ws": "^0.6.5",
-    "ui-router": "0.0.1"
+    "angular-ui-router": "~0.2.13"
   }
 }

@@ -134,7 +134,7 @@ gulp.task('libs', function() {
 		'node_modules/requirejs/require.js',
 		'node_modules/requirejs-text/text.js',
 		'node_modules/underscore/underscore.js',
-		'node_modules/ui-router/angular-ui-router.js'
+		'node_modules/angular-ui-router/release/angular-ui-router.js'
 	]).pipe(gulp.dest('src/client/lib'));
 
 	gulp.src('node_modules/swarm/lib/Html5Client.js')
