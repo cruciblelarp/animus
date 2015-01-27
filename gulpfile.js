@@ -63,7 +63,9 @@ var CONFIG_REQUIREJS = {
 		'angular': 'lib/angular',
 		'underscore': 'lib/underscore',
 		'swarm-client' : 'lib/swarm-client',
-		'ui-router': 'lib/angular-ui-router'
+		'ui-router': 'lib/angular-ui-router',
+		'ui-bootstrap': 'lib/ui-bootstrap',
+		'ui-bootstrap-tpls': 'lib/ui-bootstrap-tpls'
 	},
 
 	shim: {
@@ -91,6 +93,13 @@ var CONFIG_REQUIREJS = {
 		'ui-router': {
 			deps: [
 				'angular'
+			]
+		},
+
+		'ui-bootstrap': {
+			deps: [
+				'angular',
+				'ui-bootstrap-tpls'
 			]
 		}
 
@@ -134,7 +143,9 @@ gulp.task('libs', function() {
 		'node_modules/requirejs/require.js',
 		'node_modules/requirejs-text/text.js',
 		'node_modules/underscore/underscore.js',
-		'node_modules/angular-ui-router/release/angular-ui-router.js'
+		'node_modules/angular-ui-router/release/angular-ui-router.js',
+		'node_modules/angular-bootstrap/dist/ui-bootstrap.js',
+		'node_modules/angular-bootstrap/dist/ui-bootstrap-tpls.js'
 	]).pipe(gulp.dest('src/client/lib'));
 
 	gulp.src('node_modules/swarm/lib/Html5Client.js')
