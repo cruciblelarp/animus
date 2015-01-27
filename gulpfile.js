@@ -62,7 +62,8 @@ var CONFIG_REQUIREJS = {
 		'text': 'lib/text',
 		'angular': 'lib/angular',
 		'underscore': 'lib/underscore',
-		'swarm-client' : 'lib/swarm-client'
+		'swarm-client' : 'lib/swarm-client',
+		'ui-router': 'lib/angular-ui-router'
 	},
 
 	shim: {
@@ -84,6 +85,12 @@ var CONFIG_REQUIREJS = {
 			exports: 'Swarm',
 			deps: [
 				'require'
+			]
+		},
+
+		'ui-router': {
+			deps: [
+				'angular'
 			]
 		}
 
@@ -126,7 +133,8 @@ gulp.task('libs', function() {
 		'node_modules/angular/angular.js',
 		'node_modules/requirejs/require.js',
 		'node_modules/requirejs-text/text.js',
-		'node_modules/underscore/underscore.js'
+		'node_modules/underscore/underscore.js',
+		'node_modules/ui-router/angular-ui-router.js'
 	]).pipe(gulp.dest('src/client/lib'));
 
 	gulp.src('node_modules/swarm/lib/Html5Client.js')
