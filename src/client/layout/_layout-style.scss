@@ -1,0 +1,17 @@
+@import '../imports';
+
+#nav-left {
+	ul {
+		li {
+			border-right: thin groove $gray-lighter;
+		}
+	}
+}
+
+#nav-right {
+	ul {
+		li {
+			border-left: thin groove $gray-lighter;
+		}
+	}
+}
