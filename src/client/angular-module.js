@@ -7,7 +7,9 @@ define([
 	var COMPONENT_NAME = 'animus';
 
 	ng.module(COMPONENT_NAME, [
-		'ui.router'
+		'ui.router',
+		'angulartics',
+		'angulartics.google.analytics'
 	]);
 
 	return COMPONENT_NAME;
