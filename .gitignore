@@ -10,6 +10,9 @@ dist/
 *.ipr
 *.iws
 
+# MongoDB
+mongo/
+
 # Generated Sources
 src/client/lib/
 src/server/static/
