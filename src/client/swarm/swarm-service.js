@@ -9,8 +9,8 @@ define([
 	var COMPONENT_NAME = '$swarm';
 
 	ng.module(_animus).service(COMPONENT_NAME, [
-		'$rootScope',
-		function($root) {
+		'$rootScope', '$q',
+		function($root, $q) {
 
 			var host = new swarm.Host('cruciblemanager');
 
@@ -30,6 +30,28 @@ define([
 
 				watch: function(identifier) {
 					return host.get('/' + identifier);
+				},
+
+				request: function(action, context) {
+					var deferred = $q.defer();
+
+					//TODO: Create request from action and context.
+					var request = new Object();
+
+					//TODO: Watch request for changes.
+					request.on(function() {
+						switch(request.status) {
+
+							case 'complete':
+								delete request; //stab in the dark.
+								deferred.resolve(request);
+
+						}
+					});
+
+					//TODO: Based on changes, resolve/reject promise.
+
+					return deferred.promise;
 				}
 
 			}
