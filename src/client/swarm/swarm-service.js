@@ -1,11 +1,13 @@
 define([
 
 	'angular',
+	'moment',
 	'swarm-client',
+	'data/request-data',
 
 	'angular-module'
 
-], function(ng, swarm, _animus) {
+], function(ng, moment, swarm, Request, _animus) {
 	var COMPONENT_NAME = '$swarm';
 
 	ng.module(_animus).service(COMPONENT_NAME, [
@@ -35,21 +37,30 @@ define([
 				request: function(action, context) {
 					var deferred = $q.defer();
 
-					//TODO: Create request from action and context.
-					var request = new Object();
+					// Create request from action and context.
+					var request = new Request({
+						id: moment().unix(),
+						action: action,
+						context: context,
+						status: 'new'
+					});
 
-					//TODO: Watch request for changes.
+					// Watch request for changes.
 					request.on(function() {
 						switch(request.status) {
 
-							case 'complete':
-								delete request; //stab in the dark.
+							case 'resolved':
 								deferred.resolve(request);
+								delete request; //stab in the dark.
+								return;
+
+							case 'rejected':
+								deferred.reject(request);
+								delete request; //stab in the dark.
+								return;
 
 						}
 					});
-
-					//TODO: Based on changes, resolve/reject promise.
 
 					return deferred.promise;
 				}
