@@ -14,7 +14,9 @@ define([
 		'$rootScope', '$q',
 		function($root, $q) {
 
-			var host = new swarm.Host('cruciblemanager');
+			var host = new swarm.Host('animus');
+
+			var actions = {};
 
 			$root.$watch('storage.config.swarmhost', function(newval, oldval) {
 
@@ -28,44 +30,55 @@ define([
 
 			});
 
-			return {
+			var $service = {};
 
-				watch: function(identifier) {
-					return host.get('/' + identifier);
-				},
+			$service.watch = function(identifier) {
+				return host.get('/' + identifier);
+			};
 
-				request: function(action, context) {
-					var deferred = $q.defer();
+			$service.request = function(action, context) {
+
+				if (actions[action]) {
+					return actions[action];
+				}
+
+				var deferred = $q.defer();
+
+				try {
 
 					// Create request from action and context.
 					var request = new Request({
-						id: moment().unix(),
+						time: moment().unix(),
 						action: action,
-						context: context,
-						status: 'new'
+						context: context || {},
+						status: 'created'
 					});
 
 					// Watch request for changes.
-					request.on(function() {
-						switch(request.status) {
+					request.on(function () {
+						switch (request.status) {
 
 							case 'resolved':
 								deferred.resolve(request);
-								delete request; //stab in the dark.
+								delete actions[action];
 								return;
 
 							case 'rejected':
 								deferred.reject(request);
-								delete request; //stab in the dark.
+								delete actions[action];
 								return;
 
 						}
 					});
-
-					return deferred.promise;
+				} catch (error) {
+					deferred.reject(error);
 				}
 
-			}
+				return actions[action] = deferred.promise;
+
+			};
+
+			return $service;
 
 		}
 	]);

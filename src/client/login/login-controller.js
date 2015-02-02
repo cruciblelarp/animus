@@ -16,35 +16,30 @@ define([
 		_swarm,
 		function($scope, $swarm) {
 
-			var user = $swarm.watch('user');
-			user.on(function(spec, value, source) {
-				_.extend($scope.user, {
-					username: value.username,
-					password: value.password,
-					email1: value.email
-				})
-			});
-
 			_.extend($scope, {
 
-				user: {
+				loading: {
+					promise: $swarm.request('auth.status')
+				},
 
-					// Login vars
+				login: {
 					username: null,
-					password: null,
+					password: null
+				},
 
-					// Signup vars
+				signup: {
 					email1: null,
 					email2: null
-
 				},
 
-				login: function ($event) {
+				$login: function ($event) {
 					$event.preventDefault();
+					$scope.loading.promise = $swarm.request('auth.login', $scope.login);
 				},
 
-				register: function ($event) {
+				$register: function ($event) {
 					$event.preventDefault();
+					$scope.loading.promise = $swarm.request('auth.register', $scope.register);
 				}
 
 			});
