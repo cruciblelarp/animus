@@ -1,0 +1,32 @@
+<div id="admin-abilities" class="row">
+
+	<div class="col-xs-12">
+		<div class="page-header">
+			<h2>Admin: Abilities</h2>
+		</div>
+	</div>
+
+	<!--TODO: Collapse list when detail selected and too small. -->
+	<div class="col-md-4">
+		<ul class="list-group">
+			<li class="list-group-item" ng-repeat="ability in abilities"
+			    ng-class="{ 'list-group-item-info': ability.shadow, 'list-group-item-active': selection === ability }">
+
+				<p class="list-group-item-heading">
+					<strong ng-bind="ability.name"></strong>
+				</p>
+
+				<p class="list-group-item-text">
+					<span ng-bind="ability.degree"></span>
+					<span ng-bind="ability.cost"></span>
+				</p>
+
+			</li>
+		</ul>
+	</div>
+
+	<div class="col-md-8">
+		<div ui-view></div>
+	</div>
+
+</div>

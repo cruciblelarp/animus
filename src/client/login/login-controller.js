@@ -44,14 +44,6 @@ define([
 
 			});
 
-			$scope.$watch('user', function(scopeuser) {
-				user.set({
-					username: scopeuser.username,
-					password: scopeuser.password,
-					email: scopeuser.email1
-				});
-			}, true);
-
 		}
 	]);
 

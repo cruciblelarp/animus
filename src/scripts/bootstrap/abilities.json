@@ -1,0 +1,59 @@
+[
+
+	{
+		"name": "Finesse 1",
+		"cost": 0
+	},
+
+	{
+		"name": "Finesse 2",
+		"cost": 5,
+		"prerequisites": [
+			"Finesse 1"
+		]
+	},
+
+	{
+		"name": "Finesse 3",
+		"cost": 5,
+		"prerequisites": [
+			"Finesse 2"
+		]
+	},
+
+	{
+		"name": "Weaponry",
+		"cost": 0,
+		"degree": "novice",
+		"description": "Use of any melee weapon. Each strike deals 1 point of damage."
+	},
+
+	{
+		"name": "Small Weapons, Adept",
+		"cost": 3,
+		"degree": "adept",
+		"prerequisites": [
+			"Weaponry",
+			"Finesse 2"
+		],
+		"description": "Adept with Small Weapons (<50cm). BLEED 1/Encounter. This ability counts as a Weapon Skill",
+		"tags": [
+			"weapon"
+		]
+	},
+
+	{
+		"name": "Small Weapons, Expert",
+		"cost": 3,
+		"degree": "expert",
+		"prerequisites": [
+			"Small Weapons, Adept",
+			"Finesse 3"
+		],
+		"description": "Expert with Small Weapons (<50cm). SLOW 1/Encounter. This ability counts as a Weapon Skill.",
+		"tags": [
+			"weapon"
+		]
+	}
+
+]

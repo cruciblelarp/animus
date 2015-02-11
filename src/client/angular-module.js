@@ -1,7 +1,10 @@
 define([
 
 	'angular',
-	'ui-router'
+
+	'ui-router',
+	'angulartics',
+	'angulartics-google'
 
 ], function(ng) {
 	var COMPONENT_NAME = 'animus';
