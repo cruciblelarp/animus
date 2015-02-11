@@ -1,0 +1,33 @@
+<div id="admin-abilities" class="row">
+
+	<div class="col-xs-12">
+		<div class="page-header">
+			<h2>Admin: Abilities</h2>
+		</div>
+	</div>
+
+	<div class="col-xs-12">
+		<table class="table table-striped">
+
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Type</th>
+					<th>Cost</th>
+					<th>Shadow</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr ng-repeat="ability in abilities">
+					<td ng-bind="ability.name"></td>
+					<td ng-bind="ability.type"></td>
+					<td ng-bind="ability.cost"></td>
+					<td ng-bind="ability.shadow"></td>
+				</tr>
+			</tbody>
+
+		</table>
+	</div>
+
+</div>

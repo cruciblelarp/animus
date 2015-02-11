@@ -199,3 +199,7 @@ gulp.task('manifest', function() {
 		.pipe(manifest(CONFIG_MANIFEST))
 		.pipe(gulp.dest(PATH_STATIC));
 });
+
+gulp.task('bootstrap', function() {
+	//TODO: Connect to mongo, clear and re-init.
+});
