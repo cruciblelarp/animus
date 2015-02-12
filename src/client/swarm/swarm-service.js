@@ -1,13 +1,12 @@
 define([
 
 	'angular',
-	'moment',
 	'swarm-client',
 	'data/request-data',
 
 	'angular-module'
 
-], function(ng, moment, swarm, Request, _animus) {
+], function(ng, swarm, Request, _animus) {
 	var COMPONENT_NAME = '$swarm';
 
 	ng.module(_animus).service(COMPONENT_NAME, [
@@ -48,7 +47,7 @@ define([
 
 					// Create request from action and context.
 					var request = new Request({
-						time: moment().unix(),
+						time: new Date().getUTCDate(),
 						action: action,
 						context: context || {},
 						status: 'created'

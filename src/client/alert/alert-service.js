@@ -74,7 +74,7 @@ define([
 				display: function(options) {
 
 					var alert = {
-						id: moment().unix(),
+						id: new Date().getUTCDate(),
 						type: options.type || $service.TYPE_INFO,
 						context: options.context || {},
 						flash: _.isBoolean(options.flash)
