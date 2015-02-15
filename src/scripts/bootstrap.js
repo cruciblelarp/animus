@@ -2,8 +2,9 @@
 
 /* globals require, module */
 
-var fs = require('fs');
+var mongo = require('mongo');
 
 module.exports = function() {
-	mongo.insert();
+	gulp.src('src/scripts/bootstrap/*.json')
+		.pipe()
 };
