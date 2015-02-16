@@ -1,15 +1,29 @@
 [
 
 	{
-		"id": 1
+		"name": "Brian Winterdale",
+		"abilities": [
+			{ "name": "Finesse 1" },
+			{ "name": "Weaponry" }
+		]
 	},
 
 	{
-		"id": 2
+		"name": "Eric Flabberghast",
+		"abilities": [
+			{ "name": "Finesse 1" },
+			{ "name": "Finesse 2" },
+			{ "name": "Weaponry" },
+			{ "name": "Small Weapons, Adept" }
+		]
 	},
 
 	{
-		"id": 3
+		"name": "Romina Thrilling",
+		"abilities": [
+			{ "name": "Finesse 1" },
+			{ "name": "Weaponry" }
+		]
 	}
 
 ]
