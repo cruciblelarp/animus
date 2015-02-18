@@ -12,7 +12,8 @@
 		"ui-bootstrap": "lib/ui-bootstrap",
 		"ui-bootstrap-tpls": "lib/ui-bootstrap-tpls",
 		"angulartics": "lib/angulartics",
-		"angulartics-google": "lib/angulartics-ga"
+		"angulartics-google": "lib/angulartics-ga",
+		"uri": "lib/URI"
 	},
 
 	"shim": {

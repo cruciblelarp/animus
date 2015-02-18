@@ -4,11 +4,9 @@ define([
 
 	'angular-module',
 
-	'banner/banner-directive',
-	'character/character-directive',
-	'layout/layout-directive',
-	'login/login-directive',
-	'news/news-directive'
+	'admin/admin-config',
+	'admin_abilities/admin-ability-config',
+	'admin_characters/admin-character-config'
 
 ], function(ng, _animus) {
 

@@ -4,9 +4,9 @@ define([
 	'angular',
 
 	'angular-module',
-	'network/provider-path'
+	'network/provider-path',
 
-	// ui-router
+	'ui-router'
 
 ], function(_, ng, _animus, _path) {
 	var COMPONENT_NAME = '$routing';
