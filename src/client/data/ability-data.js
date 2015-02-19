@@ -1,19 +1,19 @@
 (function() {
 
 	/**
-	 * Defines a set of abilities represented by the following structure:
+	 * Defines an ability with the following structure:
 	 * <code>
 	 *     {
 	 *         name: '',
-	 *         type: '',
+	 *         degree: '', {optional}
 	 *         cost: 0,
-	 *         shadow: false,
-	 *         prerequisites: []
+	 *         prerequisites: [] {optional}
+	 *         tags: [] {optional}
 	 *     }
 	 * </code>
 	 */
 	function configure(Swarm) {
-		return Swarm.Set.extend('ability');
+		return Swarm.Model.extend('ability');
 	}
 
 	if (typeof(module) !== 'undefined') {
