@@ -9,7 +9,10 @@ var rename = require('gulp-rename');
 module.exports = function() {
 
 	gulp.src([
-		'lib/URI.js',
+		'node_modules/URIjs/src/URI.js',
+		'node_modules/URIjs/src/punycode.js',
+		'node_modules/URIjs/src/IPv6.js',
+		'node_modules/URIjs/src/SecondLevelDomains.js',
 		'node_modules/angular/angular.js',
 		'node_modules/requirejs/require.js',
 		'node_modules/requirejs-text/text.js',

@@ -47,4 +47,5 @@ define([
 
 	});
 
+	return COMPONENT_NAME;
 });

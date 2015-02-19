@@ -1,16 +1,12 @@
 <div id="admin-abilities" class="row">
 
-	<div class="col-xs-12">
-		<div class="page-header">
-			<h2>Admin: Abilities</h2>
-		</div>
-	</div>
-
 	<!--TODO: Collapse list when detail selected and too small. -->
 	<div class="col-md-4">
 		<ul class="list-group">
 			<li class="list-group-item" ng-repeat="ability in abilities"
-			    ng-class="{ 'list-group-item-info': ability.shadow, 'list-group-item-active': selection === ability }">
+			    ui-sref="admin.abilities.detail({ ability: ability._id })"
+			    ui-sref-active="list-group-item-active"
+			    ng-class="{ 'list-group-item-info': ability.shadow }">
 
 				<p class="list-group-item-heading">
 					<strong ng-bind="ability.name"></strong>

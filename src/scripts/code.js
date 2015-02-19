@@ -12,7 +12,7 @@ var config = require('./config');
 var config_requirejs = require('./requirejs');
 
 function amd_reduction(memo, item) {
-	memo.push(path.relative(config.PATH_STATIC_ABS, item.path));
+	memo.push('./' + path.relative(config.PATH_STATIC_ABS, item.path));
 	return memo;
 }
 
