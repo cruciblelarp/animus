@@ -20,13 +20,13 @@ define([
 			$scope.abilities = [
 
 				{
-					_id: new Date().getTime(),
+					_id: 1,
 					"name": "Finesse 1",
 					"cost": 0
 				},
 
 				{
-					_id: new Date().getTime(),
+					_id: 2,
 					"name": "Finesse 2",
 					"cost": 5,
 					"prerequisites": [
@@ -35,7 +35,7 @@ define([
 				},
 
 				{
-					_id: new Date().getTime(),
+					_id: 3,
 					"name": "Finesse 3",
 					"cost": 5,
 					"prerequisites": [
@@ -44,7 +44,7 @@ define([
 				},
 
 				{
-					_id: new Date().getTime(),
+					_id: 4,
 					"name": "Weaponry",
 					"cost": 0,
 					"degree": "novice",
@@ -52,7 +52,7 @@ define([
 				},
 
 				{
-					_id: new Date().getTime(),
+					_id: 5,
 					"name": "Small Weapons, Adept",
 					"cost": 3,
 					"degree": "adept",
@@ -67,7 +67,7 @@ define([
 				},
 
 				{
-					_id: new Date().getTime(),
+					_id: 6,
 					"name": "Small Weapons, Expert",
 					"cost": 3,
 					"degree": "expert",
@@ -82,7 +82,7 @@ define([
 				},
 
 				{
-					_id: new Date().getTime(),
+					_id: 7,
 					"name": "Ghoul",
 					"cost": 0,
 					"description": "Secret",
