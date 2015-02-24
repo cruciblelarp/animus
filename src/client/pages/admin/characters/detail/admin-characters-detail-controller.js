@@ -11,7 +11,7 @@ define([
 	'ui-router'
 
 ], function(_, ng, _animus, _swarm) {
-	var COMPONENT_NAME = 'admincharactersDetailController';
+	var COMPONENT_NAME = 'adminCharactersDetailController';
 
 	ng.module(_animus).controller(COMPONENT_NAME, [
 		'$scope', _swarm, '$state', '$stateParams',

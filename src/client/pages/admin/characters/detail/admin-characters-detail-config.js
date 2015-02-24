@@ -4,12 +4,12 @@ define([
 
 	'angular-module',
 	'utils/routing-provider',
-	'admin/admin-config',
-	'admin/characters/admin-characters-controller',
-	'text!admin/characters/admin-characters-template.html'
+	'pages/admin/characters/admin-characters-config',
+	'pages/admin/characters/detail/admin-characters-detail-controller',
+	'text!pages/admin/characters/detail/admin-characters-detail-template.html'
 
 ], function(ng, _animus, _routing, _parent, _controller, _template) {
-	var COMPONENT_NAME = 'admin.characters';
+	var COMPONENT_NAME = 'admin.characters.detail';
 
 	ng.module(_animus).config([
 		_routing + 'Provider',
@@ -17,7 +17,7 @@ define([
 
 			$routing.state(COMPONENT_NAME, {
 				parent: _parent,
-				url: '/characters',
+				url: '/{character}',
 				controller: _controller,
 				template: _template
 			});

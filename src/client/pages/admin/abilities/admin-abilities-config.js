@@ -4,9 +4,9 @@ define([
 
 	'angular-module',
 	'utils/routing-provider',
-	'admin/admin-config',
-	'admin/abilities/admin-abilities-controller',
-	'text!admin/abilities/admin-abilities-template.html'
+	'pages/admin/admin-config',
+	'pages/admin/abilities/admin-abilities-controller',
+	'text!pages/admin/abilities/admin-abilities-template.html'
 
 ], function(ng, _animus, _routing, _parent, _controller, _template) {
 	var COMPONENT_NAME = 'admin.abilities';

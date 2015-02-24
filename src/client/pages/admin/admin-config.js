@@ -4,9 +4,9 @@ define([
 
 	'angular-module',
 	'utils/routing-provider',
-	'admin/admin-controller',
+	'pages/admin/admin-controller',
 
-	'text!admin/admin-template.html'
+	'text!pages/admin/admin-template.html'
 
 ], function(ng, _animus, _routing, _controller, _template) {
 	var COMPONENT_NAME = 'admin';
