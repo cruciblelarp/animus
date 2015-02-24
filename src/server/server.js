@@ -33,6 +33,6 @@ wsServer.on('connection', function (ws) {
 	});
 });
 
-require('./static/user-data.js');
+//require('./static/user-data.js');
 
 app.listen(8000);

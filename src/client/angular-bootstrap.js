@@ -4,11 +4,12 @@ define([
 
 	'angular-module',
 
-	'admin/admin-config',
-	'admin/abilities/admin-abilities-config',
-	'admin/abilities/detail/admin-abilities-detail-config',
-	'admin/characters/admin-characters-config',
-	'admin/characters/detail/admin-characters-detail-config'
+	'layout/layout-directive',
+	'pages/admin/admin-config',
+	'pages/admin/abilities/admin-abilities-config',
+	'pages/admin/abilities/detail/admin-abilities-detail-config',
+	'pages/admin/characters/admin-characters-config',
+	'pages/admin/characters/detail/admin-characters-detail-config'
 
 ], function(ng, _animus) {
 
