@@ -20,7 +20,7 @@ define([
 			$scope.$on('$stateChangeSuccess', function() {
 				if ($state.includes('admin.abilities.detail')) {
 					$scope.selection = _.findWhere($scope.abilities, {
-						_id: $stateParams.ability
+						_id: parseInt($stateParams.ability)
 					});
 				}
 			});
