@@ -1,6 +1,6 @@
 {
 
-	"baseUrl": "src/client",
+	"baseUrl": "src/server/static",
 
 	"paths": {
 		"require": "lib/require",

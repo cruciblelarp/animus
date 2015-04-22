@@ -9,7 +9,7 @@ html
 			each item in scripts
 				script(type='text/javascript', src=item)
 		else
-			script(type='text/javascript', src='/lib/require.js', data-main='/require-config.js')
+			script(type='text/javascript', src='lib/require.js', data-main='require-config.js')
 
 		script(type = 'text/javascript').
 			document.addEventListener('DOMContentLoaded', function() {

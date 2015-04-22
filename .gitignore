@@ -15,3 +15,7 @@ mongo/
 
 # Generated Sources
 src/server/static/lib/
+src/server/static/dist/
+src/server/static/client.html
+src/server/static/debug.html
+*.min.js
