@@ -6,6 +6,8 @@ var gulp = require('gulp');
 var browserify = require('gulp-browserify');
 var rename = require('gulp-rename');
 
+var config = require('./config');
+
 module.exports = function() {
 
 	gulp.src([
@@ -22,11 +24,11 @@ module.exports = function() {
 		'node_modules/angular-bootstrap/dist/ui-bootstrap-tpls.js',
 		'node_modules/angulartics/src/angulartics.js',
 		'node_modules/angulartics/src/angulartics-ga.js'
-	]).pipe(gulp.dest('src/client/lib'));
+	]).pipe(gulp.dest(config.PATH_STATIC_LIBS));
 
 	gulp.src('node_modules/swarm/lib/Html5Client.js')
 		.pipe(browserify({ debug: false }))
 		.pipe(rename('swarm-client.js'))
-		.pipe(gulp.dest('src/client/lib'));
+		.pipe(gulp.dest(config.PATH_STATIC_LIBS));
 
 };

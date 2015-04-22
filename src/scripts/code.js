@@ -7,6 +7,7 @@ var optimise = require('amd-optimize');
 var jade = require('gulp-jade');
 var reduce = require('stream-reduce');
 var path = require('path');
+var rename = require('gulp-rename');
 
 var config = require('./config');
 var config_requirejs = require('./requirejs');
@@ -18,9 +19,19 @@ function amd_reduction(memo, item) {
 
 module.exports = function() {
 
+	var config_jade = {
+		pretty: '\t',
+		data: {}
+	};
+
+	gulp.src(config.PATH_STATIC + '/client.jade')
+		.pipe(jade(config_jade))
+		.pipe(rename('debug.html'))
+		.pipe(gulp.dest(config.PATH_STATIC));
+
 	gulp.src('src/client/**.js')
 		.pipe(optimise('angular-bootstrap', config_requirejs))
-		.pipe(gulp.dest(config.PATH_STATIC))
+		.pipe(gulp.dest(config.PATH_STATIC + '/dist')) // TODO: Make compressed files sit next to uncompressed ones.
 		.pipe(reduce(amd_reduction, []))
 		.on('data', function(list) {
 
@@ -33,6 +44,7 @@ module.exports = function() {
 
 			gulp.src('src/client/client.jade')
 				.pipe(jade(config_jade))
+				.pipe(rename('client.html'))
 				.pipe(gulp.dest(config.PATH_STATIC));
 
 		});

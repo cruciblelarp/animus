@@ -17,10 +17,9 @@ module.exports = function() {
 
 	nodemon({
 		script: 'src/server/server.js',
-		ext: 'html js css',
+		ext: 'js',
 		ignore: [
-			'src/client',
-			'src/server/static'
+			config.PATH_STATIC
 		]
 	}).on('end', function() {
 		//sw.emit('end');

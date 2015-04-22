@@ -9,8 +9,7 @@ var config = require('./config');
 
 module.exports = function() {
 	gulp.src([
-		config.PATH_STATIC,
-		'src/client/lib'
+		config.PATH_STATIC_LIBS
 	]).pipe(clean({
 		force: true
 	}));

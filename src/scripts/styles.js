@@ -8,7 +8,7 @@ var sass = require('gulp-sass');
 var config = require('./config');
 
 module.exports = function() {
-	gulp.src('src/client/**.scss')
+	gulp.src(config.PATH_STATIC + '/**.scss')
 		.pipe(sass())
 		.pipe(gulp.dest(config.PATH_STATIC));
 };

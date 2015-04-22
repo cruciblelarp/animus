@@ -10,12 +10,12 @@ var config = require('./config');
 var CONFIG_MANIFEST = {
 	hash: true,
 	exclude: [
-		'src/client/app.manifest'
+		config.PATH_STATIC + '/app.manifest'
 	]
 };
 
 module.exports = function() {
-	gulp.src('src/server/static/**')
+	gulp.src(config.PATH_STATIC + '/**')
 		.pipe(manifest(CONFIG_MANIFEST))
 		.pipe(gulp.dest(config.PATH_STATIC));
 };
