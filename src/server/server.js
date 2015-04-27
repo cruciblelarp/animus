@@ -12,6 +12,18 @@ var express_static = require('serve-static');
 var fileStorage = new swarm.FileStorage('storage');
 var swarmHost = new swarm.Host('swarm~nodejs', 0, fileStorage);
 
+var config = {
+	port: 8000
+};
+
+if (typeof(env) !== 'undefined') {
+
+	if (typeof(env['$PORT']) !== 'undefined') {
+		config.port = env['$PORT'];
+	}
+
+}
+
 var app = express();
 
 app.use(express_static(__dirname + '/static', {
@@ -39,4 +51,4 @@ wsServer.on('connection', function (ws) {
 
 //require('./static/user-data.js');
 
-app.listen(env['$PORT'] | 8000);
+app.listen(config.port);
