@@ -1,3 +1,7 @@
+'use strict';
+
+/* globals require, env, __dirname */
+
 var http = require('http');
 var socket = require('ws');
 var swarm = require('swarm');
@@ -7,6 +11,18 @@ var express_static = require('serve-static');
 // Create the swarm server
 var fileStorage = new swarm.FileStorage('storage');
 var swarmHost = new swarm.Host('swarm~nodejs', 0, fileStorage);
+
+var config = {
+	port: 8000
+};
+
+if (typeof(env) !== 'undefined') {
+
+	if (typeof(env['$PORT']) !== 'undefined') {
+		config.port = env['$PORT'];
+	}
+
+}
 
 var app = express();
 
@@ -35,4 +51,4 @@ wsServer.on('connection', function (ws) {
 
 //require('./static/user-data.js');
 
-app.listen(8000);
+app.listen(config.port);
