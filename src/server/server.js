@@ -1,3 +1,7 @@
+'use strict';
+
+/* globals require, env, __dirname */
+
 var http = require('http');
 var socket = require('ws');
 var swarm = require('swarm');
