@@ -1,0 +1,27 @@
+<div id="admin-characters" class="row">
+
+	<!--TODO: Collapse list when detail selected and too small. -->
+	<div class="col-md-4">
+		<ul class="list-group">
+			<li class="list-group-item" ng-repeat="character in characters"
+			    ui-sref="admin.characters.detail({ character: character._id })"
+			    ui-sref-active="list-group-item-active"
+			    ng-class="{ 'list-group-item-info': character.shadow }">
+
+				<p class="list-group-item-heading">
+					<strong ng-bind="character.name"></strong>
+				</p>
+
+				<p class="list-group-item-text">
+					<span ng-bind="character.description"></span>
+				</p>
+
+			</li>
+		</ul>
+	</div>
+
+	<div class="col-md-8">
+		<div ui-view></div>
+	</div>
+
+</div>

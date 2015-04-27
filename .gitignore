@@ -2,7 +2,6 @@
 # Node
 node_modules/
 storage/
-dist/
 
 # IntelliJ
 .idea/
@@ -14,5 +13,6 @@ dist/
 mongo/
 
 # Generated Sources
-src/client/lib/
-src/server/static/
+src/server/static/lib/
+*.manifest
+*.min.*

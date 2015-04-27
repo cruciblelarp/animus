@@ -11,11 +11,11 @@ var swarmHost = new swarm.Host('swarm~nodejs', 0, fileStorage);
 var app = express();
 
 app.use(express_static(__dirname + '/static', {
-	index: 'client.html',
+	index: 'client.html'/*,
 	setHeaders: function (response, path, stat) {
 		response.setHeader('Pragma', 'no-cache');
 		response.setHeader('Cache-Control', 'no-cache');
-	}
+	}*/
 }));
 
 // create and start the HTTP server with static file serving.
@@ -33,6 +33,6 @@ wsServer.on('connection', function (ws) {
 	});
 });
 
-require('./static/user-data.js');
+//require('./static/user-data.js');
 
 app.listen(8000);
