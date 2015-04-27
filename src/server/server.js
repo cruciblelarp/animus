@@ -35,4 +35,4 @@ wsServer.on('connection', function (ws) {
 
 //require('./static/user-data.js');
 
-app.listen(8000);
+app.listen(env['$PORT'] | 8000);
