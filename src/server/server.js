@@ -1,6 +1,6 @@
 'use strict';
 
-/* globals require, env, __dirname */
+/* globals require, $PORT, __dirname */
 
 var http = require('http');
 var socket = require('ws');
@@ -16,12 +16,9 @@ var config = {
 	port: 8000
 };
 
-if (typeof(env) !== 'undefined') {
-
-	if (typeof(env['$PORT']) !== 'undefined') {
-		config.port = env['$PORT'];
-	}
-
+// bind to the heroku-specified port var.
+if (typeof($PORT) !== 'undefined') {
+	config.port = $PORT;
 }
 
 var app = express();
