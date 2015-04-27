@@ -1,9 +1,10 @@
+'use strict';
+
+/* globals module, require */
+
 (function(){
-	'use strict';
 
 	var config = {
-
-		'baseUrl': 'src/server/static',
 
 		'paths': {
 			'require': 'lib/require',
@@ -68,11 +69,16 @@
 				]
 			}
 
-		}
+		},
+
+		'deps': [
+			'angular-bootstrap'
+		]
 
 	};
 
-	if (module) {
+	if (typeof(module) !== 'undefined') {
+		config.baseUrl = 'src/server/static';
 		module.exports = config;
 	} else {
 		require.config(config);
