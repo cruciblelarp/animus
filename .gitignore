@@ -2,7 +2,6 @@
 # Node
 node_modules/
 storage/
-dist/
 
 # IntelliJ
 .idea/

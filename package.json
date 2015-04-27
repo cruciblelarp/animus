@@ -35,7 +35,9 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
     "stream-reduce": "~1.0.3",
-    "through": "2.3.6"
+    "through": "2.3.6",
+    "through2": "^0.6.5",
+    "vinyl-sourcemaps-apply": "^0.1.4"
   },
   "dependencies": {
     "URIjs": "^1.14.1",
