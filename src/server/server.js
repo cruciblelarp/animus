@@ -1,6 +1,6 @@
 'use strict';
 
-/* globals require, $PORT, __dirname */
+/* globals require, process, __dirname */
 
 var http = require('http');
 var socket = require('ws');
@@ -13,13 +13,11 @@ var fileStorage = new swarm.FileStorage('storage');
 var swarmHost = new swarm.Host('swarm~nodejs', 0, fileStorage);
 
 var config = {
-	port: 8000
+	port: process.env['PORT'] || 8000,
+	mongo: {
+		uri: process.env['MONGOLAB_URI'] || 'mongodb://localhost:4000'
+	}
 };
-
-// bind to the heroku-specified port var.
-if (typeof($PORT) !== 'undefined') {
-	config.port = $PORT;
-}
 
 var app = express();
 
@@ -48,4 +46,6 @@ wsServer.on('connection', function (ws) {
 
 //require('./static/user-data.js');
 
-app.listen(config.port);
+app.listen(config.port, function() {
+	console.log('Starting application on port ' + config.port);
+});
