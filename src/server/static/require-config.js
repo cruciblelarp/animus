@@ -17,7 +17,10 @@
 			'ui-bootstrap-tpls': 'lib/ui-bootstrap-tpls',
 			'angulartics': 'lib/angulartics',
 			'angulartics-google': 'lib/angulartics-ga',
-			'uri': 'lib/URI'
+			'uri': 'lib/URI',
+			'punycode': 'lib/punycode',
+			'SecondLevelDomains': 'lib/SecondLevelDomains',
+			'IPv6': 'lib/IPv6'
 		},
 
 		'shim': {
