@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - "0.10"
+after_success: "gulp manifest"
 deploy:
   provider: heroku
   app: crucible-animus
