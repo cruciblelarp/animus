@@ -23,7 +23,7 @@ module.exports = function() {
 		'!' + config.PATH_STATIC + '/**/*.manifest'
 	], config.watch_noread, [ 'manifest' ]);
 
-	nodemon({
+	return nodemon({
 		script: 'src/server/server.js',
 		ext: 'js',
 		ignore: [
