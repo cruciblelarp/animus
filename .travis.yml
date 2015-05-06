@@ -5,3 +5,8 @@ deploy:
   provider: heroku
   app: crucible-animus
   skip-cleanup: true
+  api_key:
+    secure: LmQALYSleSoQTSy7af52VUMbFTdYEbimrERy9yYXl6IU1uLUh7oN8m37NGu+lS7MFvoZrSst0UlYp3YabaugEDrPmyMOXJAl/pBdd6Gge+i+7PRN4UDBH6D4kY7KxqMZ9gngqMAGHjHvKwERJ1j/wZH1JzZoiW273tl3BfwzUgQ=
+  on:
+    repo: cruciblelarp/animus
+    branch: master
