@@ -29,6 +29,23 @@ $config.manifest = {
 	]
 };
 
+$config.libraries = [
+	'node_modules/URIjs/src/URI.js',
+	'node_modules/URIjs/src/punycode.js',
+	'node_modules/URIjs/src/IPv6.js',
+	'node_modules/URIjs/src/SecondLevelDomains.js',
+	'node_modules/angular/angular.js',
+	'node_modules/requirejs/require.js',
+	'node_modules/requirejs-text/text.js',
+	'node_modules/underscore/underscore.js',
+	'node_modules/angular-ui-router/release/angular-ui-router.js',
+	'node_modules/angular-bootstrap/dist/ui-bootstrap.js',
+	'node_modules/angular-bootstrap/dist/ui-bootstrap-tpls.js',
+	'node_modules/angulartics/src/angulartics.js',
+	'node_modules/angulartics/src/angulartics-ga.js'
+];
+
 $config.requirejs = require($config.PATH_STATIC_REL + '/require-config');
+$config.requirejs.baseUrl = 'src/server/static';
 
 module.exports = $config;

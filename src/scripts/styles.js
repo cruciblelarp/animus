@@ -11,7 +11,7 @@ var concat = require('gulp-concat');
 var config = require('./config');
 
 module.exports = function() {
-	gulp.src(config.PATH_STATIC + '/**.scss')
+	return gulp.src(config.PATH_STATIC + '/**.scss')
 		.pipe(sourcemaps.init())
 		.pipe(sass())
 		.pipe(concat('styles.min.css'))
