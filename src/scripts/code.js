@@ -7,7 +7,6 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var optimise = require('amd-optimize');
 var concat = require('gulp-concat');
-var path = require('path');
 
 var config = require('./config');
 
