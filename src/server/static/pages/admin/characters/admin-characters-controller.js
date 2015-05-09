@@ -4,7 +4,7 @@ define([
 	'angular',
 
 	'angular-module',
-	'swarm/swarm-service',
+	'swarm/swarm-service'
 
 	//'data/characters-data'
 
@@ -22,43 +22,43 @@ define([
 				{
 					_id: 1,
 					"name": "Ghoul",
-					"description": "Secret"
+					"background": "Secret"
 				},
 
 				{
 					_id: 2,
 					"name": "Ghoul",
-					"description": "Secret"
+					"background": "Secret"
 				},
 
 				{
 					_id: 3,
 					"name": "Ghoul",
-					"description": "Secret"
+					"background": "Secret"
 				},
 
 				{
 					_id: 4,
 					"name": "Ghoul",
-					"description": "Secret"
+					"background": "Secret"
 				},
 
 				{
 					_id: 5,
 					"name": "Ghoul",
-					"description": "Secret"
+					"background": "Secret"
 				},
 
 				{
 					_id: 6,
 					"name": "Ghoul",
-					"description": "Secret"
+					"background": "Secret"
 				},
 
 				{
 					_id: 7,
 					"name": "Ghoul",
-					"description": "Secret"
+					"background": "Secret"
 				}
 
 			];
