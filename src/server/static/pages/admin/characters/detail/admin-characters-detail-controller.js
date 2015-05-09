@@ -46,6 +46,15 @@ define([
 
 			});
 
+			$scope.reset = function() {
+				$scope.editing = _.extend({}, $scope.selected);
+				delete $scope.editing.$active;
+			};
+
+			$scope.save = function() {
+				_.extend($scope.selected, $scope.editing);
+			};
+
 		}
 	]);
 
