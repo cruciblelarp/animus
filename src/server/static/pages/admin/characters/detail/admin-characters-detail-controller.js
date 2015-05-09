@@ -18,11 +18,32 @@ define([
 		function($scope, $swarm, $state, $stateParams) {
 
 			$scope.$on('$stateChangeSuccess', function() {
-				if ($state.includes('admin.characters.detail')) {
-					$scope.selection = _.findWhere($scope.characters, {
-						_id: $stateParams.ability
-					});
+
+				if (!$state.includes('admin.characters.detail')) {
+					return;
 				}
+
+				if ($scope.selected && $scope.selected.$active) {
+					delete $scope.selected.$active;
+				}
+
+				if (!$scope.characters) {
+					throw "No characters to view the details for.";
+				}
+
+				var _id = parseInt($stateParams['character']);
+				$scope.selected = _.findWhere($scope.characters, {
+					_id: _id
+				});
+
+				if ($scope.characters && !$scope.selected) {
+					throw "Couldn't find _id:" + _id + " in character list";
+				}
+
+				$scope.editing = _.extend({}, $scope.selected);
+
+				$scope.selected.$active = true;
+
 			});
 
 		}
