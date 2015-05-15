@@ -2,6 +2,13 @@
 
 	function configure(Swarm) {
 		return Swarm.Model.extend('user', {
+			defaults: {
+				email: null,
+				name: null,
+				password_id: null,
+				characters: [
+				]
+			}
 		});
 	}
 

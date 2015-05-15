@@ -8,6 +8,7 @@ var swarm = require('swarm');
 var express = require('express');
 var assert = require('assert');
 var parser_body = require('body-parser');
+var mongo = require('./mongo');
 
 // Create the swarm server
 var fileStorage = new swarm.FileStorage('storage');
@@ -32,19 +33,51 @@ app.get('/', function(req, res) {
 
 app.use(parser_body.json());
 
+var User = require('./static/data/user-data.js');
+
+function doHash(key) {
+	return key;
+}
+
 app.post('/login', function(req, res) {
 
-	// validate request
 	assert(req.is('json'));
-	assert(req.body.email != null);
-	assert(req.body.password != null);
+	var email = req.body.email;
+	var password = req.body.password;
 
-	// retrieve / generate token
-	var token = req.ip;
+	// validate request
+	assert(email != null);
+	assert(password != null);
 
-	// return response with token.
-	res.send({
-		token: token
+	var user = null;
+	var token = null;
+
+	mongo.get('user', {
+		email: email
+	}).then(function(user_record) {
+
+		user  = user_record;
+		return mongo.get('password', {
+			_id: user.password._id
+		});
+
+	}).then(function(password_record) {
+
+		// run crypto hash on supplied password.
+		var hash = doHash(password);
+		if (hash !== password_record.hash) {
+			res.send(400, {});
+		}
+
+		new User(user._id, user);
+
+		token = doHash(user.email + hash + req['ip']);
+
+		res.send({
+			id: user._id,
+			token: token
+		});
+
 	});
 
 });
@@ -63,8 +96,6 @@ wsServer.on('connection', function (ws) {
 		delay: 50
 	});
 });
-
-//require('./static/user-data.js');
 
 app.listen(config.port, function() {
 	console.log('Starting application on port ' + config.port);

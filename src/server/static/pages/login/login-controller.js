@@ -6,14 +6,15 @@ define([
 	'angular-module',
 	'alert/alert-service',
 	'utils/util-service',
-	'utils/routing-provider'
+	'utils/routing-provider',
+	'swarm/swarm-user-service'
 
-], function(_, ng, _animus, _alert, _utils) {
+], function(_, ng, _animus, _alert, _utils, _routing, _user) {
 	var COMPONENT_NAME = 'loginController';
 
 	ng.module(_animus).controller(COMPONENT_NAME, [
-		'$scope', '$http', _alert, _utils, _routing,
-		function($scope, $http, $alert, $utils, $routing) {
+		'$scope', '$http', _alert, _utils, _routing, _user,
+		function($scope, $http, $alert, $utils, $routing, $user) {
 
 			$scope.login = function($event) {
 				$event.preventDefault();
@@ -23,7 +24,8 @@ define([
 					password: $scope.password
 				}).then(function(data) {
 
-					$utils.$set($scope.$root, 'session.token', data.token);
+					$user.init(data.id, data.token);
+
 					$routing.go('main');
 
 				}).catch(function(error) {
