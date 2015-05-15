@@ -6,7 +6,8 @@ var http = require('http');
 var socket = require('ws');
 var swarm = require('swarm');
 var express = require('express');
-var express_static = require('serve-static');
+var assert = require('assert');
+var parser_body = require('body-parser');
 
 // Create the swarm server
 var fileStorage = new swarm.FileStorage('storage');
@@ -21,13 +22,32 @@ var config = {
 
 var app = express();
 
-app.use(express_static(__dirname + '/static', {
-	index: 'client.html'/*,
-	setHeaders: function (response, path, stat) {
-		response.setHeader('Pragma', 'no-cache');
-		response.setHeader('Cache-Control', 'no-cache');
-	}*/
+app.use(express.static(__dirname + '/static', {
+	index: false
 }));
+
+app.get('/', function(req, res) {
+	res.render('src/server/static/client.html');
+});
+
+app.use(parser_body.json());
+
+app.post('/login', function(req, res) {
+
+	// validate request
+	assert(req.is('json'));
+	assert(req.body.email != null);
+	assert(req.body.password != null);
+
+	// retrieve / generate token
+	var token = req.ip;
+
+	// return response with token.
+	res.send({
+		token: token
+	});
+
+});
 
 // create and start the HTTP server with static file serving.
 var httpServer = http.createServer(app);
