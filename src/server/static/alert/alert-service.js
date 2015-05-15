@@ -3,7 +3,7 @@ define([
 	'underscore',
 	'angular',
 
-	'angular-config'
+	'angular-module'
 
 ], function(_, ng, _animus) {
 	var COMPONENT_NAME = '$alert';
