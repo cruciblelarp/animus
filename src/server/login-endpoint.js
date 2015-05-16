@@ -21,34 +21,40 @@ app.post('/login', function(req, res) {
 
 	var user = null;
 	var token = null;
+	var conn = null;
 
-	mongo().user.findOne({
-		email: email
+	mongo().then(function(db) {
+
+		conn = db;
+
+		return conn['user'].findOne({
+			email: email
+		});
+
 	}).then(function(user_record) {
 
 		if (!user_record) {
-			return new Promise(function(resolve, reject) {
-				return reject(400);
-			});
+			res.status(404).send();
+			return;
 		}
 
 		user  = user_record;
-		return mongo().password.findOne({
+		return conn['password'].findOne({
 			_id: user.password._id
 		});
 
 	}).then(function(password_record) {
 
 		if (!password_record) {
-			return new Promise(function(resolve, reject) {
-				return reject(400);
-			});
+			res.status(404).send();
+			return;
 		}
 
 		// run crypto hash on supplied password.
 		var hash = crypto.md5(password);
 		if (hash !== password_record.hash) {
 			res.status(400);
+			return;
 		}
 
 		new User(user._id, swarm(), user);
