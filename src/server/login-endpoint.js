@@ -38,7 +38,7 @@ app.post('/login', function(req, res) {
 			res.send(400, {});
 		}
 
-		new User(user._id, swarm, user);
+		new User(user._id, swarm(), user);
 
 		token = crypto.md5(user.email + hash + req['ip']);
 

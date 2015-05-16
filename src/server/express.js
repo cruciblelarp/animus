@@ -3,6 +3,8 @@
 var express = require('express');
 var parser_body = require('body-parser');
 
+var config = require('./config');
+
 var app = express();
 
 app.use(express.static(config.path.base + '/static', {

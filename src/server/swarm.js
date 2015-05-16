@@ -1,28 +1,48 @@
 /* globals require, module */
 
-var http = require('http');
-var socket = require('ws');
 var swarm = require('swarm');
 
-var app = require('./express');
+var socket = require('./socket');
+var exit = require('./exit');
+var config = require('./config');
 
-// Create the swarm server
-var fileStorage = new swarm.FileStorage('storage');
-var swarmHost = new swarm.Host('swarm~nodejs', 0, fileStorage);
+var swarmHost = null;
 
-// create and start the HTTP server with static file serving.
-var httpServer = http.createServer(app);
+function getServer() {
 
-// start WebSocket server
-var wsServer = new socket.Server({
-	server: httpServer
-});
+	if (swarmHost) {
+		return swarmHost;
+	}
 
-// accept incoming WebSockets connections
-wsServer.on('connection', function (ws) {
-	swarmHost.accept(new swarm.EinarosWSStream(ws), {
-		delay: 50
+	// Create the swarm server
+	var fileStorage = new swarm.FileStorage('storage');
+	swarmHost = new swarm.Host('swarm~nodejs', 0, fileStorage);
+
+	// accept incoming WebSockets connections
+	socket().on('connection', function (ws) {
+		swarmHost.accept(new swarm.EinarosWSStream(ws), {
+			delay: 50
+		});
 	});
-});
 
-module.exports = swarmHost;
+}
+
+module.exports = getServer;
+
+exit.listen(function(resolve) {
+
+	if (!swarmHost) {
+		console.log('Swarm host not created.');
+		return resolve(config.constant.EXIT_OK);
+	}
+
+	try {
+		swarmHost.close(function () {
+			return resolve(config.constant.EXIT_OK);
+		});
+	} catch (error) {
+		console.error(error);
+		return resolve(config.constant.EXIT_SWARM);
+	}
+
+});
