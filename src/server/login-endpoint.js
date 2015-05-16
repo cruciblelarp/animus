@@ -35,7 +35,7 @@ app.post('/login', function(req, res) {
 		// run crypto hash on supplied password.
 		var hash = crypto.md5(password);
 		if (hash !== password_record.hash) {
-			res.send(400, {});
+			res.status(400);
 		}
 
 		new User(user._id, swarm(), user);
@@ -47,6 +47,8 @@ app.post('/login', function(req, res) {
 			token: token
 		});
 
+	}).catch(function(error) {
+		res.status(500).send(error);
 	});
 
 });

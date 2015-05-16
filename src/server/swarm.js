@@ -36,13 +36,10 @@ exit.listen(function(resolve) {
 		return resolve(config.constant.EXIT_OK);
 	}
 
-	try {
-		swarmHost.close(function () {
-			return resolve(config.constant.EXIT_OK);
-		});
-	} catch (error) {
-		console.error(error);
-		return resolve(config.constant.EXIT_SWARM);
-	}
+	swarmHost.close(function (err) {
+		return err
+			? resolve(config.constant.EXIT_SWARM)
+			: resolve(config.constant.EXIT_OK);
+	});
 
 });
