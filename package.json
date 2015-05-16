@@ -47,6 +47,7 @@
     "angulartics": "^0.17.2",
     "body-parser": "^1.12.4",
     "bootstrap-sass": "^3.3.1",
+    "crypto": "0.0.3",
     "express": "^4.11.0",
     "moment": "^2.9.0",
     "promise": "^7.0.1",
