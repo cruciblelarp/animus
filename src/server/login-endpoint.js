@@ -2,6 +2,7 @@
 
 var assert = require('assert');
 var crypto = require('crypto');
+var Promise = require('promise');
 
 var mongo = require('./mongo');
 var app = require('./express');
@@ -21,16 +22,28 @@ app.post('/login', function(req, res) {
 	var user = null;
 	var token = null;
 
-	mongo.get('user', {
+	mongo().user.findOne({
 		email: email
 	}).then(function(user_record) {
 
+		if (!user_record) {
+			return new Promise(function(resolve, reject) {
+				return reject(400);
+			});
+		}
+
 		user  = user_record;
-		return mongo.get('password', {
+		return mongo().password.findOne({
 			_id: user.password._id
 		});
 
 	}).then(function(password_record) {
+
+		if (!password_record) {
+			return new Promise(function(resolve, reject) {
+				return reject(400);
+			});
+		}
 
 		// run crypto hash on supplied password.
 		var hash = crypto.md5(password);
@@ -48,7 +61,13 @@ app.post('/login', function(req, res) {
 		});
 
 	}).catch(function(error) {
-		res.status(500).send(error);
+
+		if (_.isNumber(error)) {
+			return res.status(error);
+		}
+
+		return res.status(500).send(error);
+
 	});
 
 });
