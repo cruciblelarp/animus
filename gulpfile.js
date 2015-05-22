@@ -13,4 +13,4 @@ gulp.task('libs', [ 'lib-copy', 'lib-compile-swarm' ]);
 gulp.task('styles', [], require('./src/scripts/styles'));
 gulp.task('manifest', [ 'code', 'styles' ], require('./src/scripts/manifest'));
 gulp.task('bootstrap', [], require('./src/scripts/bootstrap'));
-gulp.task('test', [ 'code' ], require('./src/scripts/test'));
+gulp.task('test', [ 'code', 'bootstrap' ], require('./src/scripts/test'));
