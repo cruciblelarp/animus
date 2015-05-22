@@ -1,37 +1,42 @@
 /* globals require, module */
 
 var mongodb = require('promised-mongo');
+var Promise = require('promise');
 
 var config = require('./config');
 var exit = require('./exit');
 
 var connection = null;
 
-function getConnection() {
+function withConn() {
 
 	if (connection) {
 		return connection;
 	}
 
-	connection = mongodb(config.mongo.uri, [
-		'user',
-		'character',
-		'resource',
-		'password'
-	]);
+	return connection = new Promise(function(resolve, reject) {
 
-	connection.runCommand({
-		ping: 1
-	}).catch(function(error) {
-		connection = null;
-		throw error;
+		var db = mongodb(config.mongo.uri, [
+			'user',
+			'character',
+			'resource',
+			'password'
+		]);
+
+		return db.runCommand({
+			ping: 1
+		}).then(function() {
+			return resolve(db);
+		}).catch(function(error) {
+			connection = null;
+			return reject(error);
+		});
+
 	});
-
-	return connection;
 
 }
 
-module.exports = getConnection;
+module.exports = withConn;
 
 exit.listen(function(resolve) {
 
