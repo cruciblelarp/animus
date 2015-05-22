@@ -54,7 +54,7 @@
     "requirejs-text": "^2.0.12",
     "serve-static": "^1.8.0",
     "swarm": "^0.3.25",
-    "underscore": "^1.7.0",
+    "underscore": "^1.8.3",
     "ws": "^0.6.5"
   }
 }
