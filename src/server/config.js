@@ -8,7 +8,8 @@ module.exports = {
 
 	port: process.env['PORT'] || 8000,
 	mongo: {
-		uri: process.env['MONGOLAB_URI'] || 'mongodb://localhost:4000'
+		uri: process.env['MONGOLAB_URI']
+			|| 'mongodb://localhost:27017'
 	},
 
 	timeout: {

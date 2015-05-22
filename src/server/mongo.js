@@ -1,7 +1,6 @@
 /* globals require, module */
 
-var mongodb = require('mongodb');
-var Promise = require('promise');
+var mongodb = require('promised-mongo');
 
 var config = require('./config');
 var exit = require('./exit');
@@ -14,57 +13,25 @@ function getConnection() {
 		return connection;
 	}
 
-	return connection = new Promise(function(resolve, reject) {
+	connection = mongodb(config.mongo.uri, [
+		'user',
+		'character',
+		'resource',
+		'password'
+	]);
 
-		mongodb.MongoClient.connect(config.mongo.uri, function(error, connection) {
-			return error
-				? reject(error)
-				: resolve(connection);
-		});
-
+	connection.runCommand({
+		ping: 1
+	}).catch(function(error) {
+		connection = null;
+		throw error;
 	});
+
+	return connection;
 
 }
 
-function getCollection(name) {
-	return new Promise(function(resolve, reject) {
-		return getConnection().then(function(db) {
-			try {
-				resolve(db.collection(name));
-			} catch(error) {
-				reject(error);
-			}
-		}, reject);
-	});
-}
-
-module.exports = {
-
-	get: function(collectionName, query) {
-		return new Promise(function(resolve, reject) {
-			return getCollection(collectionName).then(function(collection) {
-				collection.find(query).toObject(function(err, item) {
-					return err
-						? reject(err)
-						: resolve(item);
-				});
-			}, reject);
-		});
-	},
-
-	list: function(collectionName, query) {
-		return new Promise(function(resolve, reject) {
-			return getCollection(collectionName).then(function(collection) {
-				collection.find(query).toArray(function(err, item) {
-					return err
-						? reject(err)
-						: resolve(item);
-				});
-			}, reject);
-		});
-	}
-
-};
+module.exports = getConnection;
 
 exit.listen(function(resolve) {
 
@@ -73,12 +40,10 @@ exit.listen(function(resolve) {
 		return resolve(config.constant.EXIT_OK);
 	}
 
-	return connection.then(function(conn) {
-		conn.close(true, function(error) {
-			return error
-				? resolve(config.constant.EXIT_MONGO)
-				: resolve(config.constant.EXIT_OK);
-		});
+	return connection.close(true, function(error) {
+		return error
+			? resolve(config.constant.EXIT_MONGO)
+			: resolve(config.constant.EXIT_OK);
 	});
 
 });
