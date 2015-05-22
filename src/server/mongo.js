@@ -27,40 +27,40 @@ function getConnection() {
 }
 
 function getCollection(name) {
-	return getConnection().then(function(db) {
-		return new Promise(function(resolve, reject) {
+	return new Promise(function(resolve, reject) {
+		return getConnection().then(function(db) {
 			try {
 				resolve(db.collection(name));
 			} catch(error) {
 				reject(error);
 			}
-		});
+		}, reject);
 	});
 }
 
 module.exports = {
 
 	get: function(collectionName, query) {
-		return getCollection(collectionName).then(function(collection) {
-			return new Promise(function(resolve, reject) {
+		return new Promise(function(resolve, reject) {
+			return getCollection(collectionName).then(function(collection) {
 				collection.find(query).toObject(function(err, item) {
 					return err
 						? reject(err)
 						: resolve(item);
 				});
-			});
+			}, reject);
 		});
 	},
 
 	list: function(collectionName, query) {
-		return getCollection(collectionName).then(function(collection) {
-			return new Promise(function(resolve, reject) {
+		return new Promise(function(resolve, reject) {
+			return getCollection(collectionName).then(function(collection) {
 				collection.find(query).toArray(function(err, item) {
 					return err
 						? reject(err)
 						: resolve(item);
 				});
-			});
+			}, reject);
 		});
 	}
 
