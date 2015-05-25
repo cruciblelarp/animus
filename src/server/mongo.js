@@ -16,16 +16,9 @@ function withConn() {
 
 	return connection = new Promise(function(resolve, reject) {
 
-		var db = mongodb(config.mongo.uri, [
-			'user',
-			'character',
-			'resource',
-			'password'
-		]);
+		var conn = mongodb(config.mongo.uri);
 
-		return db.runCommand({
-			ping: 1
-		}).then(function() {
+		conn.open().then(function() {
 			return resolve(db);
 		}).catch(function(error) {
 			connection = null;

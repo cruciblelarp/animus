@@ -3,6 +3,9 @@ node_js:
   - "0.10"
 services:
   - mongodb
+before_script:
+  - sleep 15
+  - mongorestore --drop --db animus --dir src/test/mongo
 after_success: "gulp manifest"
 deploy:
   provider: heroku
