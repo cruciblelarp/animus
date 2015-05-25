@@ -1,6 +1,6 @@
-'use strict';
+/* globals require, process */
 
-/* globals require, process, __dirname */
+var config = require('./config');
 
 var http = require('http');
 var socket = require('ws');

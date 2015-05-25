@@ -1,6 +1,10 @@
 language: node_js
 node_js:
   - "0.10"
+services:
+  - mongodb
+before_script:
+  - mongorestore --drop --db animus --dir src/test/dump/animus
 after_success: "gulp manifest"
 deploy:
   provider: heroku
