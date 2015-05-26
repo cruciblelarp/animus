@@ -20,12 +20,9 @@ function withConn() {
 
 		conn.runCommand({
 			ping: 1
-		}).then(function() {
-			resolve(conn);
-		}).catch(function(error) {
-			connection = null;
-			return reject(error);
-		}).done();
+		}, function(err) {
+			err ? resolve(conn) : reject(err);
+		});
 
 	});
 

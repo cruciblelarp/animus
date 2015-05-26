@@ -31,6 +31,10 @@ define([
 
 			};
 
+			$service.isLoggedIn = function() {
+				return user != null;
+			};
+
 			return $service;
 
 		}

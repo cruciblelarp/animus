@@ -23,7 +23,7 @@ app.post('/login', function(req, res) {
 	var token = null;
 	var conn = null;
 
-	mongo().then(function(db) {
+	return mongo().then(function(db) {
 
 		conn = db;
 
