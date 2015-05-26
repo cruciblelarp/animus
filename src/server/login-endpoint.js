@@ -1,7 +1,7 @@
 /* globals require, module */
 
 var assert = require('assert');
-var crypto = require('crypto');
+var crypto = require('crypto/md5');
 var Promise = require('promise');
 
 var mongo = require('./mongo');
@@ -27,41 +27,38 @@ app.post('/login', function(req, res) {
 
 		conn = db;
 
-		return conn['user'].findOne({
+		return conn.collection('users').findOne({
 			email: email
-		});
+		}).done();
 
 	}).then(function(user_record) {
 
 		if (!user_record) {
-			res.status(404).send();
-			return;
+			throw 404;
 		}
 
 		user  = user_record;
-		return conn['password'].findOne({
-			_id: user.password._id
-		});
+		return conn.collection('password').findOne({
+			_id: user.password
+		}).done();
 
 	}).then(function(password_record) {
 
 		if (!password_record) {
-			res.status(404).send();
-			return;
+			throw 404;
 		}
 
 		// run crypto hash on supplied password.
-		var hash = crypto.md5(password);
+		var hash = crypto.hex_md5(password);
 		if (hash !== password_record.hash) {
-			res.status(400);
-			return;
+			throw 400;
 		}
 
 		new User(user._id, swarm(), user);
 
 		token = crypto.md5(user.email + hash + req['ip']);
 
-		res.send({
+		res.status(200).send({
 			id: user._id,
 			token: token
 		});
@@ -74,6 +71,6 @@ app.post('/login', function(req, res) {
 
 		return res.status(500).send(error);
 
-	});
+	}).done();
 
 });

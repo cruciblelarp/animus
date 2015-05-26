@@ -18,12 +18,14 @@ function withConn() {
 
 		var conn = mongodb(config.mongo.uri);
 
-		conn.open().then(function() {
-			return resolve(db);
+		conn.runCommand({
+			ping: 1
+		}).then(function() {
+			resolve(conn);
 		}).catch(function(error) {
 			connection = null;
 			return reject(error);
-		});
+		}).done();
 
 	});
 
