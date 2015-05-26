@@ -27,9 +27,13 @@ app.post('/login', function(req, res) {
 
 		conn = db;
 
-		return conn.collection('users').findOne({
-			email: email
-		}).done();
+		return new Promise(function(resolve, reject) {
+			conn.collection('users').findOne({
+				email: email
+			}, function(err, item) {
+				err ? reject(err) : resolve(item);
+			});
+		});
 
 	}).then(function(user_record) {
 
@@ -38,9 +42,13 @@ app.post('/login', function(req, res) {
 		}
 
 		user  = user_record;
-		return conn.collection('password').findOne({
-			_id: user.password
-		}).done();
+		return new Promise(function(resolve, reject) {
+			conn.collection('passwords').findOne({
+				_id: user.password
+			}, function(err, item) {
+				err ? reject(err) : resolve(item);
+			});
+		});
 
 	}).then(function(password_record) {
 
@@ -54,22 +62,28 @@ app.post('/login', function(req, res) {
 			throw 400;
 		}
 
-		new User(user._id, swarm(), user);
+		var userId = user._id.toString();
 
-		token = crypto.md5(user.email + hash + req['ip']);
+		var swarm_user = new User(userId, swarm());
+		swarm_user.on('.init', function() {
+			swarm_user.set(user);
+		});
+
+		token = crypto.hex_md5(user.email + hash + req['ip']);
 
 		res.status(200).send({
-			id: user._id,
+			id: userId,
 			token: token
 		});
 
 	}).catch(function(error) {
 
 		if (_.isNumber(error)) {
-			return res.status(error);
+			res.status(error);
+			return;
 		}
 
-		return res.status(500).send(error);
+		res.status(500).send(error);
 
 	}).done();
 
