@@ -1,7 +1,8 @@
 /* globals require, module */
 
+var _ = require('underscore');
 var assert = require('assert');
-var crypto = require('crypto/md5');
+var crypto = require('crypto');
 var Promise = require('promise');
 
 var mongo = require('./mongo');
@@ -27,12 +28,12 @@ app.post('/login', function(req, res) {
 
 		conn = db;
 
-		return new Promise(function(resolve, reject) {
-			conn.collection('users').findOne({
-				email: email
-			}, function(err, item) {
-				err ? reject(err) : resolve(item);
-			});
+		return conn.collection('users');
+
+	}).then(function(users) {
+
+		return users.findOne({
+			email: email
 		});
 
 	}).then(function(user_record) {
@@ -42,12 +43,13 @@ app.post('/login', function(req, res) {
 		}
 
 		user  = user_record;
-		return new Promise(function(resolve, reject) {
-			conn.collection('passwords').findOne({
-				_id: user.password
-			}, function(err, item) {
-				err ? reject(err) : resolve(item);
-			});
+
+		return conn.collection('passwords');
+
+	}).then(function(passwords) {
+
+		return passwords.findOne({
+			_id: user.password
 		});
 
 	}).then(function(password_record) {
@@ -57,19 +59,23 @@ app.post('/login', function(req, res) {
 		}
 
 		// run crypto hash on supplied password.
-		var hash = crypto.hex_md5(password);
+		var hash = crypto.createHash('md5')
+			.update(password)
+			.digest('hex');
 		if (hash !== password_record.hash) {
 			throw 400;
 		}
 
 		var userId = user._id.toString();
 
-		var swarm_user = new User(userId, swarm());
-		swarm_user.on('.init', function() {
-			swarm_user.set(user);
-		});
+		//var swarm_user = new User(userId, swarm(), user);
+		//swarm_user.on('.init', function() {
+		//	swarm_user.set(user);
+		//});
 
-		token = crypto.hex_md5(user.email + hash + req['ip']);
+		token = crypto.createHash('md5')
+			.update(user.email + hash + req['ip'])
+			.digest('hex');
 
 		res.status(200).send({
 			id: userId,
@@ -83,8 +89,14 @@ app.post('/login', function(req, res) {
 			return;
 		}
 
-		res.status(500).send(error);
+		console.log(error.message);
+		res.status(500).send(error.message);
 
-	}).done();
+	}).done(function() {
+		console.log('Login request complete.');
+	}, function(error) {
+		console.log(error.message);
+		res.status(500).send(error.message);
+	});
 
 });

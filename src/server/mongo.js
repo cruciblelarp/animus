@@ -1,34 +1,27 @@
 /* globals require, module */
 
-var mongodb = require('promised-mongo');
+var mongodb = require('mongodb-promise');
 var Promise = require('promise');
 
 var config = require('./config');
 var exit = require('./exit');
 
+var MongoClient = mongodb.MongoClient;
+
 var connection = null;
 
-function withConn() {
+module.exports = function() {
 
 	if (connection) {
 		return connection;
 	}
 
-	return connection = new Promise(function(resolve, reject) {
-
-		var conn = mongodb(config.mongo.uri);
-
-		conn.runCommand({
-			ping: 1
-		}, function(err) {
-			err ? resolve(conn) : reject(err);
-		});
-
+	return connection = MongoClient.connect(config.mongo.uri).catch(function(err) {
+		connection = null;
+		return Promise.reject(error);
 	});
 
-}
-
-module.exports = withConn;
+};
 
 exit.listen(function(resolve) {
 
@@ -37,10 +30,11 @@ exit.listen(function(resolve) {
 		return resolve(config.constant.EXIT_OK);
 	}
 
-	return connection.close(true, function(error) {
-		return error
-			? resolve(config.constant.EXIT_MONGO)
-			: resolve(config.constant.EXIT_OK);
+	return connection.close().then(function() {
+		return Promise.resolve(config.constant.EXIT_OK);
+	}).catch(function(error) {
+		console.log(error);
+		return Promise.resolve(config.constant.EXIT_MONGO);
 	});
 
 });
