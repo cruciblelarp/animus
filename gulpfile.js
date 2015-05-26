@@ -5,7 +5,7 @@
 var gulp = require('gulp');
 
 gulp.task('clean', require('./src/scripts/clean'));
-gulp.task('run', [ 'manifest' ], require('./src/scripts/runner'));
+gulp.task('run', [], require('./src/scripts/runner'));
 gulp.task('code', [ 'libs' ], require('./src/scripts/code'));
 gulp.task('lib-copy', [], require('./src/scripts/lib-copy'));
 gulp.task('lib-compile-swarm', [], require('./src/scripts/lib-compile-swarm'));
