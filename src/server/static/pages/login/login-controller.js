@@ -7,9 +7,10 @@ define([
 	'alert/alert-service',
 	'utils/util-service',
 	'utils/routing-provider',
-	'swarm/swarm-user-service'
+	'swarm/swarm-user-service',
+	'pages/admin/admin-config'
 
-], function(_, ng, _animus, _alert, _utils, _routing, _user) {
+], function(_, ng, _animus, _alert, _utils, _routing, _user, _admin) {
 	var COMPONENT_NAME = 'loginController';
 
 	ng.module(_animus).controller(COMPONENT_NAME, [
@@ -26,7 +27,7 @@ define([
 
 					$user.init(data.id, data.token);
 
-					$routing.go('main');
+					$routing.go(_admin);
 
 				}).catch(function(error) {
 
