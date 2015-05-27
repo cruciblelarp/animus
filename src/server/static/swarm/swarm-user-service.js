@@ -25,7 +25,11 @@ define([
 					throw new Error('Already logged-in!');
 				}
 
-				user = new User(identifier, $service.getHost());
+				//user = new User(identifier, $service.getHost());
+				user = {
+					id: identifier,
+					token: token
+				};
 
 				$utils.$set($root, 'session.token', token);
 
