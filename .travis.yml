@@ -4,6 +4,7 @@ node_js:
 services:
   - mongodb
 before_script:
+  - mongorestore --version
   - mongorestore --drop --db animus --dir src/test/dump/animus
 after_success: "gulp manifest"
 deploy:
