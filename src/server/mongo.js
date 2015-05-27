@@ -18,7 +18,7 @@ module.exports = function() {
 
 	return connection = MongoClient.connect(config.mongo.uri).catch(function(err) {
 		connection = null;
-		return Promise.reject(error);
+		return Promise.reject(err);
 	});
 
 };

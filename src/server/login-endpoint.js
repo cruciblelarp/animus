@@ -84,7 +84,7 @@ app.post('/login', function(req, res) {
 
 	}).catch(function(error) {
 
-		if (_.isNumber(error)) {
+		if (error && _.isNumber(error)) {
 			res.status(error);
 			return;
 		}
