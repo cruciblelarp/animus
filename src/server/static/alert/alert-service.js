@@ -3,7 +3,7 @@ define([
 	'underscore',
 	'angular',
 
-	'angular-config'
+	'angular-module'
 
 ], function(_, ng, _animus) {
 	var COMPONENT_NAME = '$alert';
@@ -89,7 +89,7 @@ define([
 					};
 
 					var store = alert.flash ? $service.KEY_FLASH : $service.KEY_ALERTS;
-					$parse('session.' + store + '.' + alert.id).assign($rootScope, alert);
+					$parse('session.' + store + '._' + alert.id).assign($rootScope, alert);
 
 					if (options.timeout) {
 						$timeout(function() {
@@ -105,10 +105,10 @@ define([
 				good: alertSpecific($service.TYPE_GOOD),
 
 				remove: function(alert) {
-					$log.debug('Deleting alert with id: ' + alert.id);
+					$log.debug('Deleting alert with id: _' + alert.id);
 					var alerts = STORE_ALERTS($rootScope);
 					if (alerts) {
-						delete alerts[alert.id];
+						delete alerts[ '_' + alert.id ];
 					}
 				},
 
