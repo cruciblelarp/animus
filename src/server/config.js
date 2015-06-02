@@ -6,10 +6,16 @@ module.exports = {
 		base: __dirname
 	},
 
+	hostname: process.env['HOST'] || 'localhost',
+
 	port: process.env['PORT'] || 8000,
 	mongo: {
 		uri: process.env['MONGOLAB_URI']
 			|| 'mongodb://localhost:27017/animus'
+	},
+
+	socket: {
+		port: 1234
 	},
 
 	timeout: {

@@ -3,16 +3,17 @@ define([
 	'angular',
 	'swarm-client',
 
-	'angular-module'
+	'angular-module',
+	'utils/util-service'
 
-], function(ng, swarm, _animus) {
+], function(ng, swarm, _animus, _utils) {
 	var COMPONENT_NAME = '$swarm';
 
 	ng.module(_animus).service(COMPONENT_NAME, [
-		'$rootScope',
-		function($root) {
+		'$rootScope', '$http', _utils,
+		function($root, $http, $utils) {
 
-			var host = new swarm.Host('animus');
+			var host = new swarm.Host('swarm~nodejs');
 
 			$root.$watch('storage.config.swarmhost', function(newval, oldval) {
 
@@ -21,9 +22,18 @@ define([
 				}
 
 				if (newval) {
-					host.connect(newval);
+					host.connect('ws://' + newval);
 				}
 
+			});
+
+			$http.defaults.transformResponse.push(function(payload, headers, status) {
+				if (status === 200) {
+					var swarmhost = headers('x-swarm-host');
+					if (swarmhost) {
+						$utils.$set($root, 'storage.config.swarmhost', swarmhost);
+					}
+				}
 			});
 
 			var $service = {};

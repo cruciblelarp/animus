@@ -17,7 +17,9 @@ function getServer() {
 	}
 
 	return server = new socket.Server({
-		server: http()
+		server: http(),
+		host: config.hostname,
+		port: config.socket.port
 	});
 
 }

@@ -5,15 +5,14 @@ define([
 	'data/user-data',
 
 	'angular-module',
-	'swarm/swarm-service',
-	'utils/util-service'
+	'swarm/swarm-service'
 
 ], function(ng, swarm, User, _animus, _swarm, _utils) {
 	var COMPONENT_NAME = '$swarmUser';
 
 	ng.module(_animus).service(COMPONENT_NAME, [
-		'$rootScope', '$q', _swarm, _utils,
-		function($root, $q, $swarm, $utils) {
+		'$rootScope', '$q', _swarm,
+		function($root, $q, $swarm) {
 
 			var user = null;
 
@@ -25,13 +24,14 @@ define([
 					throw new Error('Already logged-in!');
 				}
 
-				//user = new User(identifier, $service.getHost());
-				user = {
-					id: identifier,
-					token: token
-				};
+				var user = new User(identifier);
+				user.on('init', function(spec, val, source) {
+					user.token = token;
+				});
 
-				$utils.$set($root, 'session.token', token);
+				user.on(function(spec, val, source) {
+					console.log('sfegsgsegf');
+				});
 
 			};
 

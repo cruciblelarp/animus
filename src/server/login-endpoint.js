@@ -9,6 +9,7 @@ var mongo = require('./mongo');
 var app = require('./express');
 var User = require('./static/data/user-data.js');
 var swarm = require('./swarm');
+var socket = require('./socket');
 
 app.post('/login', function(req, res) {
 
@@ -66,20 +67,26 @@ app.post('/login', function(req, res) {
 			throw 400;
 		}
 
-		var userId = user._id.toString();
+		var swarm_user = swarm().get('/user');
 
-		//var swarm_user = new User(userId, swarm(), user);
-		//swarm_user.on('.init', function() {
-		//	swarm_user.set(user);
-		//});
+		swarm_user.on('init', function(spec, val, source) {
 
-		token = crypto.createHash('md5')
-			.update(user.email + hash + req['ip'])
-			.digest('hex');
+			swarm_user.set({
+				userId: user._id.toString(),
+				name: user.name,
+				email: user.email
+			});
 
-		res.status(200).send({
-			id: userId,
-			token: token
+			token = crypto.createHash('md5')
+				.update(user.email + hash + req['ip'])
+				.digest('hex');
+
+			res.header('x-swarm-host', socket().options.host + socket().options.port);
+			res.status(200).send({
+				id: swarm_user._id,
+				token: token
+			});
+
 		});
 
 	}).catch(function(error) {

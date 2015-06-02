@@ -8,7 +8,7 @@ var config = require('./config');
 
 var swarmHost = null;
 
-function getServer() {
+module.exports = function() {
 
 	if (swarmHost) {
 		return swarmHost;
@@ -25,9 +25,7 @@ function getServer() {
 		});
 	});
 
-}
-
-module.exports = getServer;
+};
 
 exit.listen(function(resolve) {
 
