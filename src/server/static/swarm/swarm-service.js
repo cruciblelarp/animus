@@ -13,7 +13,7 @@ define([
 		'$rootScope', '$http', _utils,
 		function($root, $http, $utils) {
 
-			var host = new swarm.Host('swarm~nodejs');
+			var host = new swarm.Host('animus');
 
 			$root.$watch('storage.config.swarmhost', function(newval, oldval) {
 
