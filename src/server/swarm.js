@@ -25,6 +25,8 @@ module.exports = function() {
 		});
 	});
 
+	return swarmHost;
+
 };
 
 exit.listen(function(resolve) {

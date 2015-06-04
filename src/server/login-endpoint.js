@@ -67,7 +67,7 @@ app.post('/login', function(req, res) {
 			throw 400;
 		}
 
-		var swarm_user = swarm().get('/user');
+		var swarm_user = new User(user._id.toString(), swarm());
 
 		swarm_user.on('init', function(spec, val, source) {
 
@@ -81,7 +81,7 @@ app.post('/login', function(req, res) {
 				.update(user.email + hash + req['ip'])
 				.digest('hex');
 
-			res.header('x-swarm-host', socket().options.host + socket().options.port);
+			res.header('x-swarm-host', socket().options.host + ':' + socket().options.port);
 			res.status(200).send({
 				id: swarm_user._id,
 				token: token
@@ -96,13 +96,13 @@ app.post('/login', function(req, res) {
 			return;
 		}
 
-		console.log(error.message);
+		console.error(error.stack);
 		res.status(500).send(error.message);
 
 	}).done(function() {
 		console.log('Login request complete.');
 	}, function(error) {
-		console.log(error.message);
+		console.error(error.stack);
 		res.status(500).send(error.message);
 	});
 
