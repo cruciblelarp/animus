@@ -14,4 +14,4 @@ gulp.task('styles', [], require('./src/scripts/styles'));
 gulp.task('manifest', [ 'code', 'styles' ], require('./src/scripts/manifest'));
 gulp.task('test', [ 'test-unit', 'test-e2e' ]);
 gulp.task('test-unit', [ 'code' ], require('./src/scripts/test-unit'));
-gulp.task('test-e2e', [ 'code' ], require('./src/scripts/test-e2e'));
+gulp.task('test-e2e', require('./src/scripts/test-e2e'));

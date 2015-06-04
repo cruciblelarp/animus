@@ -35,6 +35,10 @@ define([
 
 			};
 
+			$service.getUser = function() {
+				return user;
+			};
+
 			$service.isLoggedIn = function() {
 				return user != null;
 			};
