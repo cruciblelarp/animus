@@ -7,15 +7,14 @@ define([
 	'alert/alert-service',
 	'utils/util-service',
 	'utils/routing-provider',
-	'swarm/swarm-user-service',
 	'pages/admin/admin-config'
 
-], function(_, ng, _animus, _alert, _utils, _routing, _user, _admin) {
+], function(_, ng, _animus, _alert, _utils, _routing, _admin) {
 	var COMPONENT_NAME = 'loginController';
 
 	ng.module(_animus).controller(COMPONENT_NAME, [
-		'$scope', '$http', _alert, _utils, _routing, _user,
-		function($scope, $http, $alert, $utils, $routing, $user) {
+		'$scope', '$http', _alert, _utils, _routing,
+		function($scope, $http, $alert, $utils, $routing) {
 
 			$scope.login = function($event) {
 				$event.preventDefault();

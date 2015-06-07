@@ -3,16 +3,14 @@ define([
 	'underscore',
 	'angular',
 
-	'angular-module',
-	'swarm/swarm-service'
+	'angular-module'
 
-], function (_, ng, _animus, _swarm) {
+], function (_, ng, _animus) {
 	var COMPONENT_NAME = 'newsCtrl';
 
 	ng.module(_animus).controller(COMPONENT_NAME, [
 		'$scope',
-		_swarm,
-		function ($scope, $swarm) {
+		function ($scope) {
 
 			var selectedStory;
 

@@ -5,15 +5,14 @@ define([
 
 	'angular-module',
 	'utils/routing-provider',
-	'swarm/swarm-user-service',
 	'pages/login/login-config',
 	'pages/admin/admin-config'
 
-], function(_, ng, _animus, _routing, _user, _login, _admin) {
+], function(_, ng, _animus, _routing, _login, _admin) {
 
 	ng.module(_animus).run([
-		'$rootScope', _routing, _user,
-		function($rootScope, $routing, $user) {
+		'$rootScope', _routing,
+		function($rootScope, $routing) {
 
 			$rootScope.$on('$stateChangeStart', function(event, next) {
 

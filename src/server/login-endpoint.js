@@ -6,106 +6,107 @@ var crypto = require('crypto');
 var Promise = require('promise');
 
 var mongo = require('./mongo');
-var app = require('./express');
-var User = require('./static/data/user-data.js');
-var swarm = require('./swarm');
 var socket = require('./socket');
 
-app.post('/login', function(req, res) {
+socket.use(function(socket, next) {
 
-	assert(req.is('json'));
-	var email = req.body.email;
-	var password = req.body.password;
+	socket.on('auth', function(data) {
 
-	// validate request
-	assert(email != null);
-	assert(password != null);
+		var email = data.email;
+		var password = data.password;
 
-	var user = null;
-	var token = null;
-	var conn = null;
+		// validate request
+		assert(email != null);
+		assert(password != null);
 
-	return mongo().then(function(db) {
+		var user = null;
+		var token = null;
+		var conn = null;
 
-		conn = db;
+		return mongo().then(function(db) {
 
-		return conn.collection('users');
+			conn = db;
 
-	}).then(function(users) {
+			return conn.collection('users');
 
-		return users.findOne({
-			email: email
-		});
+		}).then(function(users) {
 
-	}).then(function(user_record) {
-
-		if (!user_record) {
-			throw 404;
-		}
-
-		user  = user_record;
-
-		return conn.collection('passwords');
-
-	}).then(function(passwords) {
-
-		return passwords.findOne({
-			_id: user.password
-		});
-
-	}).then(function(password_record) {
-
-		if (!password_record) {
-			throw 404;
-		}
-
-		// run crypto hash on supplied password.
-		var hash = crypto.createHash('md5')
-			.update(password)
-			.digest('hex');
-		if (hash !== password_record.hash) {
-			throw 400;
-		}
-
-		var identifier = user._id.toString();
-
-		var swarm_user = new User(identifier, swarm());
-
-		swarm_user.on('init', function(spec, val, source) {
-
-			swarm_user.set({
-				userId: identifier,
-				name: user.name,
-				email: user.email
+			return users.findOne({
+				email: email
 			});
+
+		}).then(function(user_record) {
+
+			if (!user_record) {
+				return Promise.reject(404);
+			}
+
+			user  = user_record;
+
+			return conn.collection('passwords');
+
+		}).then(function(passwords) {
+
+			return passwords.findOne({
+				_id: user.password
+			});
+
+		}).then(function(password_record) {
+
+			if (!password_record) {
+				return Promise.reject(404);
+			}
+
+			// run crypto hash on supplied password.
+			var hash = crypto.createHash('md5')
+				.update(password)
+				.digest('hex');
+
+			if (hash !== password_record.hash) {
+				return Promise.reject(400);
+			}
 
 			token = crypto.createHash('md5')
 				.update(user.email + hash + req['ip'])
 				.digest('hex');
 
-			res.header('x-swarm-host', socket().options.host + ':' + socket().options.port);
-			res.status(200).send({
-				id: identifier,
+			_.extend(socket.handshake.session, {
+				userId: user._id.toString(),
 				token: token
 			});
 
+			socket.emit('auth', {
+				status: 200,
+				token: token
+			});
+
+		}).catch(function(error) {
+
+			if (error && _.isNumber(error)) {
+				return socket.emit('auth', {
+					status: error,
+					message: 'Authentication failed.'
+				});
+			}
+
+			console.error(error.stack);
+			return socket.emit('auth', {
+				status: 500,
+				message: error.message
+			});
+
+		}).done(function() {
+			console.log('Login request complete.');
+		}, function(error) {
+			console.error(error.stack);
+			socket.emit('auth', {
+				status: 500,
+				message: error.message
+			});
 		});
 
-	}).catch(function(error) {
-
-		if (error && _.isNumber(error)) {
-			res.status(error);
-			return;
-		}
-
-		console.error(error.stack);
-		res.status(500).send(error.message);
-
-	}).done(function() {
-		console.log('Login request complete.');
-	}, function(error) {
-		console.error(error.stack);
-		res.status(500).send(error.message);
 	});
+
+	return next();
 
 });

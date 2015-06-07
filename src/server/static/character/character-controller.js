@@ -1,15 +1,13 @@
 define([
 	'underscore',
 	'angular',
-	'angular-module',
-	'swarm/swarm-service'
-], function(_, ng, _animus, _swarm) {
+	'angular-module'
+], function(_, ng, _animus) {
 	var COMPONENT_NAME = 'characterCtrl';
 
 	ng.module(_animus).controller(COMPONENT_NAME, [
 		'$scope',
-		_swarm,
-		function($scope, $swarm) {
+		function($scope) {
 
 			//
 

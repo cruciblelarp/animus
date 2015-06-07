@@ -3,8 +3,7 @@ define([
 	'underscore',
 	'angular',
 
-	'angular-module',
-	'swarm/swarm-user-service'
+	'angular-module'
 
 ], function(_, ng, _animus, _user) {
 	var COMPONENT_NAME = 'accountDetailsController';

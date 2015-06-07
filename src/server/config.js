@@ -14,8 +14,8 @@ module.exports = {
 			|| 'mongodb://localhost:27017/animus'
 	},
 
-	socket: {
-		port: 1234
+	session: {
+		secret: process.env['SECRET'] || 'secret'
 	},
 
 	timeout: {
