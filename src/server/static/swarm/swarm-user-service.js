@@ -24,13 +24,9 @@ define([
 					throw new Error('Already logged-in!');
 				}
 
-				var user = new User(identifier, $service.getHost());
+				user = new User(identifier, $service.getHost());
 				user.on('init', function(spec, val, source) {
 					user.token = token;
-				});
-
-				user.on(function(spec, val, source) {
-					console.log('sfegsgsegf');
 				});
 
 			};

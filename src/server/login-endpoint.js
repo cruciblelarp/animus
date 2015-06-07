@@ -67,12 +67,14 @@ app.post('/login', function(req, res) {
 			throw 400;
 		}
 
-		var swarm_user = new User(user._id.toString(), swarm());
+		var identifier = user._id.toString();
+
+		var swarm_user = new User(identifier, swarm());
 
 		swarm_user.on('init', function(spec, val, source) {
 
 			swarm_user.set({
-				userId: user._id.toString(),
+				userId: identifier,
 				name: user.name,
 				email: user.email
 			});
@@ -83,7 +85,7 @@ app.post('/login', function(req, res) {
 
 			res.header('x-swarm-host', socket().options.host + ':' + socket().options.port);
 			res.status(200).send({
-				id: swarm_user._id,
+				id: identifier,
 				token: token
 			});
 
