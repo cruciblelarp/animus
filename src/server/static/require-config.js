@@ -21,7 +21,7 @@
 			'SecondLevelDomains': 'lib/SecondLevelDomains',
 			'IPv6': 'lib/IPv6',
 			'socket': 'lib/socket.io',
-			'ng-storage': 'lib/ngStorage'
+			'ngStorage': 'lib/ngStorage'
 		},
 
 		'shim': {
@@ -66,7 +66,7 @@
 				]
 			},
 
-			'ng-storage': {
+			'ngStorage': {
 				'deps': [
 					'angular'
 				]

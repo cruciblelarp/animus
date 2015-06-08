@@ -11,12 +11,12 @@ define([
 ], function(_, ng, _animus, _routing, _login, _admin) {
 
 	ng.module(_animus).run([
-		'$rootScope', _routing,
-		function($rootScope, $routing) {
+		'$rootScope', _routing, '$sessionStorage',
+		function($rootScope, $routing, $sessionStorage) {
 
 			$rootScope.$on('$stateChangeStart', function(event, next) {
 
-				var loggedIn = $user.isLoggedIn();
+				var loggedIn = !!$sessionStorage.token;
 				var toLogin = next.name.indexOf(_login) === 0;
 
 				if (loggedIn && !toLogin || !loggedIn && toLogin) {

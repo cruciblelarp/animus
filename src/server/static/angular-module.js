@@ -5,7 +5,7 @@ define([
 	'ui-router',
 	'angulartics',
 	'angulartics-google',
-	'ng-storage'
+	'ngStorage'
 
 ], function(ng) {
 	var COMPONENT_NAME = 'animus';

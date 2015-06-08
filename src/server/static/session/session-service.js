@@ -2,20 +2,20 @@ define([
 
 	'underscore',
 	'angular',
-	'socket',
 
 	'angular-module',
 
-	'utils/util-service'
+	'utils/util-service',
+	'utils/socket'
 
-], function(_, ng, socket, _animus, _util) {
+], function(_, ng, _animus, _util, _socket) {
 	var COMPONENT_NAME = '$session';
 
 	ng.module(_animus).service(COMPONENT_NAME, [
-		'$rootScope', _util, '$sessionStore',
-		function ($rootScope, $util, $sessionStore) {
+		'$rootScope', _util, '$sessionStorage', _socket,
+		function ($rootScope, $util, $sessionStore, $socket) {
 
-			socket.on('sync', function(data) {
+			$socket.on('sync', function(data) {
 				_.each(data['updates'], function(update) {
 					switch(update.type) {
 
@@ -63,13 +63,14 @@ define([
 			$service.login = function(email, password) {
 				return $util.promise(function(resolve, reject) {
 
-					socket.send('login', {
+					$socket.send('login', {
 						email: email,
 						password: password
 					});
 
-					socket.on('login', function(data) {
+					$socket.on('login', function(data) {
 						if (data.status === 200) {
+							$sessionStore.token = data.token;
 							resolve();
 						} else {
 							reject(data.error);
