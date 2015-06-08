@@ -6,7 +6,7 @@ define([
 	'angular-module',
 
 	'utils/util-service',
-	'utils/socket'
+	'utils/socket-provider'
 
 ], function(_, ng, _animus, _util, _socket) {
 	var COMPONENT_NAME = '$session';
