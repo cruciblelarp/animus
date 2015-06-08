@@ -42,7 +42,9 @@ $config.libraries = [
 	'node_modules/angular-bootstrap/dist/ui-bootstrap.js',
 	'node_modules/angular-bootstrap/dist/ui-bootstrap-tpls.js',
 	'node_modules/angulartics/src/angulartics.js',
-	'node_modules/angulartics/src/angulartics-ga.js'
+	'node_modules/angulartics/src/angulartics-ga.js',
+	'node_modules/socket.io/node_modules/socket.io-client/socket.io.js',
+	'node_modules/ngstorage/ngStorage.js'
 ];
 
 $config.requirejs = require($config.PATH_STATIC_REL + '/require-config');

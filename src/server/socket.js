@@ -8,30 +8,17 @@ var app = require('./express');
 var exit = require('./exit');
 var config = require('./config');
 
-var server = null;
+var server = module.exports = socket(http);
 
-module.exports = function() {
+server.use(socketSession(app.session));
 
-	if (server) {
-		console.debug('Retrieving existing server instance.');
-		return server;
-	}
-
-	console.info('Creating new socket server.');
-
-	server = socket(http);
-
-	server.use(socketSession(app.session));
-
-	server.on('connection', function(socket) {
-		var sessionId = socket.handshake.session;
-		console.debug('Session connect: ' + sessionId);
-		socket.on('disconnect', function() {
-			console.debug('Session disconnect: ' + sessionId);
-		});
+server.on('connection', function(socket) {
+	var sessionId = socket.handshake.session;
+	console.debug('Session connect: ' + sessionId);
+	socket.on('disconnect', function() {
+		console.debug('Session disconnect: ' + sessionId);
 	});
-
-};
+});
 
 exit.listen(function(resolve) {
 

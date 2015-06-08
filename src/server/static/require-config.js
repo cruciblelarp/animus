@@ -19,7 +19,9 @@
 			'uri': 'lib/URI',
 			'punycode': 'lib/punycode',
 			'SecondLevelDomains': 'lib/SecondLevelDomains',
-			'IPv6': 'lib/IPv6'
+			'IPv6': 'lib/IPv6',
+			'socket': 'lib/socket.io',
+			'ng-storage': 'lib/ngStorage'
 		},
 
 		'shim': {
@@ -61,6 +63,12 @@
 				'deps': [
 					'angular',
 					'angulartics'
+				]
+			},
+
+			'ng-storage': {
+				'deps': [
+					'angular'
 				]
 			}
 
