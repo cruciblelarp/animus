@@ -22,7 +22,9 @@ define([
 			$scope.login = function($event) {
 				$event.preventDefault();
 
-				$scope.loading = $session.login($scope.email, $scope.password);
+				$scope.loading = $session.login($scope.email, $scope.password).then(function() {
+					$routing.go(_admin);
+				});
 
 			}
 

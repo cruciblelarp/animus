@@ -6,7 +6,9 @@ define([
 	'angular-module',
 
 	'utils/util-service',
-	'utils/socket-provider'
+	'utils/socket-provider',
+
+	'session/session-config'
 
 ], function(_, ng, _animus, _util, _socket) {
 	var COMPONENT_NAME = '$session';
@@ -23,12 +25,12 @@ define([
 
 							var lastPeriod = update.key.lastIndexOf('.');
 							if (lastPeriod < 1) {
-								delete $sessionStore[update.key];
+								delete $rootScope.session[update.key];
 								return;
 							}
 
 							var parentKey = update.key.substring(0, lastPeriod);
-							var parent = $util.$get($sessionStore, parentKey);
+							var parent = $util.$get($rootScope.session, parentKey);
 							if (parent) {
 								var childKey = update.key.substring(lastPeriod + 1);
 								delete parent[childKey];
@@ -38,15 +40,15 @@ define([
 
 						case 'replace':
 
-							$util.$set($sessionStore, update.key, update.value);
+							$util.$set($rootScope.session, update.key, update.value);
 
 							return;
 
 						case 'update':
 
-							var object = $util.$get($sessionStore, update.key);
+							var object = $util.$get($rootScope.session, update.key);
 							if (!object) {
-								$util.$set($sessionStore, update.key, update.value);
+								$util.$set($rootScope.session, update.key, update.value);
 								return;
 							}
 
@@ -63,14 +65,16 @@ define([
 			$service.login = function(email, password) {
 				return $util.promise(function(resolve, reject) {
 
-					$socket.send('login', {
+					$socket.emit('login', {
 						email: email,
 						password: password
 					});
 
 					$socket.on('login', function(data) {
+						$socket.off('login');
+
 						if (data.status === 200) {
-							$sessionStore.token = data.token;
+							$util.$set($rootScope, 'session.token', data.token);
 							resolve();
 						} else {
 							reject(data.error);
@@ -81,7 +85,20 @@ define([
 			};
 
 			$service.logout = function() {
-				socket.send('logout', {});
+				return $util.promise(function(resolve, reject) {
+
+					socket.send('logout', {});
+
+					socket.on('logout', function(data) {
+						$socket.off('logout');
+						$sessionStore.clear();
+						data.error
+							? reject(data.error)
+							: resolve();
+					});
+
+				});
+
 			};
 
 			return $service;

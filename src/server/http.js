@@ -6,8 +6,10 @@ var app = require('./express');
 var exit = require('./exit');
 var config = require('./config');
 
+var Server = http.Server;
+
 // create and start the HTTP server with static file serving.
-var server = module.exports = http.createServer(app);
+var server = module.exports = new Server(app);
 
 exit.listen(function(resolve) {
 

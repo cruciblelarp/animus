@@ -9,8 +9,10 @@ var mongo = require('./mongo');
 var socket = require('./socket');
 
 socket.use(function(socket, next) {
+	var sessionId = socket.handshake.session.id;
 
-	socket.on('auth', function(data) {
+	socket.on('login', function(data) {
+		console.log(sessionId + ': Attempting authentication');
 
 		var email = data.email;
 		var password = data.password;
@@ -67,7 +69,7 @@ socket.use(function(socket, next) {
 			}
 
 			token = crypto.createHash('md5')
-				.update(user.email + hash + req['ip'])
+				.update(user.email + hash)
 				.digest('hex');
 
 			_.extend(socket.handshake.session, {
@@ -75,7 +77,8 @@ socket.use(function(socket, next) {
 				token: token
 			});
 
-			socket.emit('auth', {
+			console.log(sessionId + ': Authentication successful');
+			socket.emit('login', {
 				status: 200,
 				token: token
 			});
@@ -83,22 +86,22 @@ socket.use(function(socket, next) {
 		}).catch(function(error) {
 
 			if (error && _.isNumber(error)) {
-				return socket.emit('auth', {
+				return socket.emit('login', {
 					status: error,
 					message: 'Authentication failed.'
 				});
 			}
 
-			console.error(error.stack);
-			return socket.emit('auth', {
+			console.error(sessionId + ': ' + error.stack);
+			return socket.emit('login', {
 				status: 500,
 				message: error.message
 			});
 
 		}).done(function() {
-			console.log('Login request complete.');
+			console.log(sessionId + ': Login request complete.');
 		}, function(error) {
-			console.error(error.stack);
+			console.error(sessionId + ': ' + error.stack);
 			socket.emit('auth', {
 				status: 500,
 				message: error.message

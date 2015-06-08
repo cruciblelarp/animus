@@ -1,12 +1,13 @@
 define([
 
+	'underscore',
 	'angular',
 	'socket',
 	'uri',
 
 	'angular-module'
 
-], function(ng, socket, uri, _animus) {
+], function(_, ng, socket, uri, _animus) {
 	var COMPONENT_NAME = '$socket';
 
 	ng.module(_animus).provider(COMPONENT_NAME, [
@@ -16,8 +17,8 @@ define([
 
 			var $provider = {};
 
-			$provider.config = function(config) {
-				configuration = config;
+			$provider.configure = function(config) {
+				configuration = _.defaults(config, configuration);
 			};
 
 			$provider.$get = function() {

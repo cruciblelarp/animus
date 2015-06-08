@@ -22,8 +22,9 @@ var events = new Promise(function(resolve) {
 	process.on('SIGTERM', exit);
 	process.on('SIGINT', exit);
 	process.on('SIGQUIT', exit);
-	process.on('uncaughtException', function() {
+	process.on('uncaughtException', function(error) {
 		exitCode = config.constant.EXIT_ERROR;
+		console.error(error.stack);
 		exit.apply(exit, arguments);
 	});
 

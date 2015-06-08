@@ -10,8 +10,8 @@ define([
 	var COMPONENT_NAME = '$util';
 
 	ng.module(_animus).service(COMPONENT_NAME, [
-		_routing, _alert, '$log', '$parse',
-		function (_routing, $alert, $log, $parse) {
+		_routing, _alert, '$log', '$parse', '$q',
+		function (_routing, $alert, $log, $parse, $q) {
 
 			return $this = {
 
@@ -44,6 +44,19 @@ define([
 
 				$get: function(target, key) {
 					return $parse(key)(target);
+				},
+
+				promise: function(callback) {
+					var deferred = $q.defer();
+
+					callback.call(
+						deferred,
+						deferred.resolve,
+						deferred.reject,
+						deferred.notify
+					);
+
+					return deferred.promise;
 				}
 
 			};

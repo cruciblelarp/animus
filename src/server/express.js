@@ -3,12 +3,15 @@
 var express = require('express');
 var Session = require('express-session');
 var fileStore = require('session-file-store');
+var errorHandler = require('errorhandler');
 
 var config = require('./config');
 
 var SessionStore = fileStore(Session);
 
 var app = express();
+
+app.use(errorHandler());
 
 app.session = new Session({
 	resave: false,

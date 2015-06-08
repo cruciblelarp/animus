@@ -1,10 +1,12 @@
 /* globals require, process */
 
 var config = require('./config');
-var app = require('./express');
+var http = require('./http');
 
 require('./login-endpoint');
 
-app.listen(config.port, function() {
+http.listen(config.port, function() {
 	console.log('Starting application on port ' + config.port);
+}).on('error', function(error) {
+	console.error(error.stack);
 });
