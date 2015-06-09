@@ -9,9 +9,9 @@ module.exports = {
 	hostname: process.env['HOST'] || 'localhost',
 
 	port: process.env['PORT'] || 8000,
-	mongo: {
-		uri: process.env['MONGOLAB_URI']
-			|| 'mongodb://localhost:27017/animus'
+	database: {
+		url: process.env['GRAPHINEDB_URL']
+			|| 'http://neo4j:password@localhost:7474'
 	},
 
 	session: {
@@ -25,7 +25,7 @@ module.exports = {
 	constant: {
 
 		EXIT_OK: 0,
-		EXIT_MONGO: 1,
+		EXIT_DB: 1,
 		EXIT_HTTP: 2,
 		EXIT_SOCKET: 3,
 		EXIT_SWARM: 4,

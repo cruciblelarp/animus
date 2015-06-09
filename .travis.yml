@@ -3,27 +3,21 @@ language: node_js
 node_js:
   - "0.10"
 
+jdk:
+  - oraclejdk7 # Needed for neo4j
+
 env:
   global:
-    - MONGO_REPO="http://repo.mongodb.org/apt/ubuntu"
-    - REPO_TYPE="$(lsb_release -sc)/mongodb-org/3.0 multiverse"
-    - SOURCES_LOC="/etc/apt/sources.list.d/mongodb.list"
-    - KEY_SERVER="hkp://keyserver.ubuntu.com:80"
+    - NEO4J_VERSION="2.1.7"
 
 before_install:
-  - sudo apt-key adv --keyserver ${KEY_SERVER} --recv 7F0CEB10
-  - echo "deb ${MONGO_REPO} ${REPO_TYPE}" | sudo tee ${SOURCES_LOC}
-  - sudo apt-get update
-  - sudo apt-get install -y mongodb-org
-  - sleep 15
-  - mongod --version
-
-before_script:
-  - mongorestore --version
-  - mongorestore --drop --db animus --dir src/test/dump/animus
+  - wget dist.neo4j.org/neo4j-community-$NEO4J_VERSION-unix.tar.gz
+  - tar -xzf neo4j-community-$NEO4J_VERSION-unix.tar.gz
+  - echo org.neo4j.server.database.location=src/test/dump > neo4j-community-$NEO4J_VERSION/conf/neo4j-server.properties
+  - neo4j-community-$NEO4J_VERSION/bin/neo4j start
 
 after_success:
-  - sudo service mongod stop
+  - neo4j-community-$NEO4J_VERSION/bin/neo4j stop
   - gulp manifest
 
 deploy:
