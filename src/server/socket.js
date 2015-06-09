@@ -16,12 +16,25 @@ server.listen(http, {
 	log: true
 });
 
+var listeners = {};
+
+server.$listen = function(event, callback) {
+	listeners[event] = callback;
+};
+
 server.on('connection', function(socket) {
+
 	var sessionId = socket.handshake.session.id;
 	console.log(sessionId + ': connected');
+
+	_.each(listeners, function(callback, event) {
+		socket.on(event, callback);
+	});
+
 	socket.on('disconnect', function() {
 		console.log(sessionId + ': disconnected');
 	});
+
 });
 
 exit.listen(function(resolve) {

@@ -3,7 +3,8 @@
 var config = require('./config');
 var http = require('./http');
 
-require('./login-endpoint');
+require('./listeners/login-listener');
+require('./reactors/database-reactor');
 
 http.listen(config.port, function() {
 	console.log('Starting application on port ' + config.port);

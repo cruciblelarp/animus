@@ -5,14 +5,15 @@ var assert = require('assert');
 var crypto = require('crypto');
 var Promise = require('promise');
 
-var query = require('./neo4j');
-var socket = require('./socket');
+var query = require('../neo4j');
+var socket = require('../socket');
+var model = require('../model');
 
 socket.use(function(socket, next) {
-	var sessionId = socket.handshake.session.id;
+	var session = socket.handshake.session;
 
 	socket.on('login', function(data) {
-		console.log(sessionId + ': Attempting authentication');
+		console.log(session.id + ': Attempting authentication');
 
 		var email = data.email;
 		var password = data.password;
@@ -26,12 +27,14 @@ socket.use(function(socket, next) {
 		}).then(function(results) {
 
 			var result = _.first(results);
-			var node = result && result.user;
-			var user = node && node.properties;
 
-			if (!user) {
+			if (!result) {
 				return Promise.reject(404);
 			}
+
+			var user = _.extend({}, result.user.properties, {
+				id: result.user._id
+			});
 
 			// run crypto hash on supplied password.
 			var hash = crypto.createHash('md5')
@@ -46,12 +49,9 @@ socket.use(function(socket, next) {
 				.update(user.email + hash)
 				.digest('hex');
 
-			_.extend(socket.handshake.session, {
-				userId: node._id,
-				token: token
-			});
+			model(session).user = user;
 
-			console.log(sessionId + ': Authentication successful');
+			console.log(session.id + ': Authentication successful');
 			socket.emit('login', {
 				status: 200,
 				token: token
@@ -66,16 +66,16 @@ socket.use(function(socket, next) {
 				});
 			}
 
-			console.error(sessionId + ': ' + error.stack);
+			console.error(session.id + ': ' + error.stack);
 			return socket.emit('login', {
 				status: 500,
 				message: error.message
 			});
 
 		}).done(function() {
-			console.log(sessionId + ': Login request complete.');
+			console.log(session.id + ': Login request complete.');
 		}, function(error) {
-			console.error(sessionId + ': ' + error.stack);
+			console.error(session.id + ': ' + error.stack);
 			socket.emit('auth', {
 				status: 500,
 				message: error.message
