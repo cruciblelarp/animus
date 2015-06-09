@@ -10,14 +10,16 @@ socket.use(function(socket, next) {
 
 	var data = model(socket.handshake.session);
 
-	data.on('user.roles', function(roles) {
+	data.on('user.id', function(id) {
 
-		if (!roles) {
+		if (!id) {
 			return;
 		}
 
-		query('OPTIONAL MATCH (n) - [r:Requires] -> (p:Permission) WHERE p.name IN {roles} XOR r = NULL RETURN n;', {
-			roles: roles
+		query('OPTIONAL MATCH (n) - [r:Requires] -> (p:Permission) <- [o:Possesses] - (u:User)' +
+		' WHERE id(u) = {userId} XOR r = NULL' +
+		' RETURN n;', {
+			userId: id
 		}).then(function(results) {
 
 			model.items = _.collect(results, function(result) {
@@ -40,7 +42,8 @@ socket.use(function(socket, next) {
 
 	});
 
-	return next;
+	return next();
+
 });
 
 

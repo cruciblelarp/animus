@@ -1,5 +1,6 @@
 /* globals require, module */
 
+var _ = require('underscore');
 var socket = require('socket.io');
 var socketSession = require('socket.io-express-session');
 
