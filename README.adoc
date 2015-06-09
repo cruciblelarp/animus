@@ -2,3 +2,30 @@
 
 A management utility for the NZ Crucible LARP.
 
+# Working on the Project
+
+Make sure you have the following software installed:
+
+* git
+* node / npm
+* neo4j
+
+Git clone your fork of the repository and add the original as a remote. Once
+the clone has completed, run `npm install` in the directory to get all the node
+dependencies. Run `npm test` to make sure everything is working.
+
+You can use `gulp run` to run up a development instance of the application that
+will reload whenever you make server changes. Alternately, if you're using an
+IDE, just create a regular node configuration that uses `src/server/server.js`
+as it's entry-point.
+
+When in doubt? Google.
+
+# Contributing
+
+Fork the repository and submit pull-requests. They will be reviewed and
+accepted or rejected based on the quality of their content.
+
+I'm very pedantic about whitespace, so indent with tabs, add empty lines
+between code blocks, don't leave trailing whitespace, etc.
+
