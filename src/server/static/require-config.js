@@ -20,10 +20,7 @@
 			'punycode': 'lib/punycode',
 			'SecondLevelDomains': 'lib/SecondLevelDomains',
 			'IPv6': 'lib/IPv6',
-			'socket': [
-				'socket.io/socket.io',
-				'lib/socket.io'
-			],
+			'socket': 'lib/socket.io',
 			'ngStorage': 'lib/ngStorage'
 		},
 
@@ -66,12 +63,6 @@
 				'deps': [
 					'angular',
 					'angulartics'
-				]
-			},
-
-			'ngStorage': {
-				'deps': [
-					'angular'
 				]
 			}
 
