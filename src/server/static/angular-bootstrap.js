@@ -12,6 +12,8 @@ define([
 	'pages/admin/abilities/detail/admin-abilities-detail-config',
 	'pages/admin/characters/admin-characters-config',
 	'pages/admin/characters/detail/admin-characters-detail-config',
+	'pages/account/account-config',
+	'pages/account/details/account-details-config',
 	'routing/routing-interceptor'
 
 ], function(ng, _animus) {

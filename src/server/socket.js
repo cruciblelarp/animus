@@ -1,28 +1,28 @@
 /* globals require, module */
 
-var socket = require('ws');
+var socket = require('socket.io');
+var socketSession = require('socket.io-express-session');
 
 var http = require('./http');
 var app = require('./express');
 var exit = require('./exit');
 var config = require('./config');
 
-// start WebSocket server
-var server = null;
+var server = module.exports = socket(http);
 
-function getServer() {
+server.use(socketSession(app.session));
 
-	if (server) {
-		return server;
-	}
+server.listen(http, {
+	log: true
+});
 
-	return server = new socket.Server({
-		server: http()
+server.on('connection', function(socket) {
+	var sessionId = socket.handshake.session.id;
+	console.log(sessionId + ': connected');
+	socket.on('disconnect', function() {
+		console.log(sessionId + ': disconnected');
 	});
-
-}
-
-module.exports = getServer;
+});
 
 exit.listen(function(resolve) {
 

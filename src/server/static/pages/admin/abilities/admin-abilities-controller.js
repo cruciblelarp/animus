@@ -3,19 +3,14 @@ define([
 	'underscore',
 	'angular',
 
-	'angular-module',
-	'swarm/swarm-service',
+	'angular-module'
 
-	//'data/abilities-data'
-
-], function(_, ng, _animus, _swarm) {
+], function(_, ng, _animus) {
 	var COMPONENT_NAME = 'adminAbilitiesController';
 
 	ng.module(_animus).controller(COMPONENT_NAME, [
-		'$scope', _swarm,
-		function($scope, $swarm) {
-
-			//$scope.abilities = $swarm.watch('abilities');
+		'$scope',
+		function($scope) {
 
 			$scope.abilities = [
 

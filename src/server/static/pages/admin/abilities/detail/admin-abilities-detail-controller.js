@@ -4,18 +4,15 @@ define([
 	'angular',
 
 	'angular-module',
-	'swarm/swarm-service',
-
-	//'data/abilities-data',
 
 	'ui-router'
 
-], function(_, ng, _animus, _swarm) {
+], function(_, ng, _animus) {
 	var COMPONENT_NAME = 'adminAbilitiesDetailController';
 
 	ng.module(_animus).controller(COMPONENT_NAME, [
-		'$scope', _swarm, '$state', '$stateParams',
-		function($scope, $swarm, $state, $stateParams) {
+		'$scope', '$state', '$stateParams',
+		function($scope, $state, $stateParams) {
 
 			function setSelection(_id) {
 

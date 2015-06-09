@@ -4,7 +4,8 @@ define([
 
 	'ui-router',
 	'angulartics',
-	'angulartics-google'
+	'angulartics-google',
+	'ngStorage'
 
 ], function(ng) {
 	var COMPONENT_NAME = 'animus';
@@ -12,7 +13,8 @@ define([
 	ng.module(COMPONENT_NAME, [
 		'ui.router',
 		'angulartics',
-		'angulartics.google.analytics'
+		'angulartics.google.analytics',
+		'ngStorage'
 	]);
 
 	return COMPONENT_NAME;

@@ -11,7 +11,6 @@
 			'text': 'lib/text',
 			'angular': 'lib/angular',
 			'underscore': 'lib/underscore',
-			'swarm-client': 'lib/swarm-client',
 			'ui-router': 'lib/angular-ui-router',
 			'ui-bootstrap': 'lib/ui-bootstrap',
 			'ui-bootstrap-tpls': 'lib/ui-bootstrap-tpls',
@@ -20,7 +19,9 @@
 			'uri': 'lib/URI',
 			'punycode': 'lib/punycode',
 			'SecondLevelDomains': 'lib/SecondLevelDomains',
-			'IPv6': 'lib/IPv6'
+			'IPv6': 'lib/IPv6',
+			'socket': 'lib/socket.io',
+			'ngStorage': 'lib/ngStorage'
 		},
 
 		'shim': {
@@ -33,13 +34,6 @@
 			},
 
 			'text': {
-				'deps': [
-					'require'
-				]
-			},
-
-			'swarm-client': {
-				'exports': 'Swarm',
 				'deps': [
 					'require'
 				]
