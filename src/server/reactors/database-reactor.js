@@ -16,13 +16,15 @@ socket.use(function(socket, next) {
 			return;
 		}
 
-		query('OPTIONAL MATCH (n) - [r:Requires] -> (p:Permission) <- [o:Possesses] - (u:User)' +
-		' WHERE id(u) = {userId} XOR r = NULL' +
-		' RETURN n;', {
+		query('MATCH (n),(u:User)' +
+			' WHERE id(u) = {userId}' +
+			' AND (n) - [:Requires] -> (:Permission) <- [:Possesses] - (u)' +
+			' XOR NOT (n) - [:Requires] -> (:Permission)' +
+			' RETURN n;', {
 			userId: id
 		}).then(function(results) {
 
-			model.items = _.collect(results, function(result) {
+			data.items = _.collect(results, function(result) {
 				return _.extend({}, result.n.properties, {
 					id: result.n._id
 				});
@@ -33,13 +35,13 @@ socket.use(function(socket, next) {
 	});
 
 	data.on('items', function(items) {
-
 		socket.emit('sync', {
-			type: 'replace',
-			key: 'items',
-			value: items
+			updates: [{
+				type: 'replace',
+				key: 'items',
+				value: items
+			}]
 		});
-
 	});
 
 	return next();

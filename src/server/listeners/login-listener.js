@@ -45,16 +45,17 @@ socket.use(function(socket, next) {
 				return Promise.reject(400);
 			}
 
-			var token = crypto.createHash('md5')
+			user.token = crypto.createHash('md5')
 				.update(user.email + hash)
 				.digest('hex');
 
+			delete user.password;
 			model(session).user = user;
 
 			console.log(session.id + ': Authentication successful');
 			socket.emit('login', {
 				status: 200,
-				token: token
+				token: user.token
 			});
 
 		}).catch(function(error) {
@@ -82,6 +83,16 @@ socket.use(function(socket, next) {
 			});
 		});
 
+	});
+
+	model(session).on('user', function(user) {
+		socket.emit('sync', {
+			updates: [{
+				type: 'replace',
+				key: 'user',
+				value: user
+			}]
+		});
 	});
 
 	return next();
