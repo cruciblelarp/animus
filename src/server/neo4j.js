@@ -9,9 +9,9 @@ var exit = require('./exit');
 var connection = null;
 
 function load() {
-	
+
 	if (!connection) {
-		connection = new neo4j.GraphDatabase(config.data.uri);
+		connection = new neo4j.GraphDatabase(config.database);
 	}
 
 	return connection;

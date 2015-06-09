@@ -5,7 +5,7 @@ var assert = require('assert');
 var crypto = require('crypto');
 var Promise = require('promise');
 
-var mongo = require('./mongo');
+var query = require('./neo4j');
 var socket = require('./socket');
 
 socket.use(function(socket, next) {
@@ -21,41 +21,15 @@ socket.use(function(socket, next) {
 		assert(email != null);
 		assert(password != null);
 
-		var user = null;
-		var token = null;
-		var conn = null;
+		return query('MATCH (user:User { email: {email} }) RETURN user;', {
+			email: email
+		}).then(function(results) {
 
-		return mongo().then(function(db) {
+			var result = _.first(results);
+			var node = result && result.user;
+			var user = node && node.properties;
 
-			conn = db;
-
-			return conn.collection('users');
-
-		}).then(function(users) {
-
-			return users.findOne({
-				email: email
-			});
-
-		}).then(function(user_record) {
-
-			if (!user_record) {
-				return Promise.reject(404);
-			}
-
-			user  = user_record;
-
-			return conn.collection('passwords');
-
-		}).then(function(passwords) {
-
-			return passwords.findOne({
-				_id: user.password
-			});
-
-		}).then(function(password_record) {
-
-			if (!password_record) {
+			if (!user) {
 				return Promise.reject(404);
 			}
 
@@ -64,16 +38,16 @@ socket.use(function(socket, next) {
 				.update(password)
 				.digest('hex');
 
-			if (hash !== password_record.hash) {
+			if (hash !== user.password) {
 				return Promise.reject(400);
 			}
 
-			token = crypto.createHash('md5')
+			var token = crypto.createHash('md5')
 				.update(user.email + hash)
 				.digest('hex');
 
 			_.extend(socket.handshake.session, {
-				userId: user._id.toString(),
+				userId: node._id,
 				token: token
 			});
 
@@ -113,3 +87,4 @@ socket.use(function(socket, next) {
 	return next();
 
 });
+
