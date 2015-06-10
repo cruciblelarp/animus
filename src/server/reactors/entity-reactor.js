@@ -3,16 +3,13 @@
 var _ = require('underscore');
 
 var query = require('../neo4j');
-var model = require('../model');
 var socket = require('../socket');
 
-socket.use(function(socket, next) {
+socket.$react(function(model, socket) {
 
-	var data = model(socket.handshake.session);
+	model.on('user', function(user) {
 
-	data.on('user.id', function(id) {
-
-		if (!id) {
+		if (!user) {
 			return;
 		}
 
@@ -21,12 +18,13 @@ socket.use(function(socket, next) {
 			' AND (n) - [:Requires] -> (:Permission) <- [:Possesses] - (u)' +
 			' XOR NOT (n) - [:Requires] -> (:Permission)' +
 			' RETURN n;', {
-			userId: id
+			userId: user.id
 		}).then(function(results) {
 
-			data.items = _.collect(results, function(result) {
+			model.entities = _.collect(results, function(result) {
 				return _.extend({}, result.n.properties, {
-					id: result.n._id
+					id: result.n._id,
+					labels: result.n.labels
 				});
 			});
 
@@ -34,17 +32,15 @@ socket.use(function(socket, next) {
 
 	});
 
-	data.on('items', function(items) {
+	model.on('entities', function(entities) {
 		socket.emit('sync', {
 			updates: [{
 				type: 'replace',
-				key: 'items',
-				value: items
+				key: 'entities',
+				value: entities
 			}]
 		});
 	});
-
-	return next();
 
 });
 

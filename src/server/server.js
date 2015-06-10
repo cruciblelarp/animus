@@ -4,7 +4,7 @@ var config = require('./config');
 var http = require('./http');
 
 require('./listeners/login-listener');
-require('./reactors/database-reactor');
+require('./reactors/entity-reactor');
 
 http.listen(config.port, function() {
 	console.log('Starting application on port ' + config.port);

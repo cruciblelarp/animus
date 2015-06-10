@@ -73,12 +73,12 @@ define([
 					$socket.on('login', function(data) {
 						$socket.off('login');
 
-						if (data.status === 200) {
-							$util.$set($rootScope, 'session.token', data.token);
-							resolve();
-						} else {
+						if (data.status !== 200) {
 							reject(data.error);
 						}
+
+						resolve();
+
 					});
 
 				});
