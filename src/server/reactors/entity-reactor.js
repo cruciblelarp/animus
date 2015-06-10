@@ -1,4 +1,4 @@
-/* globals require, module */
+/* globals require, module, console */
 
 var _ = require('underscore');
 
@@ -33,6 +33,7 @@ socket.$react(function(model, socket) {
 	});
 
 	model.on('entities', function(entities) {
+		console.log(socket.handshake.session.id + ': sending entity list.');
 		socket.emit('sync', {
 			updates: [{
 				type: 'replace',
