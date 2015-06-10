@@ -13,18 +13,18 @@ socket.$react(function(model, socket) {
 			return;
 		}
 
-		query('MATCH (n),(u:User)' +
-			' WHERE id(u) = {userId}' +
-			' AND (n) - [:Requires] -> (:Permission) <- [:Possesses] - (u)' +
-			' XOR NOT (n) - [:Requires] -> (:Permission)' +
-			' RETURN n;', {
+		query('MATCH (node:Entity),(user:User)' +
+			' WHERE id(user) = {userId}' +
+			' AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)' +
+			' XOR NOT (node) - [:Requires] -> (:Permission)' +
+			' RETURN node;', {
 			userId: user.id
 		}).then(function(results) {
 
 			model.entities = _.collect(results, function(result) {
-				return _.extend({}, result.n.properties, {
-					id: result.n._id,
-					labels: result.n.labels
+				return _.extend({}, result.node.properties, {
+					id: result.node._id,
+					labels: result.node.labels
 				});
 			});
 
