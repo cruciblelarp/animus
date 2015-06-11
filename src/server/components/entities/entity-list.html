@@ -1,0 +1,31 @@
+<div id="entity-list" class="row">
+
+	<div class="col-sm-6 col-md-5 col-lg-4"
+	     ng-repeat="entity in $root.session.entities">
+
+		<div class="panel"
+		     ui-sref-active="list-group-item-active"
+		     ui-sref="admin.detail({ id: entity.id })">
+
+			<div class="panel-heading">
+				<h3 class="panel-header" ng-bind="entity.name"></h3>
+			</div>
+
+			<div class="panel-body">
+				<p ng-bind="entity.description"></p>
+			</div>
+
+			<div class="panel-footer">
+				<a href
+				   ng-repeat="label in entity.labels"
+				   ng-click="filter({ label: label })"
+				   ng-bind="label"></a>
+			</div>
+
+		</div>
+
+		<div ng-if="entity.$active" entity-detail="entity"></div>
+
+	</div>
+
+</div>
