@@ -1,7 +1,22 @@
 <div id="entity-list" class="row">
 
+	<div class="col-xs-12">
+		<form class="form-inline">
+
+			<div class="form-group">
+
+				<label for="search" class="form-label">Search:</label>
+
+				<input type="text" id="search" class="form-control"
+				       ng-model="search"/>
+
+			</div>
+
+		</form>
+	</div>
+
 	<div class="col-sm-6 col-md-5 col-lg-4"
-	     ng-repeat="entity in $root.session.entities">
+	     ng-repeat="entity in entities">
 
 		<div class="panel"
 		     ui-sref-active="list-group-item-active"

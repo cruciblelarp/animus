@@ -19,6 +19,14 @@ define([
 			'$scope', '$state', '$stateParams',
 			function($scope, $state, $stateParams) {
 
+				$scope.$watch('entityId', function(newVal, oldVal) {
+
+					if (!newVal) {
+						//
+					}
+
+				});
+
 				$scope.$on('$stateChangeSuccess', function() {
 
 					if (!$state.includes('admin.characters.detail')) {
@@ -62,7 +70,18 @@ define([
 
 		return {
 			restrict: 'A',
-			controller: controller
+			controller: controller,
+			template: template,
+			isolate: true,
+			scope: {
+
+				/** The entity id to display */
+				entityId: '=',
+
+				/** Supply function to retrieve entity id to display. */
+				getEntityId: '&'
+
+			}
 		};
 
 	});

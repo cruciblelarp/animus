@@ -57,6 +57,28 @@ define([
 					);
 
 					return deferred.promise;
+				},
+
+				listChanges: function(listFrom, listTo, properties) {
+
+					var report = {
+						removed: [],
+						changed: [],
+						added: [],
+						same: []
+					};
+
+					_.each(listFrom, function(itemFrom) {
+						var des
+						_.each(listTo, function(itemTo) {
+
+
+
+
+						});
+					});
+
+					return report;
 				}
 
 			};
