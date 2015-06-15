@@ -5,7 +5,7 @@ define([
 	'angular-module',
 	'components/entities/entity-search',
 
-	'text!entities/entity-list.html',
+	'text!components/entities/entity-list.html',
 
 	// Sub-directive this directive uses.
 	'components/entities/entity-detail'

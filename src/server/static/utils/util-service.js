@@ -59,7 +59,7 @@ define([
 					return deferred.promise;
 				},
 
-				listChanges: function(listFrom, listTo, properties) {
+				listChanges: function(listFrom, listTo, properties, identifier) {
 
 					var report = {
 						removed: [],
@@ -68,14 +68,43 @@ define([
 						same: []
 					};
 
-					_.each(listFrom, function(itemFrom) {
-						var des
+					report.removed = _.findAll(listFrom, function(itemFrom) {
+						var dest = 'removed';
+
 						_.each(listTo, function(itemTo) {
 
+							if (!_.isUndefined(identifier)) {
+								if(itemFrom[identifier] === itemTo[identifier]) {
+									// These identifiers don't match. No need to check anything else.
+									return;
+								}
+							}
 
+							var propertiesMatch = true;
+							_.find(properties, function(property) {
 
+								propertiesMatch &= itemFrom[property] && toHasProperty;
+
+								if (!propertiesMatch) {
+									return true;
+								}
+
+							});
+
+							if (propertiesMatch) {
+								dest = 'same';
+								return true;
+							}
+
+							if (!_.isUndefined(identifier)) {
+								dest = 'changed';
+								return true;
+							}
 
 						});
+
+						report[dest] = itemFrom;
+
 					});
 
 					return report;

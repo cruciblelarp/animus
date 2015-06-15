@@ -6,7 +6,7 @@ define([
 	'angular-module',
 	'utils/routing-provider',
 	'pages/login/login-config',
-	'pages/admin/admin-config',
+	'pages/admin/admin-page',
 	'utils/util-service'
 
 ], function(_, ng, _animus, _routing, _login, _admin, _util) {
