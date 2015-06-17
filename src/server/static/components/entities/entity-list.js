@@ -19,9 +19,30 @@ define([
 			'$scope', _search,
 			function($scope, $search) {
 
-				$scope.$watch('search', function(filter) {
-					$scope.entities = $search(filter);
-				});
+				function doSearch() {
+
+					var filter = $scope.search;
+					var entities = $scope.$root.session.entities;
+					if (!filter) {
+						$scope.entities = _.clone(entities);
+						return;
+					}
+
+					var results = $search(filter);
+					$scope.entities = _.filter(entities, function(entity) {
+						return _.findWhere(results, {
+							ref: entity.id.toString()
+						});
+					});
+
+				}
+
+				$scope.$watchCollection('session.entities', doSearch);
+				$scope.$watch('search', doSearch);
+
+				$scope.noop = function($event) {
+					$event.preventDefault();
+				}
 
 			}
 		];

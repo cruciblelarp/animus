@@ -7,10 +7,12 @@ define([
 
 	'ui-router',
 
+	'text!components/entities/entity-detail.html',
+
 	// Sub directives this directive uses.
 	'components/entities/entity-detail-character'
 
-], function(_, ng, _animus) {
+], function(_, ng, _animus, template) {
 	var COMPONENT_NAME = 'entityDetail';
 
 	ng.module(_animus).directive(COMPONENT_NAME, function() {

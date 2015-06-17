@@ -1,13 +1,13 @@
 <div id="entity-list" class="row">
 
 	<div class="col-xs-12">
-		<form class="form-inline">
+		<form name="searchForm" class="form-inline" ng-submit="noop($event)">
 
 			<div class="form-group">
 
 				<label for="search" class="form-label">Search:</label>
 
-				<input type="text" id="search" class="form-control"
+				<input type="search" id="search" class="form-control"
 				       ng-model="search"/>
 
 			</div>

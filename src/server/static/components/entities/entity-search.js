@@ -1,24 +1,26 @@
 define([
 
 	'angular',
+	'lunr',
 
 	'angular-module'
 
-], function(ng, _animus) {
+], function(ng, lunr, _animus) {
 	var COMPONENT_NAME = '$search';
 
 	ng.module(_animus).service(COMPONENT_NAME, [
-		'$rootScope', _util,
-		function ($root, $util) {
+		'$rootScope',
+		function ($root) {
 
 			var index = lunr(function () {
-				this.field('title', { boost: 10 });
-				this.field('description');
 				this.ref('id');
+				this.field('name', { boost: 10 });
+				this.field('description');
+				this.field('labels');
 			});
 
 			// Re-index on entity changes.
-			$root.$watchCollection('entities', function(newVal, oldVal) {
+			$root.$watchCollection('session.entities', function(newVal, oldVal) {
 
 				// Remove all the old indexed entities.
 				_.each(oldVal, function(entity) {
@@ -28,16 +30,12 @@ define([
 
 				// Add values from new list.
 				_.each(newVal, function(entity) {
-					index.add({
-						id: entity.id,
-						title: entity.title,
-						description: entity.description
-					});
+					index.add(entity);
 				});
 
 			});
 
-			return index.search;
+			return _.bind(index.search, index);
 
 		}
 	]);
