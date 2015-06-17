@@ -21,7 +21,9 @@
 			'SecondLevelDomains': 'lib/SecondLevelDomains',
 			'IPv6': 'lib/IPv6',
 			'socket': 'lib/socket.io',
-			'ngStorage': 'lib/ngStorage'
+			'ngStorage': 'lib/ngStorage',
+			'angular-busy': 'lib/angular-busy',
+			'lunr': 'lib/lunr'
 		},
 
 		'shim': {
@@ -63,6 +65,12 @@
 				'deps': [
 					'angular',
 					'angulartics'
+				]
+			},
+
+			'angular-busy': {
+				'deps': [
+					'angular'
 				]
 			}
 

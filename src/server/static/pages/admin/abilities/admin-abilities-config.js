@@ -4,7 +4,7 @@ define([
 
 	'angular-module',
 	'utils/routing-provider',
-	'pages/admin/admin-config',
+	'pages/admin/admin-page',
 	'pages/admin/abilities/admin-abilities-controller',
 	'text!pages/admin/abilities/admin-abilities-template.html'
 

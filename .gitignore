@@ -11,8 +11,9 @@ out/
 *.ipr
 *.iws
 
-# MongoDB
-mongo/
+# Neo4j
+src/test/dump/lock
+*.lock
 
 # Generated Sources
 src/server/static/lib/

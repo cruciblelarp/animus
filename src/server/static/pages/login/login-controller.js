@@ -7,7 +7,7 @@ define([
 	'alert/alert-service',
 	'utils/util-service',
 	'utils/routing-provider',
-	'pages/admin/admin-config',
+	'pages/admin/admin-page',
 	'session/session-service'
 
 ], function(_, ng, _animus, _alert, _utils, _routing, _admin, _session) {

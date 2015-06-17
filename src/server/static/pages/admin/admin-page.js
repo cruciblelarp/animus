@@ -4,11 +4,13 @@ define([
 
 	'angular-module',
 	'utils/routing-provider',
-	'pages/admin/admin-controller',
 
-	'text!pages/admin/admin-template.html'
+	'text!pages/admin/admin-page.html',
 
-], function(ng, _animus, _routing, _controller, _template) {
+	// Directive used in page.
+	'components/entities/entity-list'
+
+], function(ng, _animus, _routing, _tplAdminPage) {
 	var COMPONENT_NAME = 'admin';
 
 	ng.module(_animus).config([
@@ -17,8 +19,12 @@ define([
 
 			$routing.state(COMPONENT_NAME, {
 				url: '/admin',
-				controller: _controller,
-				template: _template
+				template: _tplAdminPage,
+				children: {
+					'admin.detail': {
+						url: '/{id}'
+					}
+				}
 			});
 
 		}
