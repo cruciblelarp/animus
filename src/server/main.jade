@@ -1,0 +1,21 @@
+doctype xml
+doctype html
+
+if debug
+	html
+else
+	html(manifest='app.manifest')
+
+	head
+
+		title Crucible LARP Manager
+
+		if debug
+			script( type="application/javascript" src="lib/require.js" data-main="require-config.js" )
+		else
+			script( type="application/javascript" src="scripts.min.js" )
+
+		link(rel="stylesheet" href="styles.min.css")
+
+	body(wrap-layout)
+		div(ui-view)

@@ -29,8 +29,10 @@ app.use(express.static(config.path.base + '/static', {
 	index: false
 }));
 
+app.set('view engine', 'jade');
+
 app.get('/', function(req, res) {
-	res.render('src/server/static/client.html');
+	res.render('main', { debug: !!req.param['debug'] });
 });
 
 module.exports = app;
