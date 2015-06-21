@@ -1,4 +1,4 @@
-/* globals require, module */
+/* globals require, module, __dirname */
 
 var express = require('express');
 var Session = require('express-session');
@@ -18,9 +18,14 @@ app.session = new Session({
 	secret: config.session.secret,
 	saveUninitialized: false,
 	store: new SessionStore({
-		reapAsync: true,
-		reapSyncFallback: true
-	})
+		reapAsync: false
+	}),
+	cookie: {
+		path: '/',
+		httpOnly: false,
+		secure: false,
+		maxAge: 3600000
+	}
 });
 
 app.use(app.session);
@@ -29,8 +34,14 @@ app.use(express.static(config.path.base + '/static', {
 	index: false
 }));
 
+app.set('view engine', 'jade');
+app.set('views', __dirname);
+
 app.get('/', function(req, res) {
-	res.render('src/server/static/client.html');
+	req.session.touch();
+	res.render('main', {
+		dev: !!req.query['dev']
+	});
 });
 
 module.exports = app;
