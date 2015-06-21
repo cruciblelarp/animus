@@ -20,6 +20,9 @@ after_success:
   - neo4j-community-$NEO4J_VERSION/bin/neo4j stop
   - gulp manifest
 
+before_deploy:
+  - rm -rf src/test
+
 deploy:
   provider: heroku
   app: crucible-animus
