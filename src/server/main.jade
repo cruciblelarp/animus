@@ -1,19 +1,30 @@
 doctype xml
 doctype html
 
-if debug
-	html
-else
-	html(manifest='app.manifest')
+- var attr_html = {
+-     manifest: 'app.manifest'
+- };
+
+- var attr_script = {
+-     type: 'application/javascript',
+-     src: 'scripts.min.js'
+- };
+
+- if (dev) {
+-     attr_script['src'] = 'lib/require.js';
+-     attr_script['data-main'] = 'require-config.js';
+-     delete attr_html['manifest'];
+- }
+
+html&attributes(attr_html)
 
 	head
 
+		meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=no")
+
 		title Crucible LARP Manager
 
-		if debug
-			script( type="application/javascript" src="lib/require.js" data-main="require-config.js" )
-		else
-			script( type="application/javascript" src="scripts.min.js" )
+		script&attributes(attr_script)
 
 		link(rel="stylesheet" href="styles.min.css")
 
