@@ -1,20 +1,21 @@
 doctype xml
 doctype html
 
-- var attr_html = {
--     manifest: 'app.manifest'
-- };
+-
+	var attr_html = {
+		manifest: 'app.manifest'
+	};
 
-- var attr_script = {
--     type: 'application/javascript',
--     src: 'scripts.min.js'
-- };
+	var attr_script = {
+		type: 'application/javascript',
+		src: 'scripts.min.js'
+	};
 
-- if (dev) {
--     attr_script['src'] = 'lib/require.js';
--     attr_script['data-main'] = 'require-config.js';
--     delete attr_html['manifest'];
-- }
+	if (dev) {
+		attr_script['src'] = 'lib/require.js';
+		attr_script['data-main'] = 'require-config.js';
+		delete attr_html['manifest'];
+	}
 
 html&attributes(attr_html)
 
