@@ -16,9 +16,11 @@ before_install:
   - echo org.neo4j.server.database.location=src/test/dump > neo4j-community-$NEO4J_VERSION/conf/neo4j-server.properties
   - neo4j-community-$NEO4J_VERSION/bin/neo4j start
 
+before_script:
+  - gulp manifest
+
 after_success:
   - neo4j-community-$NEO4J_VERSION/bin/neo4j stop
-  - gulp manifest
 
 before_deploy:
   - rm -rf src/test
