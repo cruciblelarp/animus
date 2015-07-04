@@ -2,11 +2,11 @@
 
 var _ = require('underscore');
 
+var sockit = require('../sockit');
 var query = require('../neo4j');
-var socket = require('../socket');
 
-socket.$react(function(model, socket) {
 
+/*socket.$react(function(model, socket) {
 	model.on('user', function(user) {
 
 		if (!user) {
@@ -43,6 +43,6 @@ socket.$react(function(model, socket) {
 		});
 	});
 
-});
+});*/
 
 

@@ -4,6 +4,7 @@ node_modules/
 storage/
 *.log
 out/
+sessions/
 
 # IntelliJ
 .idea/

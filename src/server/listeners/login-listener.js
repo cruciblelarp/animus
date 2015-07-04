@@ -5,10 +5,10 @@ var assert = require('assert');
 var crypto = require('crypto');
 var Promise = require('promise');
 
+var sockit = require('../sockit');
 var query = require('../neo4j');
-var socket = require('../socket');
 
-socket.$listen('login', function(socket, model, data) {
+/*socket.$listen('login', function(socket, model, data) {
 	var session = socket.handshake.session;
 	console.log(session.id + ': Attempting authentication');
 
@@ -97,5 +97,5 @@ socket.$react(function(model, socket) {
 		});
 	});
 
-});
+});*/
 

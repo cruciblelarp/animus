@@ -2,7 +2,7 @@
   "name": "animus",
   "version": "0.0.1",
   "description": "A management utility for the NZ Crucible LARP.",
-  "main": "gulpfile.js",
+  "main": "src/server/server.js",
   "scripts": {
     "start": "node src/server/server.js",
     "test": "gulp test-unit",
@@ -50,22 +50,21 @@
     "protractor": "^2.1.0",
     "requirejs": "^2.1.18",
     "requirejs-text": "^2.0.12",
+    "sinon": "^1.15.3",
+    "sockit-angular": "https://github.com/aetheric/sockit-angular.git",
+    "sockit-express": "https://github.com/aetheric/sockit-express.git",
     "stream-reduce": "~1.0.3",
-    "through": "2.3.6",
     "through2": "^0.6.5",
     "vinyl-sourcemaps-apply": "^0.1.4"
   },
   "dependencies": {
     "errorhandler": "^1.3.6",
     "express": "^4.11.0",
-    "express-session": "^1.11.2",
+    "express-session": "^1.11.3",
     "jade": "^1.11.0",
-    "model": "git://github.com/curran/model#v0.2.3",
     "neo4j": "^2.0.0-RC1",
     "promise": "^7.0.1",
-    "session-file-store": "0.0.12",
-    "socket.io": "^1.3.5",
-    "socket.io-express-session": "^0.1.2",
+    "session-file-store": "0.0.14",
     "underscore": "^1.8.3"
   }
 }

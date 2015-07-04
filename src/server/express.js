@@ -1,34 +1,32 @@
 /* globals require, module, __dirname */
 
 var express = require('express');
-var Session = require('express-session');
 var fileStore = require('session-file-store');
 var errorHandler = require('errorhandler');
+var session = require('express-session');
 
 var config = require('./config');
 
-var SessionStore = fileStore(Session);
+var FileStore = fileStore(session);
 
 var app = express();
 
 app.use(errorHandler());
 
-app.session = new Session({
-	resave: false,
+app.use(session({
 	secret: config.session.secret,
-	saveUninitialized: false,
-	store: new SessionStore({
-		reapAsync: false
-	}),
+	saveUninitialized: true,
+	resave: false,
 	cookie: {
 		path: '/',
 		httpOnly: false,
 		secure: false,
 		maxAge: 3600000
-	}
-});
-
-app.use(app.session);
+	},
+	store: new FileStore({
+		reapAsync: false
+	})
+}));
 
 app.use(express.static(config.path.base + '/static', {
 	index: false
