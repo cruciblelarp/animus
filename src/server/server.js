@@ -37,10 +37,46 @@ function scandir(directory) {
 	});
 }
 
-scandir(__dirname + '/api').done(function() {
-	http.listen(config.port, function() {
-		console.log('Starting application on port ' + config.port);
-	}).on('error', function(error) {
-		console.error(error.stack);
+var endpoints = scandir(__dirname + '/api');
+var running = null;
+
+module.exports = function start() {
+
+	if (running) {
+		return running;
+	}
+
+	running = endpoints.then(function() {
+		return new Promise(function(resolve, reject) {
+
+			http.listen(config.port, config.hostname, function() {
+				console.log('Starting application on http://' + config.hostname + ':' + config.port + '/');
+
+				return resolve(function stop() {
+					return new Promise(function(resolve, reject) {
+						http.close(function(error) {
+							console.log('Application shutdown complete.');
+
+							if (error) {
+								console.error(error.stack);
+								return reject(error);
+							}
+
+							running = null;
+							return resolve(start);
+
+						});
+					});
+				});
+
+			}).on('error', function(error) {
+				console.error(error.stack);
+				return reject(error);
+			});
+
+		});
 	});
-});
+
+	return running;
+
+};

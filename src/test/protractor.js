@@ -1,6 +1,7 @@
 /** exports, require */
 
 var phantomjs = require('phantomjs');
+var server = require('../server/server');
 
 exports.config = {
 
@@ -19,11 +20,26 @@ exports.config = {
 
 	],
 
+	framework: 'mocha',
+
+	mochaOpts: {
+		ui: 'bdd',
+		reporter: 'list'
+	},
+
 	jasmineNodeOpts: {
 		isVerbose: true,
 		showColors: true,
 		includeStackTrace: true,
 		defaultTimeoutInterval: 30000
+	},
+
+	beforeLaunch: function() {
+		return server();
+	},
+
+	onCleanUp: function() {
+		return server()();
 	}
 
 };

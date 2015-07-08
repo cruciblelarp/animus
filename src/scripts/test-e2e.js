@@ -8,7 +8,7 @@ var config = require('./config');
 
 var protractor_config = {
 	configFile: 'src/test/protractor.js',
-	args: [ '--baseUrl', 'http://127.0.0.1:8000' ],
+	args: [ '--baseUrl', 'http://' + config.hostname + ':' + config.port + '/' ],
 	autoStartStopServer: true,
 	debug: true
 };

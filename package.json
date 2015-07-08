@@ -2,9 +2,9 @@
   "name": "animus",
   "version": "0.0.1",
   "description": "A management utility for the NZ Crucible LARP.",
-  "main": "src/server/server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/server/server.js",
+    "start": "node index.js",
     "test": "gulp test-unit",
     "debug": "gulp run"
   },
