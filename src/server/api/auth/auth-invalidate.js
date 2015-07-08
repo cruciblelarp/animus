@@ -1,7 +1,6 @@
 /* globals module, require */
 
 var app = require('../../express');
-var process = require('../account-invalidate');
 
 /**
  * @api {delete} /api/auth Invalidates the current session.
