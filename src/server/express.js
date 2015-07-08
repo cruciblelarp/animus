@@ -4,6 +4,7 @@ var express = require('express');
 var fileStore = require('session-file-store');
 var errorHandler = require('errorhandler');
 var session = require('express-session');
+var helmet = require('helmet');
 
 var config = require('./config');
 
@@ -12,6 +13,8 @@ var FileStore = fileStore(session);
 var app = express();
 
 app.use(errorHandler());
+
+app.use(helmet());
 
 app.use(session({
 	secret: config.session.secret,
