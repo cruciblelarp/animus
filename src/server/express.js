@@ -5,6 +5,7 @@ var fileStore = require('session-file-store');
 var errorHandler = require('errorhandler');
 var session = require('express-session');
 var helmet = require('helmet');
+var bodyParser = require('body-parser');
 
 var config = require('./config');
 
@@ -13,7 +14,7 @@ var FileStore = fileStore(session);
 var app = express();
 
 app.use(errorHandler());
-
+app.use(bodyParser());
 app.use(helmet());
 
 app.use(session({
