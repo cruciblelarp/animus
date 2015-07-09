@@ -12,6 +12,7 @@ $config.PATH_STATIC = 'src/server/static';
 $config.PATH_STATIC_ABS = path.resolve(__dirname + '/../..', $config.PATH_STATIC);
 $config.PATH_STATIC_REL = '../../' + $config.PATH_STATIC;
 $config.PATH_STATIC_LIBS = $config.PATH_STATIC + '/lib';
+$config.PATH_LIBS_ABS = path.resolve(__dirname + '../../../node_modules');
 
 $config.watch_noread = {
 	read: false

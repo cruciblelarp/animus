@@ -1,24 +1,17 @@
-/** exports, require */
+/* globals exports, require, __dirname */
 
 var phantomjs = require('phantomjs');
 var server = require('../server/server');
+var config = require('../scripts/config');
 
 exports.config = {
 
-	seleniumServerJar: '../../node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
+	seleniumServerJar: config.PATH_LIBS_ABS + '/protractor/selenium/selenium-server-standalone-2.45.0.jar',
 
-	multiCapabilities: [
-
-		{
-			browserName: 'chrome'
-		},
-
-		{
-			browserName: 'phantomjs',
-			'phantomjs.binary.path': phantomjs.path
-		}
-
-	],
+	capabilities: {
+		browserName: 'phantomjs',
+		'phantomjs.binary.path': phantomjs.path
+	},
 
 	framework: 'mocha',
 
@@ -39,7 +32,9 @@ exports.config = {
 	},
 
 	onCleanUp: function() {
-		return server()();
+		return server().then(function(close) {
+			return close();
+		});
 	}
 
 };
