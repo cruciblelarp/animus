@@ -69,6 +69,7 @@
     "neo4j": "^2.0.0-RC1",
     "promise": "^7.0.1",
     "session-file-store": "0.0.14",
+    "suit": "^0.4.0",
     "underscore": "^1.8.3"
   }
 }

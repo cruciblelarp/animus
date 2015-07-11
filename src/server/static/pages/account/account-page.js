@@ -4,11 +4,10 @@ define([
 
 	'angular-module',
 	'utils/routing-provider',
-	'pages/account/account-controller',
 
-	'text!pages/account/account-template.html'
+	'text!pages/account/account-page.html'
 
-], function(ng, _animus, _routing, _controller, _template) {
+], function(ng, _animus, _routing, _template) {
 	var COMPONENT_NAME = 'account';
 
 	ng.module(_animus).config([
@@ -17,7 +16,6 @@ define([
 
 			$routing.state(COMPONENT_NAME, {
 				url: '/account',
-				controller: _controller,
 				template: _template
 			});
 
