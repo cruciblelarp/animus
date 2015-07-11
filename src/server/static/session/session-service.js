@@ -22,7 +22,7 @@ define([
 			function saveUser(user) {
 
 				if (!user) {
-					$sessionStore.clear();
+					$sessionStore.$reset();
 					return $util.resolve(undefined);
 				}
 
@@ -37,24 +37,29 @@ define([
 				return $http.post('/api/auth', {
 					email: email,
 					password: password
+
 				}).then(function(response) {
 					return saveUser(response.data);
 				});
 			};
 
 			$service.logout = function() {
-				return $http.delete('/api/auth', {
-				}).then(function() {
+				return $http.delete('/api/auth').then(function() {
 					return saveUser();
 				});
 			};
 
+			$service.current = function() {
+				var currentId = $sessionStore[$const.KEY_LOGIN];
+				var entityKey = $const.TPL_KEY_ENTITY(currentId);
+				return $sessionStore[entityKey];
+			};
+
 			$service.check = function() {
-				var entityKey = $const.TPL_KEY_ENTITY($sessionStore[$const.KEY_LOGIN]);
-				return $http.get('/api/auth', {
-					email: $sessionStore[entityKey].email
-				}).then(function(response) {
+				return $http.get('/api/auth').then(function(response) {
 					return saveUser(response.data);
+				}).catch(function(error) {
+					return error.status === 401 && saveUser();
 				});
 			};
 

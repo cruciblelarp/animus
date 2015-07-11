@@ -5,7 +5,9 @@ define([
 	'angular-module',
 	'utils/routing-provider',
 
-	'text!pages/account/account-page.html'
+	'text!pages/account/account-page.html',
+
+	'components/account/account-detail'
 
 ], function(ng, _animus, _routing, _template) {
 	var COMPONENT_NAME = 'account';

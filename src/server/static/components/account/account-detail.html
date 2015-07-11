@@ -5,61 +5,61 @@
 		      ng-submit="submit($event)" ng-reset="reset($event)">
 
 			<div class="form-group"
-			     ng-class="{ 'has-warning': user.email !== original.email  }">
+			     ng-class="{ 'has-warning': model.email !== original.email  }">
 
 				<label for="email" class="control-label col-sm-3">Email</label>
 
 				<div class="col-sm-9">
 					<input id="email" name="email" type="email" class="form-control"
-					       ng-model="user.email"/>
+					       ng-model="model.email"/>
 				</div>
 
 			</div>
 
 			<div class="form-group"
-			     ng-class="{ 'has-warning': user.name !== original.name  }">
+			     ng-class="{ 'has-warning': model.name !== original.name  }">
 
 				<label for="name" class="control-label col-sm-3">Name</label>
 
 				<div class="col-sm-9">
 					<input id="name" name="name" type="text" class="form-control"
-					       ng-model="user.name"/>
+					       ng-model="model.name"/>
 				</div>
 
 			</div>
 
 			<div class="form-group"
-			     ng-class="{ 'has-warning': user.token !== original.token  }">
+			     ng-class="{ 'has-warning': model.token !== original.token  }">
 
 				<label for="token" class="control-label col-sm-3">Token</label>
 
 				<div class="col-sm-9">
 					<input id="token" name="token" type="text" class="form-control"
-					       ng-model="user.token"/>
+					       ng-model="model.token"/>
 				</div>
 
 			</div>
 
 			<div class="form-group"
-			     ng-class="{ 'has-warning': user._id !== original._id  }">
+			     ng-class="{ 'has-warning': model._id !== original._id  }">
 
 				<label for="_id" class="control-label col-sm-3">_id</label>
 
 				<div class="col-sm-9">
 					<input id="_id" name="_id" type="text" class="form-control"
-					       ng-model="user._id"/>
+					       ng-model="model._id"/>
 				</div>
 
 			</div>
 
 			<div class="form-group"
-			     ng-class="{ 'has-warning': user.userId !== original.userId  }">
+			     ng-class="{ 'has-warning': model.userId !== original.userId  }">
 
 				<label for="userId" class="control-label col-sm-3">UserId</label>
 
 				<div class="col-sm-9">
 					<input id="userId" name="userId" type="text" class="form-control"
-					       ng-model="user.userId"/>
+					       ng-model="model.userId"/>
 				</div>
 
 			</div>
