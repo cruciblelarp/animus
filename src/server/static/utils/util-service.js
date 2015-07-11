@@ -59,7 +59,7 @@ define([
 					return deferred.promise;
 				},
 
-				resolve: $q.resolve,
+				resolve: $q.when,
 				reject: $q.reject,
 				all: $q.all,
 

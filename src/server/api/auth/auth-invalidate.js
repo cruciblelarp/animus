@@ -9,7 +9,7 @@ var app = require('../../express');
  *
  * @type {String}
  */
-module.exports = app.del('/api/auth', function(request, response) {
+module.exports = app.delete('/api/auth', function(request, response) {
 
 	if (request.session.user) {
 		request.session.destroy();

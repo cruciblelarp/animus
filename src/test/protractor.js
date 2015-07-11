@@ -3,6 +3,9 @@
 var phantomjs = require('phantomjs');
 var server = require('../server/server');
 var config = require('../scripts/config');
+var Promise = require('promise');
+
+var instance = null;
 
 exports.config = {
 
@@ -28,12 +31,14 @@ exports.config = {
 	},
 
 	beforeLaunch: function() {
-		return server();
+		return instance = server();
 	},
 
-	onCleanUp: function() {
-		return server().then(function(close) {
-			return close();
+	afterLaunch: function() {
+		return instance.then(function(stop) {
+			return instance = stop();
+		}).then(function() {
+			return Promise.resolve(0);
 		});
 	}
 
