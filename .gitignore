@@ -4,6 +4,7 @@ node_modules/
 storage/
 *.log
 out/
+sessions/
 
 # IntelliJ
 .idea/
@@ -17,5 +18,6 @@ src/test/dump/lock
 
 # Generated Sources
 src/server/static/lib/
+src/server/static/docs/
 *.manifest
 *.min.*

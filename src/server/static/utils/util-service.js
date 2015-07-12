@@ -59,6 +59,10 @@ define([
 					return deferred.promise;
 				},
 
+				resolve: $q.when,
+				reject: $q.reject,
+				all: $q.all,
+
 				listChanges: function(listFrom, listTo, properties, identifier) {
 
 					var report = {

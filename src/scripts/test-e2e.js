@@ -8,13 +8,14 @@ var config = require('./config');
 
 var protractor_config = {
 	configFile: 'src/test/protractor.js',
-	args: [ '--baseUrl', 'http://127.0.0.1:8000' ],
+	args: [ '--baseUrl', 'http://' + config.hostname + ':' + config.port + '/' ],
 	autoStartStopServer: true,
 	debug: true
 };
 
-module.exports = function() {
-	return gulp.src('src/test/**/*.e2e.js')
+module.exports = function(done) {
+	gulp.src('src/test/**/*.e2e.js')
 		.pipe(protractor(protractor_config))
-		.on('error', utils.log);
+		.on('error', utils.log)
+		.on('end', done);
 };

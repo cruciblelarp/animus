@@ -18,6 +18,7 @@ before_install:
 
 before_script:
   - gulp manifest
+  - gulp docs
 
 after_success:
   - neo4j-community-$NEO4J_VERSION/bin/neo4j stop

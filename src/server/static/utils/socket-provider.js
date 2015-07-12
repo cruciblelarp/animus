@@ -13,7 +13,9 @@ define([
 	ng.module(_animus).provider(COMPONENT_NAME, [
 		function () {
 
-			var configuration = {};
+			var configuration = {
+				transports: [ 'websocket' ]
+			};
 
 			var $provider = {};
 

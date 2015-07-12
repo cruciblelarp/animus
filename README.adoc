@@ -1,5 +1,7 @@
 # Animus
 
+image:https://travis-ci.org/cruciblelarp/animus.svg?branch=master["Build Status", link="https://travis-ci.org/cruciblelarp/animus"]
+
 A management utility for the NZ Crucible LARP.
 
 # Working on the Project
