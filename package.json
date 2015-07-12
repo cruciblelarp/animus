@@ -53,8 +53,8 @@
     "requirejs": "^2.1.18",
     "requirejs-text": "^2.0.12",
     "sinon": "^1.15.3",
-    "sockit-angular": "https://github.com/aetheric/sockit-angular.git",
-    "sockit-express": "https://github.com/aetheric/sockit-express.git",
+    "sockit-angular": "aetheric/sockit-angular",
+    "sockit-express": "aetheric/sockit-express",
     "stream-reduce": "~1.0.3",
     "through2": "^0.6.5",
     "vinyl-sourcemaps-apply": "^0.1.4"
