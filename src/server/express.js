@@ -42,7 +42,9 @@ app.set('views', __dirname);
 app.get('/', function(req, res) {
 	req.session.touch();
 	res.render('main', {
-		dev: !!req.query['dev']
+		dev: req.query['dev']
+			? req.query['dev'] === 'true'
+			: config.debug
 	});
 });
 

@@ -1,54 +1,61 @@
 /* globals require, module */
 
+var _ = require('underscore');
+
 var app = require('./express');
 var auth = require('./service/auth-service');
-var account = require('./service/character-service');
+var account = require('./service/account-service');
 var adminCharacter = require('./service/admin-character-service');
 
 function scan(config, path) {
+	return new Promise(function(resolve, reject) {
 
-	return _.collect(config, function(value, key) {
+		var promises = _.collect(config, function(value, key) {
 
-		if (!_.isFunction(value)) {
-			return scan(value, ( path || '' ) + '/' + key);
-		}
+			if (!_.isFunction(value)) {
+				return scan(value, ( path || '' ) + '/' + key);
+			}
 
-		return app[key](path, function (request, response) {
+			return Promise.resolve(app[key](path, function (request, response) {
 
-			return value(request.params, request.session).done(function (result) {
-				return response.send(200, result);
-			}, function (error) {
+				return value(request.params, request.session).done(function (result) {
+					return response.send(200, result);
+				}, function (error) {
 
-				// Basic error response.
-				if (_.isNumber(error)) {
-					return response.send(error);
-				}
+					// Basic error response.
+					if (_.isNumber(error)) {
+						return response.send(error);
+					}
 
-				// Custom error response.
-				if (error.status && error.message) {
-					return response.send(status, {
-						error: error.message
-					});
-				}
+					// Custom error response.
+					if (error.status && error.message) {
+						return response.send(status, {
+							error: error.message
+						});
+					}
 
-				// System error response.
-				if (error.message && error.stack) {
-					console.error(error.stack);
-					return response.send(500, {
-						error: error.message
-					});
-				}
+					// System error response.
+					if (error.message && error.stack) {
+						console.error(error.stack);
+						return response.send(500, {
+							error: error.message
+						});
+					}
 
-				// Unexpected error response.
-				console.error('Unexpected error response!');
-				return response.send(500);
+					// Unexpected error response.
+					console.error('Unexpected error response!');
+					return response.send(500);
 
-			});
+				});
+
+			}));
 
 		});
 
-	});
+		return Promise.all(_.compact(promises))
+			.then(resolve, reject);
 
+	});
 }
 
 module.exports = scan({

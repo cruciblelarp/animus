@@ -6,6 +6,10 @@ module.exports = {
 		base: __dirname
 	},
 
+	debug: process.env['production']
+		? process.env['production'] !== 'true'
+		: true,
+
 	hostname: process.env['HOST'] || 'localhost',
 
 	port: process.env['PORT'] || 8000,
