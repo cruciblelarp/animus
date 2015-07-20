@@ -8,7 +8,8 @@ define([
 	'text!pages/admin/characters/admin-characters-page.html',
 
 	// Directive used in page.
-	'components/entities/character-list'
+	'components/character/character-list',
+	'filters/path-filter'
 
 ], function(ng, _animus, _routing, _template) {
 	var COMPONENT_NAME = 'admin.characters';
@@ -19,7 +20,12 @@ define([
 
 			$routing.state(COMPONENT_NAME, {
 				url: '/admin/characters',
-				template: _template
+				template: _template,
+				children: {
+					'detail': {
+						url: '/admin/characters/:id'
+					}
+				}
 			});
 
 		}

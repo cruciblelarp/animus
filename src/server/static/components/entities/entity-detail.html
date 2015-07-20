@@ -44,7 +44,18 @@
 
 			</fieldset>
 
-			<fieldset entity-detail-character ng-if="hasLabel('Character', entity)"></fieldset>
+			<fieldset ng-if="hasLabel('Character', entity)">
+				<div class="panel panel-default">
+
+					<div class="panel-header">
+						<h3>Character</h3>
+					</div>
+
+					<div class="panel-content" data-panel-character>
+					</div>
+
+				</div>
+			</fieldset>
 
 			<fieldset entity-detail-perk ng-if="hasLabel('Perk', entity)"></fieldset>
 
