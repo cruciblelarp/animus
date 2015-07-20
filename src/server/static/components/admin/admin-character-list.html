@@ -1,0 +1,21 @@
+<div class="admin-character-list row">
+
+	<div class="col-sm-4">
+		<div class="row">
+			<div class="col-xs-12" data-ng-repeat="key for (key, value) in characters">
+				<h4 data-ng-bind="value.name" data-ui-sref="admin.characters({ id: key })"></h4>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-8" data-ng-hide="selection">
+		<div class="alert alert-info">
+			<p>No character selected</p>
+		</div>
+	</div>
+
+	<div class="col-sm-8" data-ng-show="selection">
+		<div data-panel-character data-selection="selection"></div>
+	</div>
+
+</div>
