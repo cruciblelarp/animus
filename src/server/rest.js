@@ -19,17 +19,18 @@ function scan(config, path) {
 			return Promise.resolve(app[key](path, function (request, response) {
 
 				return value(request.params, request.session).done(function (result) {
-					return response.send(200, result);
+					return response.status(200).send(result);
+
 				}, function (error) {
 
 					// Basic error response.
 					if (_.isNumber(error)) {
-						return response.send(error);
+						return response.status(error);
 					}
 
 					// Custom error response.
 					if (error.status && error.message) {
-						return response.send(status, {
+						return response.status(error.status).send({
 							error: error.message
 						});
 					}
@@ -37,14 +38,14 @@ function scan(config, path) {
 					// System error response.
 					if (error.message && error.stack) {
 						console.error(error.stack);
-						return response.send(500, {
+						return response.status(500).send({
 							error: error.message
 						});
 					}
 
 					// Unexpected error response.
 					console.error('Unexpected error response!');
-					return response.send(500);
+					return response.status(500);
 
 				});
 

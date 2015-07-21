@@ -39,7 +39,7 @@ define([
 
 	ng.module(_animus).run([
 		'$rootScope', _util, '$http',
-		function($root, $util) {
+		function($root, $util, $http) {
 
 			$root.$watch('session.selected.character', function(characterId) {
 
@@ -47,10 +47,14 @@ define([
 
 					// Grab the first character in the character list if possible.
 					var first = _.first($util.$get($root.session, 'collection.characters'));
-					if (first && first.id) {
-						$util.$set($root.session, 'selected.character', first);
-						return; // will trigger the watch expression again.
+					if (!first || !first.id) {
+						// nothing special here.
+						return;
 					}
+
+					// set the selected character, which will trigger the watch expression again.
+					$util.$set($root.session, 'selected.character', first);
+					return;
 
 				}
 
@@ -63,12 +67,12 @@ define([
 				});
 
 				// Make sure that the loading object exists.
-				if (!$scope.$root.loading) {
-					$scope.$root.loading = {};
+				if (!$root.loading) {
+					$root.loading = {};
 				}
 
 				// Save the loading promise globally.
-				$scope.$root.loading['api/admin/characters/:id'] = loading;
+				$root.loading['api/admin/characters/:id'] = loading;
 
 			});
 
