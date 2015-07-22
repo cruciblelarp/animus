@@ -42,13 +42,13 @@ module.exports = function(validation, operation) {
 	return function(params, session) {
 
 		// If the request payload successfully validates..
-		return validator(params).then(function() {
+		return validator(params).then(function(result) {
 
 			// Return a promise for the operation.
 			return new Promise(function(resolve, reject) {
 
 				// All operations return the result of their resolution/rejection
-				return operation(params, session, resolve, reject);
+				return operation(result, session, resolve, reject);
 
 			});
 

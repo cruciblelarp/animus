@@ -15,8 +15,8 @@ module.exports = {
 
 	login: wrapper(function(c) {
 		return {
-			email: c.email,
-			password: c.string
+			email: [ c.email, c.required ],
+			password: [ c.string, c.required ]
 		}
 
 	}, function(params, session, resolve, reject) {

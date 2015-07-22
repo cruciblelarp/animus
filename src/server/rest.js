@@ -18,7 +18,9 @@ function scan(config, path) {
 
 			return Promise.resolve(app[key](path, function (request, response) {
 
-				return value(request.params, request.session).done(function (result) {
+				var data = _.extend({}, request.query, request.body, request.params);
+
+				return value(data, request.session).then(function (result) {
 					return response.status(200).send(result);
 
 				}, function (error) {
