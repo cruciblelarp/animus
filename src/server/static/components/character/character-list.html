@@ -17,7 +17,7 @@
 
 	<div class="col-md-4" data-ng-repeat-start="character in characters track by character.id">
 		<ul class="nav nav-tabs">
-			<li role="presentation" data-ui-sref-active="active">
+			<li role="presentation" data-ui-sref-active="active" cg-busy="character.loading">
 				<a href="#"
 				   data-ui-sref="admin.characters({ id: character.id })"
 				   data-ng-bind="character.name + ' (' + character.player.name + ')'"></a>

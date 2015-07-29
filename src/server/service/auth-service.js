@@ -53,7 +53,7 @@ module.exports = {
 
 		});
 
-	}),
+	}, false),
 
 	logout: wrapper(function(c) {
 		return {
@@ -74,11 +74,7 @@ module.exports = {
 		return {
 		};
 
-	}, function(params, session, resolve, reject) {
-
-		if (!session.user) {
-			return reject(401);
-		}
+	}, function(params, session, resolve) {
 
 		return resolve(session.user);
 

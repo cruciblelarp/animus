@@ -31,6 +31,53 @@ define([
 
 			});
 
+			$rootScope.$on('$errorUnauthorised', function() {
+				$util.$set($sessionStorage, $const.KEY_LOGIN, null);
+			});
+
+		}
+	]);
+
+	ng.module(_animus).config([
+		'$httpProvider',
+		function($httpProvider) {
+
+			$httpProvider.interceptors.push([
+				'$rootScope', '$q', '$log',
+				function($root, $q, $log) {
+
+					return {
+
+						responseError: function(rejection) {
+
+							switch(rejection.status) {
+
+								case 401:
+									$log.warn('Error received: Unauthorised');
+									$root.$emit('$errorUnauthorised');
+									break;
+
+								case 403:
+									$log.warn('Error received: Forbidden');
+									$root.$emit('$errorForbidden');
+									break;
+
+								case 500:
+									$log.warn('Error received: Server');
+									$root.$emit('$errorServer');
+									break;
+
+							}
+
+							return $q.reject(rejection);
+
+						}
+
+					}
+
+				}
+			])
+
 		}
 	]);
 

@@ -16,7 +16,7 @@ var Validator = function(constructor) {
 			} catch (error) {
 
 				if (_.isString(error)) {
-					console.debug(error);
+					console.warn(error);
 					return reject(400, {
 						message: error
 					});
@@ -34,12 +34,17 @@ var Validator = function(constructor) {
 	}
 };
 
-module.exports = function(validation, operation) {
+module.exports = function(validation, operation, secure) {
 
 	var validator = new Validator(validation);
 
 	// Each service function is provided two arguments: params and session.
 	return function(params, session) {
+
+		if (( secure || _.isUndefined(secure) ) && ( !session.user || !session.user.id )) {
+			console.log('Attempted access to secured endpoint.');
+			return Promise.reject(401);
+		}
 
 		// If the request payload successfully validates..
 		return validator(params).then(function(result) {

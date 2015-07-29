@@ -1,16 +1,18 @@
 define([
 
+	'underscore',
 	'angular',
 
 	'angular-module',
 	'utils/util-service',
+	'sockit/orchestrator',
 
 	'text!components/character/character-list.html',
 
 	// Needed angular components that don't need injection.
 	'components/character/character-detail'
 
-], function(ng, _animus, _util, template) {
+], function(_, ng, _animus, _util, _orchestrator, template) {
 	var COMPONENT_NAME = 'componentCharacterList';
 
 	ng.module(_animus).directive(COMPONENT_NAME, function() {
@@ -21,17 +23,37 @@ define([
 			template: template,
 
 			scope: {
-				componentCharacterListSelected: '='
+				selected: '='
 			},
 
 			controller: [
-				'$scope', _util,
-				function($scope, $util) {
+				'$scope', _util, _orchestrator, '$http',
+				function($scope, $util, $orchestrator, $http) {
 
-					$scope.loading = $scope.$root.loading['/api/admin/characters/:id'];
+					// Start requesting the character detail.
+					$scope.loading = $http.get('/api/admin/characters').then(function(response) {
+						$orchestrator.collection('admin.characters', response.data);
+						$scope.characters = _.collect(response.data, function(characterId) {
 
-					var entityId = $util.$get($scope.$root.session, 'selected.character');
-					$scope.target = entityId && $scope.$root.session['entity[' + entityId + ']'];
+							var character = {
+								id: characterId
+							};
+
+							character.loading = $http.get('/api/admin/characters/' + characterId).then(function(response) {
+								$orchestrator.entity(characterId, response.data);
+								character.name = response.data.name;
+
+							}, function(error) {
+								console.error(error.stack || error.message || error);
+							});
+
+							return character;
+
+						});
+
+					}, function(error) {
+						console.error(error.stack || error.message || error);
+					});
 
 				}
 			]
@@ -39,44 +61,6 @@ define([
 		};
 
 	});
-
-	ng.module(_animus).run([
-		'$rootScope', _util, '$http',
-		function($root, $util) {
-
-			$root.$watch('session.selected.character', function(characterId) {
-
-				if (!characterId) {
-
-					// Grab the first character in the character list if possible.
-					var first = _.first($util.$get($root.session, 'collection.characters'));
-					if (first && first.id) {
-						$util.$set($root.session, 'selected.character', first);
-						return; // will trigger the watch expression again.
-					}
-
-				}
-
-				// Start requesting the character detail.
-				var loading = $http.get('/api/admin/characters/' + characterId).then(function(response) {
-					$util.$set($root.session, 'entity[' + response.data.id + ']', response.data);
-
-				}, function(error) {
-					console.error(error.stack);
-				});
-
-				// Make sure that the loading object exists.
-				if (!$scope.$root.loading) {
-					$scope.$root.loading = {};
-				}
-
-				// Save the loading promise globally.
-				$scope.$root.loading['api/admin/characters/:id'] = loading;
-
-			});
-
-		}
-	]);
 
 	return COMPONENT_NAME;
 });

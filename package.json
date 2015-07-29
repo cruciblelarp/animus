@@ -4,6 +4,7 @@
   "description": "A management utility for the NZ Crucible LARP.",
   "main": "index.js",
   "scripts": {
+    "build": "gulp manifest",
     "start": "node index.js",
     "test": "gulp test-unit",
     "debug": "gulp run"

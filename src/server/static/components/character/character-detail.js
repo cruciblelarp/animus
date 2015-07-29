@@ -58,9 +58,16 @@ define([
 
 				}
 
+				var character = $util.$get($root.session, 'entity[' + characterId + ']');
+				if (character) {
+					// character already retrieved
+					return $util.resolve(character);
+				}
+
 				// Start requesting the character detail.
 				var loading = $http.get('/api/admin/characters/' + characterId).then(function(response) {
-					$util.$set($root.session, 'entity[' + response.data.id + ']', response.data);
+					$util.$set($root.session, 'entity[/api/admin/characters/' + response.data.id + ']', response.data);
+					return $util.resolve(response.data);
 
 				}, function(error) {
 					console.error(error.stack);

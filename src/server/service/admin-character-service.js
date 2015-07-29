@@ -1,5 +1,6 @@
 /* globals require, module */
 
+var _ = require('underscore');
 var Promise = require('promise');
 
 var query = require('../neo4j');
@@ -10,7 +11,7 @@ var cipher_list = '' +
 	'  WHERE id(user) = {userId}' +
 	'  AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)' +
 	'  XOR NOT (node) - [:Requires] -> (:Permission)' +
-	'  RETURN node;';
+	'  RETURN id(node);';
 
 var cipher_create = '';
 
@@ -18,11 +19,27 @@ var cipher_read = '' +
 	'MATCH (node:Character),(user:User)' +
 	'  WHERE id(user) = {userId}' +
 	'  AND id(node) = {charId}' +
-	'  AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)';
+	'  AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)' +
+	'  XOR NOT (node) - [:Requires] -> (:Permission)' +
+	'  RETURN node';
 
-var cipher_update = '';
+var cipher_update = '' +
+	'MATCH (node:Character),(user:User)' +
+	'  WHERE id(user) = {userId}' +
+	'  AND id(node) = {charId}' +
+	'  AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)' +
+	'  XOR NOT (node) - [:Requires] -> (:Permission)' +
+	'  UPDATE node.name = {name}' +
+	'  RETURN node';
 
-var cipher_delete = '';
+var cipher_delete = '' +
+	'MATCH (node:Character),(user:User)' +
+	'  WHERE id(user) = {userId}' +
+	'  AND id(node) = {charId}' +
+	'  AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)' +
+	'  XOR NOT (node) - [:Requires] -> (:Permission)' +
+	'  REMOVE node' +
+	'  RETURN node';
 
 /**
  * A service for providing operations for character admin.
@@ -32,7 +49,7 @@ module.exports = {
 
 	/**
 	 * Lists all of the characters in the database.
-	 * @return {Promise} Resolves to a list of Character items.
+	 * @return {Promise} Resolves to a list of Character ids.
 	 */
 	list: wrapper(function(c) {
 		return {
@@ -45,10 +62,7 @@ module.exports = {
 		}).then(function(results) {
 
 			var items = _.collect(results, function(result) {
-				return _.extend({}, result.node.properties, {
-					id: result.node._id,
-					labels: result.node.labels
-				});
+				return result['id(node)'];
 			});
 
 			return Promise.resolve(items);
@@ -63,6 +77,7 @@ module.exports = {
 	 */
 	create: wrapper(function(c) {
 		return {
+			name: [ c.required, c.string ]
 		};
 
 	}, function(params, session, resolve, reject) {
@@ -88,11 +103,13 @@ module.exports = {
 
 	read: wrapper(function(c) {
 		return {
+			id: [ c.required, c.integer ]
 		};
 
 	}, function(params, session, resolve, reject) {
 		return query(cipher_read, {
-			charId: params.id
+			charId: params.id,
+			userId: session.user.id
 
 		}).then(function(results) {
 
@@ -113,6 +130,7 @@ module.exports = {
 
 	update: wrapper(function(c) {
 		return {
+			id: [ c.required, c.integer ]
 		};
 
 	}, function(params, session, resolve, reject) {
@@ -139,6 +157,7 @@ module.exports = {
 
 	delete: wrapper(function(c) {
 		return {
+			id: [ c.required, c.integer ]
 		};
 
 	}, function(params, session, resolve, reject) {
