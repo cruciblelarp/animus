@@ -3,11 +3,10 @@ define([
 	'angular',
 	'text!character/character-template.html',
 
-	'angular-module',
-	'character/character-controller'
+	'angular-module'
 
 ], function(ng, template, _animus, _controller) {
-	var COMPONENT_NAME = 'panelCharacter';
+	var COMPONENT_NAME = 'adminCharacterList';
 
 	ng.module(_animus).directive(COMPONENT_NAME, function() {
 

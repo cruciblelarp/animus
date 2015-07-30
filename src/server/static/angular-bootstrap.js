@@ -17,4 +17,16 @@ define([
 
 	ng.bootstrap(document, [ _animus ]);
 
+	ng.module(_animus).run([
+		'$rootScope',
+		function($root) {
+
+			// Make sure that the loading object exists.
+			if (!$root.loading) {
+				$root.loading = {};
+			}
+
+		}
+	])
+
 });

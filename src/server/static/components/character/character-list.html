@@ -1,0 +1,44 @@
+<div id="character-list" class="row" cg-busy="loading">
+
+	<div class="col-xs-12">
+		<form name="searchForm" class="form-inline" ng-submit="noop($event)">
+
+			<div class="form-group">
+
+				<label for="search" class="form-label">Search:</label>
+
+				<input type="search" id="search" class="form-control"
+				       ng-model="search"/>
+
+			</div>
+
+		</form>
+	</div>
+
+	<div class="col-md-4" data-ng-repeat-start="character in characters track by character.id">
+		<ul class="nav nav-pills nav-stacked">
+
+			<li data-ui-sref-active="active"
+			    data-cg-busy="character.loading">
+
+				<a href="#" data-ui-sref="admin.characters.detail({ id: character.id })">
+					<span data-ng-bind="character.name"/>
+					<span data-ng-show="character.player.name"
+					      data-ng-bind-template="({{ character.player.name }})"/>
+				</a>
+
+			</li>
+
+		</ul>
+	</div>
+
+	<div class="col-md-8" data-ng-show="isSelected(character)">
+		<div data-component-character-detail
+		     data-selected="character"></div>
+	</div>
+
+	<div class="col-xs-12"
+	     data-ng-repeat-end
+	     data-ng-show="isSelected(character)"></div>
+
+</div>

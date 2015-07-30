@@ -10,7 +10,7 @@ define([
 	'text!components/entities/entity-detail.html',
 
 	// Sub directives this directive uses.
-	'components/entities/entity-detail-character'
+	'components/character/character-detail'
 
 ], function(_, ng, _animus, template) {
 	var COMPONENT_NAME = 'entityDetail';

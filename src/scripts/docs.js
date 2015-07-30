@@ -6,7 +6,7 @@ var apidoc = require('gulp-apidoc');
 module.exports = function() {
 
 	return apidoc.exec({
-		src: 'src/server/api/',
+		src: 'src/server',
 		dest: 'src/server/static/docs',
 		debug: true,
 		includeFilters: [

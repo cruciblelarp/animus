@@ -10,25 +10,10 @@ define([
 	var COMPONENT_NAME = '$util';
 
 	ng.module(_animus).service(COMPONENT_NAME, [
-		_routing, _alert, '$log', '$parse', '$q',
-		function (_routing, $alert, $log, $parse, $q) {
+		_alert, '$log', '$parse', '$q',
+		function ($alert, $log, $parse, $q) {
 
 			return $this = {
-
-				handleError: function (error, context) {
-					switch (context.status) {
-						case 401:
-							$log.warn(error);
-							_routing.go('login');
-							break;
-						default:
-							$log.error(error);
-							$alert.error({
-								contentKey: error.error
-							});
-							break;
-					}
-				},
 
 				singleton: function(key, value) {
 					var map = {};
@@ -62,57 +47,6 @@ define([
 				resolve: $q.when,
 				reject: $q.reject,
 				all: $q.all,
-
-				listChanges: function(listFrom, listTo, properties, identifier) {
-
-					var report = {
-						removed: [],
-						changed: [],
-						added: [],
-						same: []
-					};
-
-					report.removed = _.findAll(listFrom, function(itemFrom) {
-						var dest = 'removed';
-
-						_.each(listTo, function(itemTo) {
-
-							if (!_.isUndefined(identifier)) {
-								if(itemFrom[identifier] === itemTo[identifier]) {
-									// These identifiers don't match. No need to check anything else.
-									return;
-								}
-							}
-
-							var propertiesMatch = true;
-							_.find(properties, function(property) {
-
-								propertiesMatch &= itemFrom[property] && toHasProperty;
-
-								if (!propertiesMatch) {
-									return true;
-								}
-
-							});
-
-							if (propertiesMatch) {
-								dest = 'same';
-								return true;
-							}
-
-							if (!_.isUndefined(identifier)) {
-								dest = 'changed';
-								return true;
-							}
-
-						});
-
-						report[dest] = itemFrom;
-
-					});
-
-					return report;
-				}
 
 			};
 		}

@@ -8,7 +8,8 @@ define([
 	'text!pages/admin/admin-page.html',
 
 	// Directive used in page.
-	'components/entities/entity-list'
+	'components/entities/entity-list',
+	'pages/admin/characters/admin-characters-page'
 
 ], function(ng, _animus, _routing, _tplAdminPage) {
 	var COMPONENT_NAME = 'admin';
