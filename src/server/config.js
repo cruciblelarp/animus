@@ -14,7 +14,7 @@ module.exports = {
 
 	port: process.env['PORT'] || 8000,
 	database: {
-		url: process.env['GRAPHINEDB_URL']
+		url: process.env['GRAPHENEDB_URL']
 			|| 'http://neo4j:password@localhost:7474'
 	},
 
