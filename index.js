@@ -1,8 +1,9 @@
 /* globals require, process, JSON, console */
 
-console.log('Config and ');
-console.log('process.env: ' + JSON.stringify(process.env, null, '\t'));
-console.log('config: ' + JSON.stringify(require('./src/server/config'), null, '\t'));
+process.nextTick(function() {
+	console.log('process.env: ' + JSON.stringify(process.env, null));
+	console.log('config: ' + JSON.stringify(require('./src/server/config'), null));
+});
 
 var server = require('./src/server/server');
 
