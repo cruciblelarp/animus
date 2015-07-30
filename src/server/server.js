@@ -7,53 +7,75 @@ var config = require('./config');
 var http = require('./http');
 var rest = require('./rest');
 
-var running = null;
+var running = false;
 
-module.exports = function start() {
+rest.then(function() {
+	console.log('API endpoints successfully wired.');
+}, function(error) {
+	console.error('API endpoints failed to wire: ' + error.message);
+	console.error(error.stack);
+});
 
-	if (running) {
-		console.log('Server already running.');
-		return running;
-	}
+module.exports = {
 
-	console.log('Beginning API endpoint scan.');
-	rest.then(function() {
-		console.log('API endpoints successfully wired.');
-	}, function(error) {
-		console.error('API endpoints failed to wire: ' + error.message);
-		console.error(error.stack);
-	});
+	start: function() {
 
-	console.log('Beginning server start');
-	return new Promise(function(resolve, reject) {
+		if (running) {
+			return Promise.reject(new Error('Server already running.'));
+		}
 
-		http.listen(config.port, config.hostname, function() {
-			console.log('Starting application on http://' + config.hostname + ':' + config.port + '/');
-
-			return resolve(function stop() {
-				return new Promise(function(resolve, reject) {
-
-					return http.close(function(error) {
-						console.log('Application shutdown complete.');
-
-						if (error) {
-							console.error(error.stack);
-							return reject(error);
-						}
-
-						running = null;
-						return resolve(start);
-
-					});
-
-				});
-			});
-
-		}).on('error', function(error) {
-			console.error(error.stack);
-			return reject(error);
+		var promise_resolve, promise_reject;
+		var promise = new Promise(function(resolve, reject) {
+			promise_resolve = resolve;
+			promise_reject = reject;
 		});
 
-	});
+		running = true;
+		http.listen(config.port, config.hostname, function() {
+			console.log('Starting application on http://' + config.hostname + ':' + config.port + '/');
+			promise_resolve();
+
+		}).on('error', function(error) {
+
+			console.error(error.stack);
+
+			running = false;
+			promise_reject(error);
+
+		});
+
+		return promise;
+
+	},
+
+	stop: function() {
+
+		if (!running) {
+			return Promise.reject(new Error('Server already stopped.'));
+		}
+
+		var promise_resolve;
+		var promise_reject;
+		var promise = new Promise(function(resolve, reject) {
+			promise_resolve = resolve;
+			promise_reject = reject;
+		});
+
+		http.close(function(error) {
+			console.log('Application shutdown complete.');
+
+			if (error) {
+				console.error(error.stack);
+				promise_reject(error);
+			}
+
+			running = false;
+			promise_resolve();
+
+		});
+
+		return promise;
+
+	}
 
 };
