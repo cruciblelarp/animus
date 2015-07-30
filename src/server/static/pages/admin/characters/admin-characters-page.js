@@ -22,9 +22,11 @@ define([
 				url: '/admin/characters',
 				template: _template,
 				children: {
-					'detail': {
-						url: '/admin/characters/:id'
+
+					detail: {
+						url: '/{id:int}'
 					}
+
 				}
 			});
 

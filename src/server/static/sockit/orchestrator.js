@@ -17,15 +17,19 @@ define([
 				function($root, $util) {
 					var $service = {};
 
+					function reference(type, identifier) {
+						return 'session["' + type + ":" + identifier + '"]';
+					}
+
 					function accessor(type) {
 						return function(id, item) {
-							var reference = type + '[' + id + ']';
+							var ref = reference(type, id);
 
 							if (item) {
-								$util.$set($root.session, reference, item);
+								$util.$set($root, ref, item);
 							}
 
-							return $util.$get($root.session, reference);
+							return $util.$get($root, ref);
 						}
 					}
 
@@ -38,7 +42,7 @@ define([
 					$service.collection = accessor('collection');
 
 					$service.$watchCollection = function(name, callback) {
-						$root.$watchCollection('session.collection[' + name + ']', callback);
+						$root.$watchCollection(reference('collection', name), callback);
 					};
 
 					/**
@@ -50,7 +54,7 @@ define([
 					$service.entity = accessor('entity');
 
 					$service.$watchEntity = function(id, callback) {
-						$root.$watch('session.entity[' + id + ']', callback, true);
+						$root.$watch(reference('entity', id), callback, true);
 					};
 
 					/**
@@ -63,8 +67,8 @@ define([
 					 */
 					$service.form = accessor('form');
 
-					$service.$watchForm = function(id, callback) {
-						$root.$watch('session.form[' + id + ']', callback, true);
+					$service.$watchForm = function(name, callback) {
+						$root.$watch(reference('form', name), callback, true);
 					};
 
 					/**

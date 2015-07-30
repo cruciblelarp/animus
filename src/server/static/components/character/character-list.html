@@ -16,19 +16,29 @@
 	</div>
 
 	<div class="col-md-4" data-ng-repeat-start="character in characters track by character.id">
-		<ul class="nav nav-tabs">
-			<li role="presentation" data-ui-sref-active="active" cg-busy="character.loading">
-				<a href="#"
-				   data-ui-sref="admin.characters({ id: character.id })"
-				   data-ng-bind="character.name + ' (' + character.player.name + ')'"></a>
+		<ul class="nav nav-pills nav-stacked">
+
+			<li data-ui-sref-active="active"
+			    data-cg-busy="character.loading">
+
+				<a href="#" data-ui-sref="admin.characters.detail({ id: character.id })">
+					<span data-ng-bind="character.name"/>
+					<span data-ng-show="character.player.name"
+					      data-ng-bind-template="({{ character.player.name }})"/>
+				</a>
+
 			</li>
+
 		</ul>
 	</div>
 
-	<div class="col-md-8" data-ng-show="character.id === selected">
-		<div data-component-character-detail="character"></div>
+	<div class="col-md-8" data-ng-show="isSelected(character)">
+		<div data-component-character-detail
+		     data-selected="character"></div>
 	</div>
 
-	<div class="col-xs-12" data-ng-repeat-end data-ng-show="character.id === selected"></div>
+	<div class="col-xs-12"
+	     data-ng-repeat-end
+	     data-ng-show="isSelected(character)"></div>
 
 </div>

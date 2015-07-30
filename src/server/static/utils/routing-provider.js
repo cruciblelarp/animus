@@ -47,9 +47,15 @@ define([
 
 					if (stateConfig.children) {
 						_.each(stateConfig.children, function(childConfig, childName) {
-							$provider.state(childName, _.extend(childConfig, {
+
+							var fullChildName = childName.indexOf(stateName) !== 0
+									? stateName + '.' + childName
+									: childName;
+
+							$provider.state(fullChildName, _.extend(childConfig, {
 								parent: stateName
 							}));
+
 						});
 
 						delete stateConfig.children;

@@ -30,9 +30,13 @@ define([
 				'$scope', _util, _orchestrator, '$http',
 				function($scope, $util, $orchestrator, $http) {
 
+					$scope.isSelected = function(character) {
+						return character && character.id === $scope.selected;
+					};
+
 					// Start requesting the character detail.
 					$scope.loading = $http.get('/api/admin/characters').then(function(response) {
-						$orchestrator.collection('admin.characters', response.data);
+						$orchestrator.collection('/admin/characters', response.data);
 						$scope.characters = _.collect(response.data, function(characterId) {
 
 							var character = {
@@ -42,6 +46,7 @@ define([
 							character.loading = $http.get('/api/admin/characters/' + characterId).then(function(response) {
 								$orchestrator.entity(characterId, response.data);
 								character.name = response.data.name;
+								return $util.resolve(character);
 
 							}, function(error) {
 								console.error(error.stack || error.message || error);
