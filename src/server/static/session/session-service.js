@@ -27,9 +27,10 @@ define([
 					return $util.resolve(result);
 				}
 
+				$root.session.userId = user.id;
 				var entityKey = $const.TPL_KEY_ENTITY(user.id);
-				$orchestrator.resource(entityKey) = user;
-				$sessionStore[$const.KEY_LOGIN] = user.id;
+
+				$orchestrator.resource(entityKey, user);
 				return $util.resolve(user)
 
 			}
@@ -51,9 +52,8 @@ define([
 			};
 
 			$service.current = function() {
-				var currentId = $sessionStore[$const.KEY_LOGIN];
-				var entityKey = $const.TPL_KEY_ENTITY(currentId);
-				return $sessionStore[entityKey];
+				var entityKey = $const.TPL_KEY_ENTITY($root.session.userId);
+				return $orchestrator.entity(entityKey);
 			};
 
 			$service.check = function() {
