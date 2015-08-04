@@ -9,19 +9,14 @@ var rest = require('./rest');
 
 var running = false;
 
-rest.then(function() {
-	console.log('API endpoints successfully wired.');
-}, function(error) {
-	console.error('API endpoints failed to wire: ' + error.message);
-	console.error(error.stack);
-});
-
 module.exports = {
 
-	start: function() {
+	start: function(onSuccess, onError) {
 
 		if (running) {
-			return Promise.reject(new Error('Server already running.'));
+			var error = new Error('Server already running.');
+			onError && onError(error);
+			return Promise.reject(error);
 		}
 
 		var promise_resolve, promise_reject;
@@ -33,14 +28,16 @@ module.exports = {
 		running = true;
 		http.listen(config.port, config.hostname, function() {
 			console.log('Starting application on http://' + config.hostname + ':' + config.port + '/');
-			promise_resolve();
+			onSuccess && onSuccess();
+			return promise_resolve();
 
 		}).on('error', function(error) {
 
 			console.error(error.stack);
 
 			running = false;
-			promise_reject(error);
+			onError && onError();
+			return promise_reject(error);
 
 		});
 
@@ -48,7 +45,7 @@ module.exports = {
 
 	},
 
-	stop: function() {
+	stop: function(onSuccess, onError) {
 
 		if (!running) {
 			return Promise.reject(new Error('Server already stopped.'));
@@ -66,11 +63,13 @@ module.exports = {
 
 			if (error) {
 				console.error(error.stack);
-				promise_reject(error);
+				onError && onError();
+				return promise_reject(error);
 			}
 
 			running = false;
-			promise_resolve();
+			onSuccess && onSuccess();
+			return promise_resolve();
 
 		});
 

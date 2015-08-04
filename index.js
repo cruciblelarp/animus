@@ -5,7 +5,7 @@ process.nextTick(function() {
 	console.log('config: ' + JSON.stringify(require('./src/server/config'), null));
 });
 
-require('./src/server/server').start().then(function() {
+require('./src/server/server').start(function() {
 	console.log("Server is up!");
 
 }, function(error) {

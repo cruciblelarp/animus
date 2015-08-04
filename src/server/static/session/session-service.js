@@ -4,31 +4,33 @@ define([
 	'angular',
 
 	'angular-module',
-
 	'utils/util-service',
+	'sockit/orchestrator',
+
 	'utils/constants',
 
 	'session/session-config'
 
-], function(_, ng, _animus, _util, $const) {
+], function(_, ng, _animus, _util, _orchestrator, $const) {
 	var COMPONENT_NAME = '$session';
 
 	ng.module(_animus).service(COMPONENT_NAME, [
-		'$rootScope', _util, '$sessionStorage', '$http',
-		function ($rootScope, $util, $sessionStore, $http) {
+		'$rootScope', _util, _orchestrator, '$http',
+		function ($root, $util, $orchestrator, $http) {
 
 			var $service = {};
 
 			function saveUser(user) {
 
 				if (!user) {
-					$sessionStore.$reset();
-					return $util.resolve(undefined);
+					var result = $orchestrator.destroy();
+					return $util.resolve(result);
 				}
 
+				$root.session.userId = user.id;
 				var entityKey = $const.TPL_KEY_ENTITY(user.id);
-				$sessionStore[entityKey] = user;
-				$sessionStore[$const.KEY_LOGIN] = user.id;
+
+				$orchestrator.resource(entityKey, user);
 				return $util.resolve(user)
 
 			}
@@ -50,9 +52,8 @@ define([
 			};
 
 			$service.current = function() {
-				var currentId = $sessionStore[$const.KEY_LOGIN];
-				var entityKey = $const.TPL_KEY_ENTITY(currentId);
-				return $sessionStore[entityKey];
+				var entityKey = $const.TPL_KEY_ENTITY($root.session.userId);
+				return $orchestrator.entity(entityKey);
 			};
 
 			$service.check = function() {
