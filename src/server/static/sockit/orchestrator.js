@@ -13,23 +13,27 @@ define([
 			var $provider = {};
 
 			$provider.$get = [
-				'$rootScope', '$util',
-				function($root, $util) {
+				'$rootScope', '$sessionStore', '$util',
+				function($root, $session, $util) {
 					var $service = {};
 
-					function reference(type, identifier) {
-						return 'session["' + type + ":" + identifier + '"]';
+					function rootRef(type, identifier) {
+						return 'session["' + ref(type, identifier) + '"]';
+					}
+
+					function ref(type, identifier) {
+						return type + ":" + identifier;
 					}
 
 					function accessor(type) {
 						return function(id, item) {
-							var ref = reference(type, id);
+							var ref = ref(type, id);
 
 							if (item) {
-								$util.$set($root, ref, item);
+								$session[ref] = item;
 							}
 
-							return $util.$get($root, ref);
+							return $session[ref];
 						}
 					}
 
@@ -42,19 +46,19 @@ define([
 					$service.collection = accessor('collection');
 
 					$service.$watchCollection = function(name, callback) {
-						$root.$watchCollection(reference('collection', name), callback);
+						$root.$watchCollection(rootRef('collection', name), callback);
 					};
 
 					/**
 					 *
-					 * @param {String} id The id of the entity to store in the session.
-					 * @param {Object} [entity] The entity to store in the session.
-					 * @returns {Object} The entity stored in the session.
+					 * @param {String} id The id of the resource to store in the session.
+					 * @param {Object} [resource] The resource to store in the session.
+					 * @returns {Object} The resource stored in the session.
 					 */
-					$service.entity = accessor('entity');
+					$service.resource = accessor('resource');
 
-					$service.$watchEntity = function(id, callback) {
-						$root.$watch(reference('entity', id), callback, true);
+					$service.$watchResource = function(id, callback) {
+						$root.$watch(rootRef('resource', id), callback, true);
 					};
 
 					/**
@@ -68,7 +72,7 @@ define([
 					$service.form = accessor('form');
 
 					$service.$watchForm = function(name, callback) {
-						$root.$watch(reference('form', name), callback, true);
+						$root.$watch(rootRef('form', name), callback, true);
 					};
 
 					/**
@@ -112,6 +116,12 @@ define([
 					 * @returns {Promise} A promise for when the operation is fulfilled.
 					 */
 					$service.queue = accessor('queue');
+
+					/**
+					 * Pass-through call to {@link $sessionStore#$reset}. Will completely erase the contents of the
+					 * session storage. Should be invoked on log-out.
+					 */
+					$service.destroy = $session.$reset();
 
 					return $service;
 				}
