@@ -1,15 +1,18 @@
 /* globals require, process, JSON, console */
 
-process.nextTick(function() {
-	console.log('process.env: ' + JSON.stringify(process.env, null));
-	console.log('config: ' + JSON.stringify(require('./src/server/config'), null));
-});
+var config = require('./src/server/config');
 
-require('./src/server/server').start(function() {
-	console.log("Server is up!");
+console.log('process.env: ' + JSON.stringify(process.env, null));
+console.log('config: ' + JSON.stringify(config  , null));
 
-}, function(error) {
+// Load up all the rest endpoints.
+require('./src/server/rest');
+
+// start the server.
+require('./src/server/http').listen(config.port, config.hostname, function() {
+	console.log('Starting application on http://' + config.hostname + ':' + config.port + '/');
+
+}).on('error', function(error) {
 	console.error(error.stack);
-	process.exit(1);
 
 });
