@@ -9,8 +9,8 @@ console.log('config: ' + JSON.stringify(config, null));
 require('./src/server/rest');
 
 // start the server.
-require('./src/server/express').listen(config.port, config.hostname, function() {
-	console.log('Starting application on http://' + config.hostname + ':' + config.port + '/');
+require('./src/server/express').listen(config.port, function() {
+	console.log('Starting application on port ' + config.port);
 
 }).on('error', function(error) {
 	console.error(error.stack);
