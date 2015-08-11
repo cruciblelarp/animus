@@ -13,21 +13,21 @@ define([
 			var $provider = {};
 
 			$provider.$get = [
-				'$rootScope', '$sessionStore', '$util',
+				'$rootScope', '$sessionStorage', '$util',
 				function($root, $session, $util) {
 					var $service = {};
 
 					function rootRef(type, identifier) {
-						return 'session["' + ref(type, identifier) + '"]';
+						return 'session["' + makeRef(type, identifier) + '"]';
 					}
 
-					function ref(type, identifier) {
+					function makeRef(type, identifier) {
 						return type + ":" + identifier;
 					}
 
 					function accessor(type) {
 						return function(id, item) {
-							var ref = ref(type, id);
+							var ref = makeRef(type, id);
 
 							if (item) {
 								$session[ref] = item;
