@@ -43,7 +43,7 @@ define([
 								id: characterId
 							};
 
-							var resource = '/admin/characters/' + characterId;
+							var resource = '/api/admin/characters/' + characterId;
 
 							character.loading = $http.get(resource).then(function(response) {
 								$orchestrator.resource(resource, response.data);
