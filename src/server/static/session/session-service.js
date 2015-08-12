@@ -28,7 +28,7 @@ define([
 				}
 
 				$root.session.userId = user.id;
-				var entityKey = $const.TPL_KEY_ENTITY(user.id);
+				var entityKey = '/user/' + user.id;
 
 				$orchestrator.resource(entityKey, user);
 				return $util.resolve(user)
@@ -52,13 +52,14 @@ define([
 			};
 
 			$service.current = function() {
-				var entityKey = $const.TPL_KEY_ENTITY($root.session.userId);
-				return $orchestrator.entity(entityKey);
+				var entityKey = '/user/' + $root.session.userId;
+				return $orchestrator.resource(entityKey);
 			};
 
 			$service.check = function() {
 				return $http.get('/api/auth').then(function(response) {
 					return saveUser(response.data);
+
 				}).catch(function(error) {
 					return error.status === 401 && saveUser();
 				});

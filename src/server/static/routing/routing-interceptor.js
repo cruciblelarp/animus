@@ -13,14 +13,15 @@ define([
 ], function(_, ng, _animus, _routing, _login, _admin, _util, $const) {
 
 	ng.module(_animus).run([
-		'$rootScope', _routing, '$sessionStorage', _util,
-		function($rootScope, $routing, $sessionStorage, $util) {
+		'$rootScope', _routing, '$session', _util,
+		function($rootScope, $routing, $session, $util) {
 
 			$rootScope.$on('$stateChangeStart', function(event, next) {
 
-				var loggedIn = !!$util.$get($sessionStorage, $const.KEY_LOGIN);
-				var toLogin = next.name.indexOf(_login) === 0;
+				var principle = $session.current();
+				var loggedIn = !!principle;
 
+				var toLogin = next.name.indexOf(_login) === 0;
 				if (loggedIn && !toLogin || !loggedIn && toLogin) {
 					// no need to interrupt anything.
 					return;
@@ -32,7 +33,7 @@ define([
 			});
 
 			$rootScope.$on('$errorUnauthorised', function() {
-				$util.$set($sessionStorage, $const.KEY_LOGIN, null);
+				$util.$set($session, $const.KEY_LOGIN, null);
 			});
 
 		}
