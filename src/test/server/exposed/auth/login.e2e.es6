@@ -1,9 +1,9 @@
-/** globals module, require, describe, it, browser, element, by **/
+/* globals module, require, describe, it, browser, element, by */
 
 describe('animus login page', function() {
 
 	it('should login with test credentials', function(done) {
-		browser.get('http://localhost:8000/?dev=true');
+		browser.get('http://localhost:8000/');
 
 		element(by.css('input[type=email]')).sendKeys('email@somewhere.com');
 		element(by.css('input[type=password]')).sendKeys('password');
