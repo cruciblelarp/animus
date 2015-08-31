@@ -6,13 +6,6 @@ var Promise = require('promise');
 var query = require('../neo4j');
 var wrapper = require('./wrapper');
 
-var cipher_list = '' +
-	'MATCH (node:Character),(user:User)' +
-	'  WHERE id(user) = {userId}' +
-	'  AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)' +
-	'  XOR NOT (node) - [:Requires] -> (:Permission)' +
-	'  RETURN id(node);';
-
 var cipher_create = '';
 
 var cipher_read = '' +
