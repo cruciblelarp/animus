@@ -1,8 +1,6 @@
 /* globals require, module, process */
 
 var _ = require('underscore');
-var Promise = require('promise');
-
 var config = require('./config');
 
 var listeners = [];

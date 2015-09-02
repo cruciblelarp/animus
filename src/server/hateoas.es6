@@ -1,30 +1,43 @@
 /* globals require, module, __dirname */
 
-var _ = require('underscore');
-var fs = require('fs');
-var path = require('path');
-var suit = require('suit');
-var Promise = require('promise');
+let _ = require('underscore');
+let fs = require('fs');
+let path = require('path');
+let suit = require('suit');
 
-var app = require('./express');
+let app = require('./express');
 
-var constraint = suit.constraints();
+let constraint = suit.constraints();
 
-function forFilesIn(path, callback) {
-	fs.readdir(path, function(error, files) {
+export function forFilesIn(path, callback) {
+	return new Promise(function(resolve, reject) {
+		fs.readdir(path, function(error, files) {
 
-		if (error) {
-			throw error;
-		}
+			if (error) {
+				reject(error);
+			}
 
-		_.each(files, function(file) {
-			callback(file, fs.stat(file));
+			var promises = _.collect(files, function(file) {
+
+				return new Promise(function(resolve, reject) {
+					fs.stat(file, function(error, stats) {
+						error
+							? reject(error)
+							: resolve(stats);
+					});
+				}).then(function(stats) {
+					return callback(file, stats);
+				});
+
+			});
+
+			Promise.all(promises).then(resolve, reject);
+
 		});
-
 	});
 }
 
-function validate(data, schema) {
+export function validate(data, schema) {
 	return new Promise(function(resolve, reject) {
 		try {
 			return resolve(suit.fit(data, schema));
@@ -48,7 +61,7 @@ function validate(data, schema) {
 	});
 }
 
-function wireResource(resource) {
+export function wireResource(resource) {
 	app[resource.method](dir, function(request, response) {
 
 		var data = _.extend({}, request.query, request.body, request.params);
@@ -90,7 +103,7 @@ function wireResource(resource) {
 	});
 }
 
-function scan(dir) {
+export function scan(dir) {
 
 	forFilesIn(dir, function(file, info) {
 
@@ -111,7 +124,7 @@ function scan(dir) {
 		}
 
 		if (file.indexOf('.es6')) {
-			var resource = require(file);
+			let resource = require(file);
 			wireResource(resource);
 		}
 

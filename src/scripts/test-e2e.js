@@ -14,7 +14,7 @@ var protractor_config = {
 };
 
 module.exports = function(done) {
-	gulp.src('src/test/**/*.e2e.js')
+	gulp.src('src/test/**/*.e2e.*')
 		.pipe(protractor(protractor_config))
 		.on('error', utils.log)
 		.on('end', done);

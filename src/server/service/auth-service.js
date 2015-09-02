@@ -2,7 +2,6 @@
 
 var _ = require('underscore');
 var crypto = require('crypto');
-var Promise = require('promise');
 
 var query = require('../neo4j');
 var wrapper = require('./wrapper');

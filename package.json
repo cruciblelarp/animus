@@ -31,6 +31,8 @@
     "angular-ui-router": "~0.2.13",
     "angulartics": "^0.17.2",
     "bootstrap-sass": "^3.3.1",
+    "chai": "^3.2.0",
+    "es6-module-loader": "^0.17.6",
     "gulp": "^3.8.11",
     "gulp-angular-protractor": "0.0.2",
     "gulp-apidoc": "^0.1.4",
@@ -47,10 +49,12 @@
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.5",
     "lunr": "^0.5.9",
+    "mocha-traceur": "^2.1.0",
     "moment": "^2.9.0",
     "ngstorage": "^0.3.4",
     "phantomjs": "^1.9.17",
     "protractor": "^2.1.0",
+    "request-promise": "^0.4.3",
     "requirejs": "^2.1.18",
     "requirejs-text": "^2.0.12",
     "sinon": "^1.15.3",
@@ -58,6 +62,7 @@
     "sockit-express": "aetheric/sockit-express",
     "stream-reduce": "~1.0.3",
     "through2": "^0.6.5",
+    "traceur": "0.0.91",
     "vinyl-sourcemaps-apply": "^0.1.4"
   },
   "dependencies": {
@@ -68,7 +73,6 @@
     "helmet": "^0.9.1",
     "jade": "^1.11.0",
     "neo4j": "^2.0.0-RC1",
-    "promise": "^7.0.1",
     "session-file-store": "0.0.14",
     "suit": "^0.4.0",
     "underscore": "^1.8.3"

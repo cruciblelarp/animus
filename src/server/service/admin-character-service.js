@@ -1,7 +1,7 @@
 /* globals require, module */
 
 var _ = require('underscore');
-var Promise = require('promise');
+
 
 var query = require('../neo4j');
 var wrapper = require('./wrapper');

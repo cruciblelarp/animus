@@ -2,7 +2,7 @@
 
 var _ = require('underscore');
 var suit = require('suit');
-var Promise = require('promise');
+
 
 var constraint = suit.constraints();
 

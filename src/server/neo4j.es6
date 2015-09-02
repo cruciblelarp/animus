@@ -1,7 +1,7 @@
 /* globals require, module */
 
 var neo4j = require('neo4j');
-var Promise = require('promise');
+
 
 var config = require('./config');
 var exit = require('./exit');
