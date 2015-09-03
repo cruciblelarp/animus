@@ -1,5 +1,6 @@
 /* globals describe, __dirname */
 
+let _ = require('underscore');
 let path = require('path');
 let chai = require('chai');
 
@@ -41,13 +42,24 @@ describe('The hateoas module', function() {
 
 		it('should enumerate all the files in the provided directory, with their stats', function(done) {
 
-			var expectedFiles = [ 'hateoas.spec.es6', 'mocha.opts' ];
+			var expectedFiles = [
+				path.resolve(__dirname, 'hateoas.spec.es6')
+			];
 
 			target.forFilesIn(__dirname, function(file, stats) {
-				expect(expectedFiles).to.contain(file);
+				console.log('Found ' + file);
 
-			}).then(done).catch(function(error) {
-				throw error;
+				let listSize = expectedFiles.length;
+				expectedFiles = _.without(expectedFiles, path.resolve(file));
+
+				expect(expectedFiles).to.have.length(listSize - 1);
+
+			}).then(function() {
+				expect(expectedFiles).to.have.length(0);
+				done();
+
+			}).catch(function(error) {
+				done(error);
 			});
 
 		});

@@ -2,9 +2,9 @@
 
 var _ = require('underscore');
 
-import * as config from './config';
-import * as http from './http';
-import * as rest from './rest';
+import * as config from './config.es6';
+import * as http from './http.es6';
+import * as rest from './rest.es6';
 
 var running = false;
 

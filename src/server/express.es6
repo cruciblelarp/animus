@@ -7,7 +7,7 @@ var session = require('express-session');
 var helmet = require('helmet');
 var bodyParser = require('body-parser');
 
-import * as config from './config';
+import config from './config.es6';
 
 var FileStore = fileStore(session);
 

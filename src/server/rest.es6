@@ -2,10 +2,10 @@
 
 var _ = require('underscore');
 
-import * as app from './express';
-import * as auth from './service/auth-service';
-import * as account from './service/account-service';
-import * as adminCharacter from './service/admin-character-service';
+import * as app from './express.es6';
+import * as auth from './service/auth-service.es6';
+import * as account from './service/account-service.es6';
+import * as adminCharacter from './service/admin-character-service.es6';
 
 export function scan(config, path) {
 

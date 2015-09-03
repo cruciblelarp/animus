@@ -2,8 +2,8 @@
 
 var neo4j = require('neo4j');
 
-import * as config from './config';
-import * as exit from './exit';
+import * as config from './config.es6';
+import * as exit from './exit.es6';
 
 var connection = null;
 

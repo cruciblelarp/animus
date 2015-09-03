@@ -2,22 +2,26 @@
 
 let _ = require('underscore');
 let fs = require('fs');
-let path = require('path');
+let paths = require('path');
 let suit = require('suit');
 
-import * as app from './express';
+import * as app from './express.es6';
 
 let constraint = suit.constraints();
 
 export function forFilesIn(path, callback) {
 	return new Promise(function(resolve, reject) {
+
+		console.log("Scanning " + path + " for files...");
 		fs.readdir(path, function(error, files) {
 
 			if (error) {
-				reject(error);
+				console.error("Failed to read directory:" + path);
+				return reject(error);
 			}
 
-			var promises = _.collect(files, function(file) {
+			var promises = _.collect(files, function(fileName) {
+				let file = paths.resolve(path, fileName);
 
 				return new Promise(function(resolve, reject) {
 					fs.stat(file, function(error, stats) {
@@ -25,15 +29,21 @@ export function forFilesIn(path, callback) {
 							? reject(error)
 							: resolve(stats);
 					});
+
 				}).then(function(stats) {
 					return callback(file, stats);
+
+				}).catch(function(error) {
+					console.error("Failed to stat file: " + file);
+					return Promise.reject(error);
 				});
 
 			});
 
-			Promise.all(promises).then(resolve, reject);
+			return Promise.all(promises).then(resolve, reject);
 
 		});
+
 	});
 }
 
@@ -132,4 +142,4 @@ export function scan(dir) {
 
 }
 
-scan(path.resolve(__dirname, 'api'));
+scan(paths.resolve(__dirname, 'api'));
