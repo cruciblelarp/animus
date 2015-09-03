@@ -5,7 +5,7 @@ let fs = require('fs');
 let path = require('path');
 let suit = require('suit');
 
-let app = require('./express');
+import * as app from './express';
 
 let constraint = suit.constraints();
 

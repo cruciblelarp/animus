@@ -1,15 +1,16 @@
 /* globals exports, require, __dirname */
 
 var phantomjs = require('phantomjs');
-var server = require('../../server/server');
-var config = require('../../scripts/config');
+
+var server = require('../server/server.es6');
+var config = require('../scripts/config.es6');
 
 exports.config = {
 
 	seleniumServerJar: config.PATH_LIBS_ABS + '/protractor/selenium/selenium-server-standalone-2.45.0.jar',
 
 	specs: [
-		'./**/*.e2e.*'
+		'./protractor/**/*.e2e.*'
 	],
 
 	capabilities: {
@@ -21,7 +22,8 @@ exports.config = {
 
 	mochaOpts: {
 		ui: 'bdd',
-		reporter: 'list'
+		reporter: 'list',
+		compilers: 'es6:mocha-traceur'
 	},
 
 	jasmineNodeOpts: {

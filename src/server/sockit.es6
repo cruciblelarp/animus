@@ -1,10 +1,10 @@
 /* globals module, require */
 
-var app = require('./express');
-var http = require('./http');
-var sockit = require('sockit-express');
+import * as app from './express';
+import * as http from './http';
+import * as sockit from 'sockit-express';
 
-module.exports = sockit({
+export default sockit({
 	express: app,
 	server: http
 });

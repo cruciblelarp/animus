@@ -7,7 +7,7 @@ var session = require('express-session');
 var helmet = require('helmet');
 var bodyParser = require('body-parser');
 
-var config = require('./config');
+import * as config from './config';
 
 var FileStore = fileStore(session);
 
@@ -48,4 +48,4 @@ app.get('/', function(req, res) {
 	});
 });
 
-module.exports = app;
+export default app;

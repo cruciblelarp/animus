@@ -2,9 +2,8 @@
 
 var neo4j = require('neo4j');
 
-
-var config = require('./config');
-var exit = require('./exit');
+import * as config from './config';
+import * as exit from './exit';
 
 var connection = null;
 
@@ -18,7 +17,7 @@ function load() {
 
 }
 
-module.exports = function(query, params) {
+export default function(query, params) {
 	return new Promise(function(resolve, reject) {
 		load().cypher({
 			query: query,

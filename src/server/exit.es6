@@ -1,7 +1,8 @@
 /* globals require, module, process */
 
 var _ = require('underscore');
-var config = require('./config');
+
+import * as config from './config';
 
 var listeners = [];
 var exitCode = 0;
@@ -75,10 +76,6 @@ first.then(function(list) {
 	process.exit(max);
 });
 
-module.exports = {
-
-	listen: function (callback) {
-		listeners.push(callback);
-	}
-
-};
+export default function (callback) {
+	listeners.push(callback);
+}

@@ -2,14 +2,14 @@
 
 var http = require('http');
 
-var app = require('./express');
-var exit = require('./exit');
-var config = require('./config');
+import * as app from './express';
+import * as exit from './exit';
+import * as config from './config';
 
 var Server = http.Server;
 
 // create and start the HTTP server with static file serving.
-var server = module.exports = new Server(app);
+export var server = module.exports = new Server(app);
 
 exit.listen(function(resolve) {
 

@@ -1,6 +1,6 @@
 /* globals require, module, __dirname */
 
-module.exports = {
+export default {
 
 	path: {
 		base: __dirname

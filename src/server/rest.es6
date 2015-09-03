@@ -2,12 +2,12 @@
 
 var _ = require('underscore');
 
-var app = require('./express');
-var auth = require('./service/auth-service');
-var account = require('./service/account-service');
-var adminCharacter = require('./service/admin-character-service');
+import * as app from './express';
+import * as auth from './service/auth-service';
+import * as account from './service/account-service';
+import * as adminCharacter from './service/admin-character-service';
 
-function scan(config, path) {
+export function scan(config, path) {
 
 	var endpoints = _.collect(config, function(value, key) {
 
@@ -58,7 +58,7 @@ function scan(config, path) {
 
 }
 
-module.exports = scan({
+export default scan({
 
 	auth: {
 
