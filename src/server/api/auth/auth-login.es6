@@ -1,5 +1,5 @@
 /* globals module, require */
 
-module.exports = function (request, response, session, resolve, reject) {
+module.exports = function (session, resolve, reject) {
 
 };
