@@ -14,12 +14,12 @@ let cipher_list = '' +
 	'  RETURN id(node);';
 
 let whitelist = [
-	'username'
+	'name'
 ];
 
 module.exports = {
 
-	method: 'GET',
+	method: 'PUT',
 
 	contentTypes: [
 		'application/json',
@@ -34,12 +34,11 @@ module.exports = {
 				c.required
 			],
 
-			username: [
+			name: [
 				c.string
 			]
 
 		};
-
 	},
 
 	resolver: function(params, session, resolve, reject) {
@@ -58,6 +57,18 @@ module.exports = {
 			return Promise.resolve();
 
 		}).then(resolve, reject);
+
+	},
+
+	schema: {
+
+		request: {
+			//jsonschema
+		},
+
+		response: {
+			//jsonschema
+		}
 
 	}
 

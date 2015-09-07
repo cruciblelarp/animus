@@ -12,7 +12,7 @@ var cipher_list = '' +
 
 module.exports = {
 
-	method: 'GET',
+	method: 'DELETE',
 
 	contentTypes: [
 		'application/json',
@@ -21,12 +21,13 @@ module.exports = {
 
 	validator: function(c) {
 		return {
+
 			id: [
 				c.number,
 				c.required
 			]
-		};
 
+		};
 	},
 
 	resolver: function(params, session, resolve, reject) {

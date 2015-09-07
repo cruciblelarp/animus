@@ -8,7 +8,7 @@ var cipher_list = '' +
 	'  AND id(node) = {nodeId}' +
 	'  AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)' +
 	'  XOR NOT (node) - [:Requires] -> (:Permission)' +
-	'  RETURN id(node);';
+	'  RETURN node;';
 
 module.exports = {
 
@@ -21,12 +21,13 @@ module.exports = {
 
 	validator: function(c) {
 		return {
+
 			id: [
 				c.number,
 				c.required
 			]
-		};
 
+		};
 	},
 
 	resolver: function(params, session, resolve, reject) {
@@ -38,7 +39,7 @@ module.exports = {
 		}).then(function(results) {
 
 			var items = _.collect(results, function(result) {
-				return result['id(node)'];
+				return result['node'];
 			});
 
 			return Promise.resolve(items);
