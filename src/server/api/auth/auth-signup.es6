@@ -6,7 +6,7 @@ import * as query from '../../neo4j.es6'
 let _ = require('underscore');
 var crypto = require('crypto');
 
-let cipher_login = '' +
+let cipher = '' +
 	'MATCH (user:User { email: {email} })' +
 	'  RETURN user;';
 
@@ -16,7 +16,7 @@ let whitelist = [
 
 module.exports = {
 
-	method: 'PUT',
+	method: 'POST',
 
 	contentTypes: [
 		'application/json',
@@ -41,37 +41,13 @@ module.exports = {
 
 	resolver: function(params, session, resolve, reject) {
 
-		return query(cipher_login, {
-			email: params.email
-		}).then(function(results) {
+		// TODO: Query the database for conflicts
 
-			let result = _.first(results);
+		// TODO: Create the User with validation = new guid.
 
-			if (!result) {
-				return reject(404);
-			}
+		// TODO: Send email to validate address with callback to /auth/validate
 
-			let user = _.extend({}, result.user.properties, {
-				id: result.user._id
-			});
-
-			// run crypto hash on supplied password.
-			let hash = crypto.createHash('md5')
-				.update(params.password)
-				.digest('hex');
-
-			if (hash !== user.password) {
-				return reject(401);
-			}
-
-			user.token = crypto.createHash('md5')
-				.update(user.email + hash)
-				.digest('hex');
-
-			session.user = user;
-			return resolve(user);
-
-		});
+		// TODO: Return success response.
 
 	},
 
