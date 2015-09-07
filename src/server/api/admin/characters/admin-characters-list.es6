@@ -1,13 +1,19 @@
 /* globals module, require */
 
-var _ = require('underscore');
+import '../../../../prototypes.es6'
 
-var cipher_list = '' +
+let _ = require('underscore');
+
+let cipher_list = '' +
 	'MATCH (node:Character),(user:User)' +
 	'  WHERE id(user) = {userId}' +
 	'  AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)' +
 	'  XOR NOT (node) - [:Requires] -> (:Permission)' +
 	'  RETURN id(node);';
+
+let whitelist = [
+	'name'
+];
 
 module.exports = {
 
@@ -20,6 +26,7 @@ module.exports = {
 
 	validator: function(c) {
 		return {
+
 		};
 
 	},
@@ -31,13 +38,21 @@ module.exports = {
 
 		}).then(function(results) {
 
-			var items = _.collect(results, function(result) {
-				return result['id(node)'];
-			});
-
-			return Promise.resolve(items);
+			return Promise.resolve();
 
 		}).then(resolve, reject);
+
+	},
+
+	schema: {
+
+		request: {
+			//jsonschema
+		},
+
+		response: {
+			//jsonschema
+		}
 
 	}
 
