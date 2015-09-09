@@ -30,7 +30,7 @@ export default function(query, params) {
 	});
 };
 
-exit.listen(function(resolve) {
+exit(function(resolve) {
 
 	if (!connection) {
 		console.log('Neo4j client has not been initialised.');

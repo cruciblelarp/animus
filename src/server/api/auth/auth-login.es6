@@ -1,7 +1,7 @@
 /* globals module, require */
 
 import '../../prototypes.es6'
-import * as query from '../../neo4j.es6'
+import query from '../../neo4j.es6'
 
 let _ = require('underscore');
 var crypto = require('crypto');

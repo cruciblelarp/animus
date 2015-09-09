@@ -5,7 +5,7 @@ let fs = require('fs');
 let paths = require('path');
 let suit = require('suit');
 
-import * as app from './express.es6';
+import app from './express.es6';
 
 let constraint = suit.constraints();
 
@@ -142,4 +142,4 @@ export function scan(dir) {
 
 }
 
-scan(paths.resolve(__dirname, 'api'));
+export default scan(paths.resolve(__dirname, 'api'));
