@@ -6,6 +6,7 @@ let paths = require('path');
 let suit = require('suit');
 
 import app from './express.es6';
+import manifest from './manifest.es6';
 
 let constraint = suit.constraints();
 

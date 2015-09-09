@@ -32,13 +32,6 @@ app.use(session({
 	})
 }));
 
-app.use(express.static(config.path.base + '/static', {
-	index: false
-}));
-
-app.set('view engine', 'jade');
-app.set('views', __dirname);
-
 app.get('/', function(req, res) {
 	req.session.touch();
 	res.render('main', {
