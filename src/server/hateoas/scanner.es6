@@ -1,3 +1,4 @@
+/* globals require, console */
 
 let fs = require('fs');
 let paths = require('path');
@@ -26,10 +27,10 @@ export function forFilesIn(path, callback) {
 				}).then(function(stats) {
 						return callback(file, stats);
 
-					}).catch(function(error) {
-						console.error("Failed to stat file: " + file);
-						return Promise.reject(error);
-					});
+				}).catch(function(error) {
+					console.error("Failed to stat file: " + file);
+					return Promise.reject(error);
+				});
 
 			});
 
@@ -38,4 +39,24 @@ export function forFilesIn(path, callback) {
 		});
 
 	});
+}
+
+export function scan(dir) {
+
+	forFilesIn(dir, function(file, info) {
+
+		if (info.isDir()) {
+			return scan(file);
+		}
+
+		let extension = file.slice(file.lastIndexOf('.') + 1);
+
+		handlers.forEach(function(handler, extensions) {
+			if (extensions.contains(extension)) {
+				handler(dir, file);
+			}
+		});
+
+	});
+
 }

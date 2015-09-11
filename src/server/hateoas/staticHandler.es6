@@ -1,4 +1,8 @@
+/* globals require */
 
+import app from '../express.es6';
+
+let crypto = require('crypto');
 
 export default function (dir, file) {
 
@@ -6,9 +10,9 @@ export default function (dir, file) {
 
 	let entry = manifest[file] = {
 		extension: file.slice(file.lastIndexOf('.')),
-		hash: crypto.something('sha256')
-			.add(item.content)
-			.toHex()
+		hash: crypto.createHash('sha256')
+			.update(item.content)
+			.digest('hex')
 	};
 
 	app({
