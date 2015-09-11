@@ -21,7 +21,7 @@ describe('The hateoas module', function() {
 	describe('wireResource function', function() {
 
 		it('should exist and be a function', function() {
-			expect(target.wireResource).to.be.a('function');
+			expect(target.addActionHandler).to.be.a('function');
 		});
 
 	});
