@@ -1,17 +1,20 @@
 /* globals require, module, __dirname */
 
-var express = require('express');
-var fileStore = require('session-file-store');
-var errorHandler = require('errorhandler');
-var session = require('express-session');
-var helmet = require('helmet');
-var bodyParser = require('body-parser');
+import hateoas from './hateoas/middleware.es6';
+
+let express = require('express');
+let fileStore = require('session-file-store');
+let errorHandler = require('errorhandler');
+let session = require('express-session');
+let helmet = require('helmet');
+let bodyParser = require('body-parser');
+let paths = require('path');
 
 import config from './config.es6';
 
-var FileStore = fileStore(session);
+let FileStore = fileStore(session);
 
-var app = express();
+let app = express();
 
 app.use(errorHandler());
 app.use(bodyParser());
@@ -32,13 +35,8 @@ app.use(session({
 	})
 }));
 
-app.get('/', function(req, res) {
-	req.session.touch();
-	res.render('main', {
-		dev: req.query['dev']
-			? req.query['dev'] === 'true'
-			: config.debug
-	});
-});
+app.use(hateoas({
+	base: paths.resolve(__dirname, '/api')
+}));
 
 export default app;

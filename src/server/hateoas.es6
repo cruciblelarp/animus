@@ -15,4 +15,3 @@ export const mime = {
 	scss: 'application/sass'
 };
 
-export default scan(paths.resolve(__dirname, 'api'));
