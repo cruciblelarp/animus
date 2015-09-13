@@ -1,7 +1,19 @@
 /* globals require, console */
 
-let fs = require('fs');
-let paths = require('path');
+import jadeHandler from './jadeHandler.es6';
+import staticHandler from './staticHandler.es6';
+import actionHandler from './actionHandler.es6';
+import sassHandler from './sassHandler.es6';
+
+const fs = require('fs');
+const paths = require('path');
+
+const handlers = {
+	jade: jadeHandler,
+	js: staticHandler,
+	es6: actionHandler,
+	scss: sassHandler
+};
 
 export function forFilesIn(path, callback) {
 	return new Promise(function(resolve, reject) {
@@ -41,7 +53,12 @@ export function forFilesIn(path, callback) {
 	});
 }
 
-export function scan(dir) {
+/**
+ *
+ * @param {String} dir
+ * @param {Function} onConfigFound
+ */
+export function scan(dir, onConfigFound) {
 
 	forFilesIn(dir, function(file, info) {
 
@@ -50,12 +67,14 @@ export function scan(dir) {
 		}
 
 		let extension = file.slice(file.lastIndexOf('.') + 1);
+		let handler = handlers[extension];
 
-		handlers.forEach(function(handler, extensions) {
-			if (extensions.contains(extension)) {
-				handler(dir, file);
-			}
-		});
+		if (!handler) {
+			console.error('Unrecognised file extension: ' + extension);
+			return;
+		}
+
+		return handler(dir, file);
 
 	});
 
