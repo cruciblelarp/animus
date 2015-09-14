@@ -15,7 +15,13 @@ const handlers = {
 	scss: sassHandler
 };
 
-export function forFilesIn(path, callback) {
+/**
+ *
+ * @param {String} path
+ * @param {Function} onFileRead
+ * @returns {Promise}
+ */
+export function forFilesIn(path, onFileRead) {
 	return new Promise(function(resolve, reject) {
 
 		console.log("Scanning " + path + " for files...");
@@ -37,7 +43,7 @@ export function forFilesIn(path, callback) {
 					});
 
 				}).then(function(stats) {
-						return callback(file, stats);
+					return onFileRead(file, stats);
 
 				}).catch(function(error) {
 					console.error("Failed to stat file: " + file);
@@ -57,25 +63,23 @@ export function forFilesIn(path, callback) {
  *
  * @param {String} dir
  * @param {Function} onConfigFound
+ * @returns {Promise}
  */
 export function scan(dir, onConfigFound) {
-
-	forFilesIn(dir, function(file, info) {
+	return forFilesIn(dir, function(file, info) {
 
 		if (info.isDir()) {
-			return scan(file);
+			return scan(file, onConfigFound);
 		}
 
 		let extension = file.slice(file.lastIndexOf('.') + 1);
-		let handler = handlers[extension];
-
-		if (!handler) {
-			console.error('Unrecognised file extension: ' + extension);
-			return;
+		if (extension === 'es6') {
+			return onConfigFound(_.extend(require(file), {
+				extension: extension
+			}));
 		}
 
-		return handler(dir, file);
+		// Handle static files.
 
 	});
-
 }
