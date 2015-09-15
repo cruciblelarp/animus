@@ -79,7 +79,10 @@ export function scan(dir, onConfigFound) {
 			}));
 		}
 
-		// Handle static files.
+		return onConfigFound({
+			extension: extension,
+			contentFile: file
+		});
 
 	});
 }
