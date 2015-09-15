@@ -4,6 +4,9 @@ import jadeHandler from './jadeHandler.es6';
 import staticHandler from './staticHandler.es6';
 import actionHandler from './actionHandler.es6';
 import sassHandler from './sassHandler.es6';
+import ResolverConfig from './ResolverConfig.es6';
+import ManifestConfig from './ManifestConfig.es6';
+import ResolverFactoryConfig from './ResolverFactoryConfig.es6';
 
 const fs = require('fs');
 const paths = require('path');
@@ -74,15 +77,35 @@ export function scan(dir, onConfigFound) {
 
 		let extension = file.slice(file.lastIndexOf('.') + 1);
 		if (extension === 'es6') {
-			return onConfigFound(_.extend(require(file), {
-				extension: extension
-			}));
+			let resolverConfig = require(file);
+			let manifestConfig = new ManifestConfig(resolverConfig, file);
+			return onConfigFound(manifestConfig);
 		}
 
-		return onConfigFound({
-			extension: extension,
-			contentFile: file
-		});
+		let content = null; // TODO: Match the mime to the resolver.
+		let resolver = null; // TODO: get this from somewhere.
+
+		let resolverConfig = new ResolverConfig('GET', content, null, resolver);
+		let manifestConfig = new ManifestConfig(resolverConfig, file);
+		return onConfigFound(manifestConfig);
 
 	});
+}
+
+export let resolverConfigFactories = {};
+
+/**
+ * Registers a resolverConfigFactory function in the index.
+ * @param {ResolverFactoryConfig} config
+ */
+export function registerStaticResolver(config) {
+
+	let factoryList = resolverConfigFactories[config.extension];
+	if (!factoryList) {
+		resolverConfigFactories[config.extension] = [];
+		return registerStaticResolver(config);
+	}
+
+	factoryList.push(config.factory);
+
 }
