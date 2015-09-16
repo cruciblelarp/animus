@@ -2,7 +2,7 @@
 
 import ResolverConfig from './ResolverConfig.es6';
 import ManifestConfig from './ManifestConfig.es6';
-import ResolverFactoryConfig from './ResolverFactoryConfig.es6';
+import ResolverFactoryConfig from './ResolverConfigFactory.es6';
 
 const fs = require('fs');
 const paths = require('path');
@@ -88,16 +88,17 @@ export let resolverConfigFactories = {};
 
 /**
  * Registers a resolverConfigFactory function in the index.
- * @param {ResolverFactoryConfig} config
+ * @param {ResolverConfigFactory} config
  */
-export function registerStaticResolver(config) {
+export function registerResolverConfigFactory(config) {
 
 	let factoryList = resolverConfigFactories[config.extension];
 	if (!factoryList) {
 		resolverConfigFactories[config.extension] = [];
-		return registerStaticResolver(config);
+		return registerResolverConfigFactory(config);
 	}
 
 	factoryList.push(config.factory);
+	return config;
 
 }
