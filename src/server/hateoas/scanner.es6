@@ -1,22 +1,11 @@
 /* globals require, console */
 
-import jadeHandler from './jadeHandler.es6';
-import staticHandler from './staticHandler.es6';
-import actionHandler from './actionHandler.es6';
-import sassHandler from './sassHandler.es6';
 import ResolverConfig from './ResolverConfig.es6';
 import ManifestConfig from './ManifestConfig.es6';
 import ResolverFactoryConfig from './ResolverFactoryConfig.es6';
 
 const fs = require('fs');
 const paths = require('path');
-
-const handlers = {
-	jade: jadeHandler,
-	js: staticHandler,
-	es6: actionHandler,
-	scss: sassHandler
-};
 
 /**
  *
@@ -35,7 +24,7 @@ export function forFilesIn(path, onFileRead) {
 				return reject(error);
 			}
 
-			var promises = _.collect(files, function(fileName) {
+			var promises = files.collect(function(fileName) {
 				let file = paths.resolve(path, fileName);
 
 				return new Promise(function(resolve, reject) {
@@ -76,18 +65,21 @@ export function scan(dir, onConfigFound) {
 		}
 
 		let extension = file.slice(file.lastIndexOf('.') + 1);
-		if (extension === 'es6') {
+		let resolverFactoryList = resolverConfigFactories[extension];
+
+		if (!resolverFactoryList || !resolverFactoryList.length) {
 			let resolverConfig = require(file);
 			let manifestConfig = new ManifestConfig(resolverConfig, file);
-			return onConfigFound(manifestConfig);
+			return Promise.resolve(onConfigFound(manifestConfig));
 		}
 
-		let content = null; // TODO: Match the mime to the resolver.
-		let resolver = null; // TODO: get this from somewhere.
+		let promises = resolverFactoryList.collect(function(factory) {
+			let resolverConfig = factory(file);
+			let manifestConfig = new ManifestConfig(resolverConfig, file);
+			return Promise.resolve(onConfigFound(manifestConfig));
+		});
 
-		let resolverConfig = new ResolverConfig('GET', content, null, resolver);
-		let manifestConfig = new ManifestConfig(resolverConfig, file);
-		return onConfigFound(manifestConfig);
+		return Promise.all(promises);
 
 	});
 }
