@@ -4,8 +4,8 @@ import ResolverConfigFactory from '../ResolverConfigFactory.es6';
 
 const files = require('fs');
 
-export default registerResolverConfigFactory(new ResolverConfigFactory('jade', function(file) {
-	return new ResolverConfig('GET', '*/jade', null, function(data, session, resolve, reject) {
+export default registerResolverConfigFactory(new ResolverConfigFactory('scss', function(file) {
+	return new ResolverConfig('GET', '*/scss', null, function(data, session, resolve, reject) {
 
 		fs.readFile(file, function(error, content) {
 
