@@ -15,6 +15,7 @@ export default registerResolverConfigFactory(new ResolverConfigFactory('scss', f
 			} else {
 				resolve(content);
 			}
+
 		});
 
 	});

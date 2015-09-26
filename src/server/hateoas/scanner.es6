@@ -67,12 +67,6 @@ export function scan(dir, onConfigFound) {
 		let extension = file.slice(file.lastIndexOf('.') + 1);
 		let resolverFactoryList = resolverConfigFactories[extension];
 
-		if (!resolverFactoryList || !resolverFactoryList.length) {
-			let resolverConfig = require(file);
-			let manifestConfig = new ManifestConfig(resolverConfig, file);
-			return Promise.resolve(onConfigFound(manifestConfig));
-		}
-
 		let promises = resolverFactoryList.collect(function(factory) {
 			let resolverConfig = factory(file);
 			let manifestConfig = new ManifestConfig(resolverConfig, file);

@@ -21,6 +21,5 @@ export default registerResolverConfigFactory(new ResolverConfigFactory('jade', f
 
 		});
 
-
 	});
 }));
