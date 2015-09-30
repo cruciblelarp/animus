@@ -13,8 +13,4 @@ export default class ManifestConfig extends ResolverConfig {
 		this.type = file.slice(file.lastIndexOf('.') + 1);
 	}
 
-	file;
-
-	type;
-
 }

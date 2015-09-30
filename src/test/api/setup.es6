@@ -3,6 +3,7 @@
 import * as server from '../../server/server.es6';
 
 let chai = require('chai');
+let req = require('request-promise');
 
 let expect = chai.expect;
 
@@ -22,7 +23,16 @@ describe("The server", function() {
 
 	it("should be started", function() {
 
-		expect(true).to.be(true);
+		return req({
+			uri: 'http://localhost:8000/',
+			method: 'GET'
+
+		}).then(function(response) {
+
+				expect(response).to.not.be(null);
+				done();
+
+		});
 
 	});
 

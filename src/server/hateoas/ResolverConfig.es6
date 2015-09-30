@@ -14,12 +14,4 @@ export default class ResolverConfig {
 		this.resolver = resolver;
 	}
 
-	method;
-
-	content;
-
-	validator;
-
-	resolver;
-
 }

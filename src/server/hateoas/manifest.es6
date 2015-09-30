@@ -1,6 +1,6 @@
 /* globals require */
 
-import scanner from './scanner.es6';
+import * as scanner from './scanner.es6';
 
 let _ = require('underscore');
 
@@ -32,7 +32,7 @@ export function store(path, config) {
  */
 export function init(basePath) {
 
-	scanner(basePath, function(path, config) {
+	scanner.scan(basePath, function(path, config) {
 		store(path, config);
 	});
 

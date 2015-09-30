@@ -10,8 +10,4 @@ export default class ResolverConfigFactory {
 		this.factory = factory;
 	}
 
-	extension;
-
-	factory;
-
 }

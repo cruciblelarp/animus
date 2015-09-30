@@ -1,17 +1,17 @@
 /* globals require, describe, it */
 
-const path = "http://localhost:8000/";
+let path = "http://localhost:8000/";
 
 let chai = require('chai');
 let req = require('request-promise');
 
 let expect = chai.expect;
 
-describe("OPTIONS:/", function () {
+describe("GET:/admin/accounts", function () {
 
 	return req({
 		uri: path,
-		method: 'OPTIONS'
+		method: 'GET'
 
 	}).then(function(options) {
 
