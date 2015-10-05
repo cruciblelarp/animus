@@ -1,5 +1,6 @@
 /* globals require, console */
 
+import '../prototypes.es6';
 import ResolverConfig from './ResolverConfig.es6';
 import ManifestConfig from './ManifestConfig.es6';
 import ResolverFactoryConfig from './ResolverConfigFactory.es6';
