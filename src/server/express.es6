@@ -36,7 +36,7 @@ app.use(session({
 }));
 
 app.use(hateoas({
-	base: paths.resolve(__dirname, '/api')
+	base: paths.resolve(__dirname, 'api')
 }));
 
 export default app;
