@@ -25,7 +25,7 @@ export function forFilesIn(path, onFileRead) {
 				return reject(error);
 			}
 
-			var promises = files.collect(function(fileName) {
+			var promises = files.map(function(fileName) {
 				let file = paths.resolve(path, fileName);
 
 				return new Promise(function(resolve, reject) {
@@ -68,7 +68,7 @@ export function scan(dir, onConfigFound) {
 		let extension = file.slice(file.lastIndexOf('.') + 1);
 		let resolverFactoryList = resolverConfigFactories[extension];
 
-		let promises = resolverFactoryList.collect(function(factory) {
+		let promises = resolverFactoryList.map(function(factory) {
 			let resolverConfig = factory(file);
 			let manifestConfig = new ManifestConfig(resolverConfig, file);
 			return Promise.resolve(onConfigFound(manifestConfig));

@@ -7,15 +7,32 @@ let req = require('request-promise');
 
 let expect = chai.expect;
 
-before(function() {
+before(function(done) {
 
-	return server.start();
+	console.log('Starting the server...');
+	server.start(function() {
+		console.log('Server started!\n');
+		done();
+
+	}, function(error) {
+		console.warn('Server failed to start!');
+		done(error);
+
+	});
 
 });
 
-after(function() {
+after(function(done) {
 
-	return server.stop();
+	server.stop(function() {
+		console.log('Server stopped!');
+		done();
+
+	}, function(error) {
+		console.warn('Server failed to stop properly!');
+		done(error);
+
+	});
 
 });
 
@@ -29,7 +46,7 @@ describe("The server", function() {
 
 		}).then(function(response) {
 
-				expect(response).to.not.be(null);
+				expect(response.status).to.be(200);
 				done();
 
 		});

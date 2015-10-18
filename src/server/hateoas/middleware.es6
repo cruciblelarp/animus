@@ -12,9 +12,15 @@ export default function(config) {
 		let method = request.method;
 		let mime = request.headers['Accept'] || '*/*';
 
-		console.log('REQUEST: ' + method + '[' + mime + ']:' + path);
+		console.log(`REQUEST: ${method}[${mime}]:${path}`);
 		let handler = manifest.find(path, method, mime);
 
+		if (!handler) {
+			response.status(404);
+			return;
+		}
+
+		console.log(`HANDLER: ${JSON.stringify(handler)}`);
 		return handler(request, response);
 
 	}

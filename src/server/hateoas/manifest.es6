@@ -52,7 +52,10 @@ export function find(path, method, mime) {
 		return find(pathArray, method, mime);
 	}
 
-	let pathArray = path.slice();
+	let pathArray = path.filter(function(element) {
+		return !!element;
+	});
+
 	let methodTarget = '$' + method.toUpperCase();
 	pathArray.push(methodTarget, mime);
 
@@ -68,15 +71,17 @@ export function find(path, method, mime) {
  */
 export function search(parent, path, create) {
 
+	console.log(`Searching for ${JSON.stringify(path)} in ${JSON.stringify(parent)}`);
+
 	// If there are no more path elements left...
-	if (_.isEmpty) {
+	if (!path.length) {
 		// We've found what we're looking for.
 		return parent;
 	}
 
 	// Find the next child on the path stack.
 	let targetName = _.first(path);
-	let targetChild = parent.children[targetName];
+	let targetChild = parent[targetName];
 
 	// If the target exists...
 	if (targetChild) {

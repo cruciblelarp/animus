@@ -17,8 +17,8 @@ var mocha_config = {
 };
 
 module.exports = function(done) {
-	gulp.src('src/test/unit/**/*.spec.*')
+	gulp.src('src/test/api/**/*.spec.*')
 		.pipe(mocha(mocha_config))
 		.on('error', utils.log)
-		.once('end', done)
+		.once('end', done);
 };
