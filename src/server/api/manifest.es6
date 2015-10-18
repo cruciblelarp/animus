@@ -1,7 +1,7 @@
 /* globals module, require */
 
 import '../prototypes.es6'
-import manifest from '../manifest.es6';
+import manifest from '../hateoas/manifest.es6';
 
 let _ = require('underscore');
 

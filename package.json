@@ -73,6 +73,7 @@
     "helmet": "^0.9.1",
     "jade": "^1.11.0",
     "neo4j": "^2.0.0-RC1",
+    "node-sass": "^3.3.3",
     "session-file-store": "0.0.14",
     "suit": "^0.4.0",
     "underscore": "^1.8.3"

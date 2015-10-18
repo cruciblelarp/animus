@@ -18,9 +18,14 @@ export function store(path, config) {
 		return store(pathArray, config);
 	}
 
+	if (!_.isArray(path)) {
+		console.error(`Expected Array object, got ${typeof(path)}: ${JSON.stringify(path)}`);
+		return;
+	}
+
 	let pathArray = path.slice();
-	let methodTarget = '$' + method.toUpperCase();
-	pathArray.push(methodTarget, config.mime);
+	let methodTarget = '$' + ( config.method || pathArray[pathArray.length - 2] );
+	pathArray.push(methodTarget, config.mime || pathArray[pathArray.length - 1] );
 
 	return search(manifest, path, config);
 

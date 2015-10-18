@@ -17,11 +17,11 @@ const paths = require('path');
 export function forFilesIn(path, onFileRead) {
 	return new Promise(function(resolve, reject) {
 
-		console.log("Scanning " + path + " for files...");
+		console.log(`Scanning ${path} for files...`);
 		fs.readdir(path, function(error, files) {
 
 			if (error) {
-				console.error("Failed to read directory:" + path);
+				console.error(`Failed to read directory: ${path}`);
 				return reject(error);
 			}
 
@@ -29,6 +29,8 @@ export function forFilesIn(path, onFileRead) {
 				let file = paths.resolve(path, fileName);
 
 				return new Promise(function(resolve, reject) {
+
+					console.log(`Attempting to stat ${file}`);
 					fs.stat(file, function(error, stats) {
 						error
 							? reject(error)
@@ -39,7 +41,7 @@ export function forFilesIn(path, onFileRead) {
 					return onFileRead(file, stats);
 
 				}).catch(function(error) {
-					console.error("Failed to stat file: " + file);
+					console.error(`Failed to stat file ${file}: ${error.stack}`);
 					return Promise.reject(error);
 				});
 
@@ -56,22 +58,28 @@ export function forFilesIn(path, onFileRead) {
  *
  * @param {String} dir
  * @param {Function} onConfigFound
+ * @param {String} [path] Used for recursion.
  * @returns {Promise}
  */
-export function scan(dir, onConfigFound) {
+export function scan(dir, onConfigFound, path = dir) {
 	return forFilesIn(dir, function(file, info) {
 
-		if (info.isDir()) {
-			return scan(file, onConfigFound);
+		if (info.isDirectory()) {
+			return scan(file, onConfigFound, path);
 		}
 
 		let extension = file.slice(file.lastIndexOf('.') + 1);
 		let resolverFactoryList = resolverConfigFactories[extension];
 
+		if (!resolverFactoryList) {
+			console.log(`No resolver config factories for ${extension}`);
+			return Promise.resolve();
+		}
+
 		let promises = resolverFactoryList.map(function(factory) {
 			let resolverConfig = factory(file);
 			let manifestConfig = new ManifestConfig(resolverConfig, file);
-			return Promise.resolve(onConfigFound(manifestConfig));
+			return Promise.resolve(onConfigFound(path, manifestConfig));
 		});
 
 		return Promise.all(promises);
