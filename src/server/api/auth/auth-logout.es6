@@ -1,30 +1,17 @@
 /* globals module, require */
+'use strict';
 
-module.exports = {
+import resource from './api-auth-resource.js';
 
-	method: 'DELETE',
+const operation = resource.DELETE().as('json');
 
-	contentTypes: [
-		'application/json',
-		'text/json'
-	],
+operation.handler = (request, response, params) => {
 
-	validator: function(c) {
-		return {
-
-		};
-	},
-
-	resolver: function(params, session, resolve, reject) {
-
-		if (!session.user) {
-			return reject(404);
-		}
-
-		session.destroy();
-		return resolve();
-
+	if (!request.session.user) {
+		response.status = 404;
 	}
 
-};
+	request.session.destroy();
+	response.status = 200;
 
+};

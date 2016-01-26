@@ -1,10 +1,16 @@
 /* globals module, require */
+'use strict';
+
+import _ from 'underscore';
+import crypto from 'crypto';
+import suit from 'suit';
+
+import resource from './api-auth-resource.js';
 
 import '../../prototypes.es6'
 import query from '../../neo4j.es6'
 
-let _ = require('underscore');
-var crypto = require('crypto');
+const operation = resource.PUT().as('json');
 
 let cipher_login = '' +
 	'MATCH (user:User { email: {email} })' +
@@ -14,16 +20,8 @@ let whitelist = [
 	'name'
 ];
 
-module.exports = {
-
-	method: 'PUT',
-
-	contentTypes: [
-		'application/json',
-		'text/json'
-	],
-
-	validator: function(c) {
+operation.validator = (data) => {
+	return suit.fit(data, (c) => {
 		return {
 
 			email: [
@@ -37,55 +35,45 @@ module.exports = {
 			]
 
 		};
-	},
+	});
+};
 
-	resolver: function(params, session, resolve, reject) {
+operation.handler = (request, response, params) => {
 
-		return query(cipher_login, {
-			email: params.email
-		}).then(function(results) {
+	return query(cipher_login, {
+		email: params.email
 
-			let result = _.first(results);
+	}).then(function(results) {
 
-			if (!result) {
-				return reject(404);
-			}
+		let result = _.first(results);
 
-			let user = _.extend({}, result.user.properties, {
-				id: result.user._id
-			});
+		if (!result) {
+			response.status = 404;
+			return;
+		}
 
-			// run crypto hash on supplied password.
-			let hash = crypto.createHash('md5')
+		let user = _.extend({}, result.user.properties, {
+			id: result.user._id
+		});
+
+		// run crypto hash on supplied password.
+		let hash = crypto.createHash('md5')
 				.update(params.password)
 				.digest('hex');
 
-			if (hash !== user.password) {
-				return reject(401);
-			}
+		if (hash !== user.password) {
+			response.status = 401;
+			return;
+		}
 
-			user.token = crypto.createHash('md5')
+		user.token = crypto.createHash('md5')
 				.update(user.email + hash)
 				.digest('hex');
 
-			session.user = user;
-			return resolve(user);
+		request.session.user = user;
+		response.json = user;
+		response.status = 200;
 
-		});
-
-	},
-
-	schema: {
-
-		request: {
-			//jsonschema
-		},
-
-		response: {
-			//jsonschema
-		}
-
-	}
+	});
 
 };
-

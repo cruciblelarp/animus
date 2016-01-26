@@ -1,10 +1,16 @@
 /* globals module, require */
+'use strict';
+
+import _ from 'underscore';
+import crypto from 'crypto';
+import suit from 'suit';
+
+import resource from './api-auth-resource.js';
 
 import '../../prototypes.es6'
 import query from '../../neo4j.es6'
 
-let _ = require('underscore');
-var crypto = require('crypto');
+const operation = resource.POST().as('json');
 
 let cipher = '' +
 	'MATCH (user:User { email: {email} })' +
@@ -14,16 +20,8 @@ let whitelist = [
 	'name'
 ];
 
-module.exports = {
-
-	method: 'POST',
-
-	contentTypes: [
-		'application/json',
-		'text/json'
-	],
-
-	validator: function(c) {
+operation.validator = (data) => {
+	return suit.fit(data, (c) => {
 		return {
 
 			email: [
@@ -37,31 +35,18 @@ module.exports = {
 			]
 
 		};
-	},
+	});
+};
 
-	resolver: function(params, session, resolve, reject) {
+operation.handler = (request, response, params) => {
 
-		// TODO: Query the database for conflicts
+	// TODO: Query the database for conflicts
 
-		// TODO: Create the User with validation = new guid.
+	// TODO: Create the User with validation = new guid.
 
-		// TODO: Send email to validate address with callback to /auth/validate
+	// TODO: Send email to validate address with callback to /auth/validate
 
-		// TODO: Return success response.
-
-	},
-
-	schema: {
-
-		request: {
-			//jsonschema
-		},
-
-		response: {
-			//jsonschema
-		}
-
-	}
+	response.status = 201;
 
 };
 

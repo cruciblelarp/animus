@@ -5,6 +5,7 @@ var _ = require('underscore');
 import config from './config.es6';
 import http from './http.es6';
 import rest from './hateoas.es6';
+import './api/api-resource.js';
 
 var running = false;
 
