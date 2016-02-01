@@ -3,12 +3,12 @@
 
 import * as suit from 'suit';
 
-import resource from './api-characters-resource.js';
+import resource from './api-user-_id-characters-resource.js';
 import neo4j from '../../neo4j.es6';
 
-export const query = 'MATCH u:User';
+export const query = 'MATCH c:Character WHERE (c) <- [:plays] <- u:User AND (c) <- [:permission-read] <- u';
 
-const operation = resource.POST().as('json');
+const operation = resource.GET().as('json');
 
 operation.validator = (data) => {
 	return suit.fit(data, (c) => {
