@@ -3,22 +3,18 @@
 
 import * as suit from 'suit';
 
-import resource from './api-user-_id-characters-_id-resource.js';
-import neo4j from '../../../neo4j.es6';
+import resource from './api-users-_id-characters-resource.js';
+import neo4j from '../../neo4j.es6';
 
-export const query = 'MATCH c:Character WHERE id(c) = :charId';
+export const query = 'MATCH u:User';
 
-const operation = resource.PUT().as('json');
+const operation = resource.POST().as('json');
 
 operation.validator = (data) => {
-		return suit.fit(data, (c) => {
-			return {
-				charId: [
-					c.required(),
-					c.integer()
-				]
-			};
-		});
+	return suit.fit(data, (c) => {
+		return {
+		}
+	});
 };
 
 operation.handler = (request, response, data) => {

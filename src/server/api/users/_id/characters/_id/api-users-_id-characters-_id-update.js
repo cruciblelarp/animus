@@ -3,18 +3,22 @@
 
 import * as suit from 'suit';
 
-import resource from './api-user-_id-characters-resource.js';
-import neo4j from '../../neo4j.es6';
+import resource from './api-users-_id-characters-_id-resource.js';
+import neo4j from '../../../neo4j.es6';
 
-export const query = 'MATCH c:Character WHERE (c) <- [:plays] <- u:User AND (c) <- [:permission-read] <- u';
+export const query = 'MATCH c:Character WHERE id(c) = :charId';
 
-const operation = resource.GET().as('json');
+const operation = resource.PUT().as('json');
 
 operation.validator = (data) => {
-	return suit.fit(data, (c) => {
-		return {
-		}
-	});
+		return suit.fit(data, (c) => {
+			return {
+				charId: [
+					c.required(),
+					c.integer()
+				]
+			};
+		});
 };
 
 operation.handler = (request, response, data) => {
