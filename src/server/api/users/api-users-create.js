@@ -1,11 +1,14 @@
 /* globals module, require */
 
-import '../../../prototypes.es6'
+import _ from 'underscore';
+import suit from 'suit';
 
-let _ = require('underscore');
+import '../../../prototypes.es6'
+import resource from './api-users-resource.js';
 
 let cipher = '' +
-	'CREATE (node:User),(user:User)' +
+	'MATCH (creator:User { _id: {userId} }),(createPermission:Permission { name: \'users-create\' })' +
+	'CREATE (node:User)' +
 	'  WHERE id(user) = {userId}' +
 	'  AND id(node) = {nodeId}' +
 	'  AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)' +
@@ -13,20 +16,12 @@ let cipher = '' +
 	'  SET {properties}' +
 	'  RETURN id(node);';
 
-let whitelist = [
-	'name'
-];
+export const name = 'create';
 
-module.exports = {
+const method = resource.POST().as('json');
 
-	method: 'POST',
-
-	contentTypes: [
-		'application/json',
-		'text/json'
-	],
-
-	validator: function(c) {
+method.validator = (data) => {
+	return suit.fit((c) => {
 		return {
 
 			name: [
@@ -34,38 +29,44 @@ module.exports = {
 				c.required
 			]
 
-		};
-	},
+		}
+	});
+};
 
-	resolver: function(params, session, resolve, reject) {
+method.handler = function(request, response, params) {
 
-		var properties = new Map(params.filter(function(key) {
-			return key in whitelist
-		}));
+	const properties = new Map(params.filter(function(key) {
+		return key in [ 'name' ]
+	}));
 
-		query(cipher, {
-			userId: session.user.id,
-			properties: properties
+	query(cipher, {
+		userId: session.user.id,
+		properties: properties
 
-		}).then(function(results) {
+	}).then(function(results) {
 
-			return Promise.resolve();
-
-		}).then(resolve, reject);
-
-	},
-
-	schema: {
-
-		request: {
-			//jsonschema
-		},
-
-		response: {
-			//jsonschema
+		if (!results || !results[0]) {
+			response.status(500);
+			response.json({
+				message: 'Couldn\'t insert record for some reason.'
+			});
 		}
 
-	}
+		const userId = results._id;
+
+		response.status(200);
+		response.json({
+			link: `${resource.path}/${userId}`
+		});
+
+	}).catch((error) => {
+
+		response.status(500);
+		response.json({
+			message: error.message
+		});
+
+	});
 
 };
 

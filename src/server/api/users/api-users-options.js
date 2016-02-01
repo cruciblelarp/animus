@@ -1,27 +1,23 @@
 /* globals module, require */
 
-module.exports = {
+import resource from './api-users-resource.js';
 
-	GET: {
+import { name as _createUser } from './api-users-create.js';
+import { name as _listUsers } from './api-users-list.js';
 
-		'text/html': require('./account-angular_template.jade'),
+export const name = 'options';
 
-		'application/javascript': require('./account-angular_controller.js'),
+const method = resource.OPTIONS();
 
-		'application/json': require('./account-details.es6')
+method.handler = (request, response, params) => {
 
-	},
+	response.status = 200;
+	response.json({
 
-	'POST': {
+		GET: _listUsers,
 
-		'application/json': require('./account-signup.es6')
+		POST: _createUser
 
-	},
-
-	'PUT': {
-
-		'application/json': require('./account-update.es6')
-
-	}
+	});
 
 };

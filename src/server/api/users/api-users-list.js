@@ -15,6 +15,8 @@ let whitelist = [
 	'name'
 ];
 
+export const name = 'list';
+
 module.exports = {
 
 	method: 'GET',
