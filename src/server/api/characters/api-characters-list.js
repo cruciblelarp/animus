@@ -1,59 +1,52 @@
 /* globals module, require */
 
-import '../../../prototypes.es6'
+import _ from 'underscore';
+import suit from 'suit';
 
-let _ = require('underscore');
+import resource from './api-characters-resource.js';
 
-let cipher_list = '' +
+import '../../../prototypes.es6';
+
+const cypher = '' +
 	'MATCH (node:Character),(user:User)' +
 	'  WHERE id(user) = {userId}' +
 	'  AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)' +
 	'  XOR NOT (node) - [:Requires] -> (:Permission)' +
 	'  RETURN id(node);';
 
-let whitelist = [
-	'name'
-];
+export const name = 'list';
 
-module.exports = {
+const method = resource.GET().as('json');
 
-	method: 'GET',
-
-	contentTypes: [
-		'application/json',
-		'text/json'
-	],
-
-	validator: function(c) {
+method.validator = (params) => {
+	return suit.fit(params, (c) => {
 		return {
-
 		};
+	})
+};
 
-	},
+method.resolver = function(request, response) {
 
-	resolver: function(params, session, resolve, reject) {
+	query(cypher, {
+		userId: session.user.id
 
-		query(cipher_list, {
-			userId: session.user.id
+	}).then(function(results) {
 
-		}).then(function(results) {
-
-			return Promise.resolve();
-
-		}).then(resolve, reject);
-
-	},
-
-	schema: {
-
-		request: {
-			//jsonschema
-		},
-
-		response: {
-			//jsonschema
+		if (!results) {
+			response.status = 404;
+			return;
 		}
 
-	}
+		response.status = 200;
+		response.json({
+			results: results
+		});
+
+	}).catch((error) => {
+		response.status = 500;
+		response.json({
+			message: error.message
+		});
+	})
 
 };
