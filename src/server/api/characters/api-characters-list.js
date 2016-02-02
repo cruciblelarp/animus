@@ -27,7 +27,7 @@ method.validator = (params) => {
 
 method.resolver = function(request, response) {
 
-	query(cypher, {
+	return query(cypher, {
 		userId: session.user.id
 
 	}).then(function(results) {
@@ -42,11 +42,6 @@ method.resolver = function(request, response) {
 			results: results
 		});
 
-	}).catch((error) => {
-		response.status = 500;
-		response.json({
-			message: error.message
-		});
-	})
+	});
 
 };

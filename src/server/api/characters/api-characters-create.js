@@ -1,10 +1,13 @@
 /* globals module, require */
 
+import _ from 'underscore';
+import suit from 'suit';
+
+import resource from './api-characters-resource.js';
+
 import '../../../prototypes.es6'
 
-let _ = require('underscore');
-
-let cipher = '' +
+const cypher = '' +
 	'CREATE (node:Character),(user:User)' +
 	'  WHERE id(user) = {userId}' +
 	'  AND id(node) = {nodeId}' +
@@ -28,7 +31,7 @@ method.resolver = (request, response) => {
 		return key in [ 'name' ];
 	}));
 
-	query(cipher, {
+	return query(cypher, {
 		userId: session.user.id,
 		properties: properties
 
@@ -42,12 +45,6 @@ method.resolver = (request, response) => {
 		response.status = 200;
 		response.json({
 			results: results
-		});
-
-	}).catch((error) => {
-		response.status = 500;
-		response.json({
-			message: error.message
 		});
 
 	});
