@@ -11,7 +11,7 @@ var concat = require('gulp-concat');
 var config = require('./config');
 
 module.exports = function() {
-	return gulp.src(config.PATH_STATIC + '/**.js')
+	return gulp.src('src/client/**.js')
 		.pipe(sourcemaps.init())
 		.pipe(optimise('angular-bootstrap', config.requirejs))
 		.on('data', function(file) {
