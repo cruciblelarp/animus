@@ -33,4 +33,6 @@ app.use(session({
 	})
 }));
 
+app.use(express.static('src/server/static'));
+
 export default app;

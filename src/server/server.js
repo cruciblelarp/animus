@@ -25,7 +25,7 @@ export function start(onSuccess, onError) {
 
 	running = true;
 	http.listen(config.port, config.hostname, function() {
-		console.log('Starting application on http://' + config.hostname + ':' + config.port + '/');
+		console.log('Started application on http://' + config.hostname + ':' + config.port + '/');
 		onSuccess && onSuccess();
 		return promise_resolve();
 

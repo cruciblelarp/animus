@@ -3,4 +3,4 @@
 
 import hateoas from '../hateoas.js';
 
-export default hateoas.resource('/');
+export default hateoas.resource('/api');

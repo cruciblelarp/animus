@@ -10,9 +10,8 @@ var mocha_config = {
 	ui: 'bdd',
 	reporter: 'spec',
 	bail: false,
-	grep: '^.+\\.spec\\..+$',
 	compilers: {
-		es6: 'mocha-traceur'
+		js: 'mocha-traceur'
 	}
 };
 
