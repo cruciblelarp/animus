@@ -1,6 +1,6 @@
 /* globals before, after, describe, require */
 
-import * as server from '../../server/server.es6';
+import * as server from '../../server/server.js';
 
 let chai = require('chai');
 let req = require('request-promise');

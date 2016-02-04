@@ -2,7 +2,7 @@
 
 var Model = require('model');
 
-import socket from './socket.es6';
+import socket from './socket';
 
 module.exports = function(session) {
 

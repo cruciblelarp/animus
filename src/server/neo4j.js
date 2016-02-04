@@ -3,8 +3,8 @@
 import query from 'cypher-query';
 import neo4j from 'neo4j-simple';
 
-import config from './config.es6';
-import exit from './exit.es6';
+import config from './config.js';
+import exit from './exit.js';
 
 let connection = null;
 

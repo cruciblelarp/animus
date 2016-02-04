@@ -5,7 +5,7 @@ import suit from 'suit';
 
 import resource from './api-characters-_id-resource.js';
 
-import '../../../../prototypes.es6'
+import '../../../../prototypes.js'
 
 const cypher = '' +
 	'MATCH (node:Character),(user:User)' +

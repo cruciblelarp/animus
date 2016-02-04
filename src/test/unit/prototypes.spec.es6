@@ -1,6 +1,6 @@
 /* globals require, describe, it, Array, Map, Object */
 
-import * as prototypes from '../../server/prototypes.es6';
+import * as prototypes from '../../server/prototypes.js';
 
 let chai = require('chai');
 

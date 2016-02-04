@@ -17,7 +17,7 @@ module.exports = {
 	POST: {
 
 		'application/json': {
-			action: require('./account-recover-submit.es6')
+			action: require('./account-recover-submit.js')
 		}
 
 	},
@@ -25,7 +25,7 @@ module.exports = {
 	PUT: {
 
 		'application/json': {
-			action: require('./account-recover-confirm.es6')
+			action: require('./account-recover-confirm.js')
 		}
 
 	}

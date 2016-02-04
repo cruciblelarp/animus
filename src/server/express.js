@@ -1,16 +1,14 @@
 /* globals require, module, __dirname */
 
-import hateoas from './hateoas/middleware.es6';
+import express from 'express';
+import fileStore from 'session-file-store';
+import errorHandler from 'errorhandler';
+import session from 'express-session';
+import helmet from 'helmet';
+import bodyParser from 'body-parser';
+import paths from 'path';
 
-let express = require('express');
-let fileStore = require('session-file-store');
-let errorHandler = require('errorhandler');
-let session = require('express-session');
-let helmet = require('helmet');
-let bodyParser = require('body-parser');
-let paths = require('path');
-
-import config from './config.es6';
+import config from './config';
 
 let FileStore = fileStore(session);
 

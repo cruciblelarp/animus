@@ -2,7 +2,7 @@
 
 var _ = require('underscore');
 
-import config from './config.es6';
+import config from './config.js';
 
 var listeners = [];
 var exitCode = 0;

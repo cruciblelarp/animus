@@ -2,9 +2,9 @@
 
 var http = require('http');
 
-import app from './express.es6';
-import exit from './exit.es6';
-import config from './config.es6';
+import app from './express.js';
+import exit from './exit.js';
+import config from './config.js';
 
 var Server = http.Server;
 

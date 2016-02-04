@@ -3,7 +3,7 @@
 import _ from 'underscore';
 import suit from 'suit';
 
-import '../../../prototypes.es6'
+import '../../../prototypes'
 import resource from './api-users-resource.js';
 
 let cipher = '' +

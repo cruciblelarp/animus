@@ -2,7 +2,7 @@
 
 import * as _ from 'underscore';
 
-import '../prototypes.es6'
+import '../prototypes.js'
 import resource from './api-resource.js';
 import hateoas from '../hateoas.js';
 

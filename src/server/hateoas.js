@@ -3,6 +3,6 @@
 
 import Hateoas from 'express-hateoas';
 
-import express from '../express.es6';
+import express from './express';
 
 export default new Hateoas(express);

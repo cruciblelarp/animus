@@ -7,8 +7,8 @@ import suit from 'suit';
 
 import resource from './api-auth-resource.js';
 
-import '../../prototypes.es6'
-import query from '../../neo4j.es6'
+import '../../prototypes.js'
+import query from '../../neo4j.js'
 
 const operation = resource.PUT().as('json');
 

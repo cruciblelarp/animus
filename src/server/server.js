@@ -2,10 +2,10 @@
 
 var _ = require('underscore');
 
-import config from './config.es6';
-import http from './http.es6';
-import rest from './hateoas.es6';
-import './api/api-resource.js';
+import config from './config';
+import http from './http';
+import rest from './hateoas';
+import './api/api-resource';
 
 var running = false;
 

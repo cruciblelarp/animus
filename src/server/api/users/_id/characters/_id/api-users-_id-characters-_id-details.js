@@ -4,7 +4,7 @@
 import * as suit from 'suit';
 
 import resource from './api-users-_id-characters-_id-resource.js';
-import neo4j from '../../../neo4j.es6';
+import neo4j from '../../../neo4j.js';
 
 export const query = 'MATCH c:Character WHERE id(c) = :charId';
 
