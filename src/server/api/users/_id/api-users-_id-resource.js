@@ -1,7 +1,7 @@
 /* global */
 'use strict';
 
-import parent from '../api-users-_id-characters-resource.js';
+import parent from '../api-users-resource.js';
 
 export const name = ':id';
 

@@ -1,10 +1,12 @@
 /* globals module, require */
 
-import '../../../../prototypes.es6'
+import '../../../prototypes.js'
 
-let _ = require('underscore');
+import _ from 'underscore';
 
-let cipher_list = '' +
+import resource from './api-users-_id-resource.js';
+
+const cipher_list = '' +
 	'MATCH (node:User),(user:User)' +
 	'  WHERE id(user) = {userId}' +
 	'  AND id(node) = {nodeId}' +
@@ -13,20 +15,14 @@ let cipher_list = '' +
 	'  SET {properties}' +
 	'  RETURN id(node);';
 
+const operation = resource.PUT().as('json');
+
 let whitelist = [
 	'name'
 ];
 
-module.exports = {
-
-	method: 'PUT',
-
-	contentTypes: [
-		'application/json',
-		'text/json'
-	],
-
-	validator: function(c) {
+operation.validator = (data) => {
+	return suit.fit(data, (c) => {
 		return {
 
 			id: [
@@ -39,38 +35,27 @@ module.exports = {
 			]
 
 		};
-	},
-
-	resolver: function(params, session, resolve, reject) {
-
-		var properties = new Map(params.filter(function(key) {
-			return key in whitelist
-		}));
-
-		query(cipher_list, {
-			nodeId: params.id,
-			userId: session.user.id,
-			properties: properties
-
-		}).then(function(results) {
-
-			return Promise.resolve();
-
-		}).then(resolve, reject);
-
-	},
-
-	schema: {
-
-		request: {
-			//jsonschema
-		},
-
-		response: {
-			//jsonschema
-		}
-
-	}
-
+	});
 };
 
+operation.handler = function(request, response, params) {
+
+	var properties = new Map(params.filter(function(key) {
+		return key in whitelist
+	}));
+
+	return query(cipher_list, {
+		nodeId: params.id,
+		userId: session.user.id,
+		properties: properties
+
+	}).then(function(results) {
+
+		request.status = 200;
+
+	}).catch((error) => {
+		request.status = 500;
+		request.json = error;
+	});
+
+};

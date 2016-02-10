@@ -1,6 +1,8 @@
 /* global */
 'use strict';
 
-import hateoas from '../../hateoas.js';
+import parent from '../api-users-_id-resource.js';
 
-export default hateoas.resource('/characters');
+export const name = 'characters';
+
+export default parent.child(name);

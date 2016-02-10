@@ -1,6 +1,6 @@
 /* globals module, require */
 
-import '../../../prototypes'
+import '../../prototypes.js'
 
 let _ = require('underscore');
 

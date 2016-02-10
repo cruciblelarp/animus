@@ -1,8 +1,8 @@
 /* globals module, require */
 
-var _ = require('underscore');
+import _ from 'underscore';
 
-var cipher_list = '' +
+const cipher_list = '' +
 	'MATCH (node:User)-[relationship]-(),(user:User)' +
 	'  WHERE id(user) = {userId}' +
 	'  AND id(node) = {nodeId}' +
