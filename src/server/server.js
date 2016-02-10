@@ -5,7 +5,7 @@ var _ = require('underscore');
 import config from './config';
 import http from './http';
 import rest from './hateoas';
-import './api/api-resource';
+import './api/index.js';
 
 var running = false;
 
