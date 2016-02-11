@@ -24,15 +24,17 @@ operation.validator = (data) => {
 	return suit.fit(data, (c) => {
 		return {
 
-			email: [
-				c.email,
-				c.required
-			],
+			body: {
+				email: [
+					c.email,
+					c.required
+				],
 
-			password: [
-				c.string,
-				c.required
-			]
+				password: [
+					c.string,
+					c.required
+				]
+			}
 
 		};
 	});

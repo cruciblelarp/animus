@@ -18,11 +18,21 @@ const cypher = '' +
 
 const method = resource.POST().as('json');
 
-method.validator = (data) => {
-	return suit.fit(data, (c) => {
+method.validator = (request) => {
+	return suit.fit(request, (c) => {
 		return {
+
+			session: {
+				user: {
+					id: [
+						c.required,
+						c.integer
+					]
+				}
+			}
+
 		};
-	});
+	})
 };
 
 method.resolver = (request, response) => {

@@ -10,15 +10,11 @@ operation.handler = (request, response) => {
 	const user = request.session.user;
 
 	if (!user) {
-
-		response.status(401).json({
+		return response.status(401).json({
 			message: 'No user currently logged-in!'
 		});
-
-		return;
-
 	}
 
-	response.status(200).json(user); // super-insecure.
+	return response.status(200).json(user); // super-insecure.
 
 };

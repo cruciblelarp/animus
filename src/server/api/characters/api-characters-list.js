@@ -18,9 +18,19 @@ export const name = 'list';
 
 const method = resource.GET().as('json');
 
-method.validator = (params) => {
-	return suit.fit(params, (c) => {
+method.validator = (request) => {
+	return suit.fit(request, (c) => {
 		return {
+
+			session: {
+				user: {
+					id: [
+						c.required,
+						c.integer
+					]
+				}
+			}
+
 		};
 	})
 };
@@ -28,7 +38,7 @@ method.validator = (params) => {
 method.resolver = function(request, response) {
 
 	return query(cypher, {
-		userId: session.user.id
+		userId: request.session.user.id
 
 	}).then(function(results) {
 

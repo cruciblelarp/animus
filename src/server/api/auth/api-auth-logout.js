@@ -1,17 +1,32 @@
 /* globals module, require */
 'use strict';
 
+import suit from 'suit';
+
 import resource from './api-auth-resource.js';
 
 const operation = resource.DELETE().as('json');
 
+operation.validator = (request) => {
+	return suit.fit(request, (c) => {
+		return {
+
+			session: {
+				user: {
+					id: [
+						c.required,
+						c.integer
+					]
+				}
+			}
+
+		};
+	})
+};
+
 operation.handler = (request, response, params) => {
 
-	if (!request.session.user) {
-		response.status = 404;
-	}
-
 	request.session.destroy();
-	response.status = 200;
+	return response.status(200);
 
 };
