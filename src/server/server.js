@@ -4,6 +4,7 @@ var _ = require('underscore');
 
 import config from './config';
 import http from './http';
+import express from './express.js';
 import rest from './hateoas';
 import './api/index.js';
 
@@ -74,3 +75,16 @@ export function stop(onSuccess, onError) {
 	return promise;
 
 }
+
+express.use(function(error, request, response, next) {
+
+	if (response.headersSent) {
+		return next(error);
+	}
+
+	console.error(error.stack);
+	response
+			.status(500)
+			.send('Something broke!');
+
+});
