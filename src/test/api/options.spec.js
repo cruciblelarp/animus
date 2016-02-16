@@ -9,8 +9,10 @@ import * as setup from './setup.js';
 
 export const request = () => {
 	return req({
-		uri: `${setup.baseurl}/api`,
+		resolveWithFullResponse: true,
+		uri: `${setup.baseurl}`,
 		method: 'OPTIONS',
+		simple: false,
 		json: true
 	});
 };
@@ -20,7 +22,7 @@ describe("OPTIONS:/", () => {
 	it('should provide a', () => {
 
 		return request().then((options) => {
-			expect(options).to.not.be(null);
+			expect(options).to.exist;
 		});
 
 	});

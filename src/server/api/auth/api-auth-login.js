@@ -16,10 +16,6 @@ let cipher_login = '' +
 	'MATCH (user:User { email: {email} })' +
 	'  RETURN user;';
 
-let whitelist = [
-	'name'
-];
-
 operation.validator = (data) => {
 	return suit.fit(data, (c) => {
 		return {
@@ -52,8 +48,7 @@ operation.handler = (request, response, params) => {
 		let result = _.first(results);
 
 		if (!result) {
-			response.status = 404;
-			return;
+			return response.status(404);
 		}
 
 		let user = _.extend({}, result.user.properties, {
@@ -66,8 +61,7 @@ operation.handler = (request, response, params) => {
 				.digest('hex');
 
 		if (hash !== user.password) {
-			response.status = 401;
-			return;
+			return response.status(401);
 		}
 
 		user.token = crypto.createHash('md5')
@@ -75,8 +69,7 @@ operation.handler = (request, response, params) => {
 				.digest('hex');
 
 		request.session.user = user;
-		response.json = user;
-		response.status = 200;
+		return response.status(200).json(user);
 
 	});
 

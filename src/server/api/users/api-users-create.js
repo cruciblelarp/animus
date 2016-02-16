@@ -20,14 +20,6 @@ export const name = 'create';
 
 const method = resource.POST().as('json');
 
-method.validator = (request) => {
-	return suit.fit(request, (c) => {
-		return {
-
-		};
-	})
-};
-
 method.validator = (data) => {
 	return suit.fit((c) => {
 		return {

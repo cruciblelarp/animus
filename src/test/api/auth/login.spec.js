@@ -8,15 +8,17 @@ const expect = chai.expect;
 
 import * as setup from '../setup.js';
 
-export const request = (username, password) => {
+export const request = (email, password) => {
 
 	const body = {};
-	username && ( body.username = username );
+	email && ( body.email = email );
 	password && ( body.password = password );
 
 	return req({
-		uri: `${setup.baseurl}/api/auth`,
+		resolveWithFullResponse: true,
+		uri: `${setup.baseurl}/auth`,
 		method: 'POST',
+		simple: false,
 		json: true,
 		body: body
 	});
@@ -25,12 +27,12 @@ export const request = (username, password) => {
 
 describe('POST:/auth', () => {
 
-	it('should reject a missing username', () => {
+	it('should reject a missing email', () => {
 
 		return request(undefined, 'irrelevantpassword').then((result) => {
 
-			expect(result).to.not.equal(null);
-			expect(result.status).to.equal(400);
+			expect(result).to.exist;
+			expect(result.statusCode).to.equal(400);
 
 		});
 
@@ -38,32 +40,32 @@ describe('POST:/auth', () => {
 
 	it('should reject a missing password', () => {
 
-		return request('irrelevantuser', undefined).then((result) => {
+		return request('irrelevantemail', undefined).then((result) => {
 
-			expect(result).to.not.equal(null);
-			expect(result.status).to.equal(400);
+			expect(result).to.exist;
+			expect(result.statusCode).to.equal(400);
 
 		});
 
 	});
 
-	it('should reject a missing username and password', () => {
+	it('should reject a missing email and password', () => {
 
 		return request(undefined, undefined).then((result) => {
 
-			expect(result).to.not.equal(null);
-			expect(result.status).to.equal(400);
+			expect(result).to.exist;
+			expect(result.statusCode).to.equal(400);
 
 		});
 
 	});
 
-	it('should reject a bad username', () => {
+	it('should reject a bad email', () => {
 
-		return request('notauser', 'irrelevantpassword').then((result) => {
+		return request('notauser@dontexist.com', 'irrelevantpassword').then((result) => {
 
-			expect(result).to.not.equal(null);
-			expect(result.status).to.equal(400);
+			expect(result).to.exist;
+			expect(result.statusCode).to.equal(400);
 
 		});
 
@@ -71,10 +73,10 @@ describe('POST:/auth', () => {
 
 	it('should reject a bad password', () => {
 
-		return request('realuser', 'wrongpassword').then((result) => {
+		return request('email@somewhere.com', 'wrongpassword').then((result) => {
 
-			expect(result).to.not.equal(null);
-			expect(result.status).to.equal(400);
+			expect(result).to.exist;
+			expect(result.statusCode).to.equal(400);
 
 		});
 
@@ -82,10 +84,11 @@ describe('POST:/auth', () => {
 
 	it('should log-in a correct username + password', () => {
 
-		return request('realuser', 'realpassword').then((result) => {
+		return request('email@somewhere.com', 'password').then((result) => {
 
-			expect(result).to.not.equal(null);
-			expect(result.status).to.equal(204);
+			expect(result).to.exist;
+			console.info(JSON.stringify(result.body));
+			expect(result.statusCode).to.equal(204);
 
 		});
 

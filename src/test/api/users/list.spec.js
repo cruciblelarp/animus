@@ -10,8 +10,10 @@ import { request as login } from '../auth/login.spec.js';
 
 export const request = () => {
 	return req({
-		uri: `${setup.baseurl}/api/user`,
+		resolveWithFullResponse: true,
+		uri: `${setup.baseurl}/users`,
 		method: 'GET',
+		simple: false,
 		json: true
 	});
 };
@@ -21,8 +23,8 @@ describe("GET:/users", () => {
 	it('should be secured', () => {
 
 		return request().then((response) => {
-			expect(response).to.not.be(null);
-			expect(response.status).to.equal(401);
+			expect(response).to.exist;
+			expect(response.statusCode).to.equal(401);
 
 		});
 
@@ -30,12 +32,13 @@ describe("GET:/users", () => {
 
 	it('should provide a list of users', () => {
 
-		return login('realuser', 'realpassword').then(() => {
+		return login('realuser', 'realpassword').then((response) => {
+			expect(response.statusCode).to.equal(200);
 			return request();
 
 		}).then((response) => {
-			expect(response).to.not.be(null);
-			expect(response.status).to.equal(200);
+			expect(response).to.exist;
+			expect(response.statusCode).to.equal(200);
 
 		});
 
