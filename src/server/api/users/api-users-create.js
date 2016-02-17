@@ -1,7 +1,6 @@
 /* globals module, require */
 
 import _ from 'underscore';
-import suit from 'suit';
 
 import '../../prototypes.js'
 import resource from './api-users-resource.js';

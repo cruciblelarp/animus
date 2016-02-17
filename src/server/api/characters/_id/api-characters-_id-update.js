@@ -1,7 +1,6 @@
 /* globals module, require */
 
 import _ from 'underscore';
-import suit from 'suit';
 
 import resource from './api-characters-_id-resource.js';
 

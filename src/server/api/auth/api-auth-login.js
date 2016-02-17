@@ -1,4 +1,4 @@
-/* globals module, require */
+/* globals console */
 'use strict';
 
 import _ from 'underscore';

@@ -3,7 +3,6 @@
 
 import _ from 'underscore';
 import crypto from 'crypto';
-import suit from 'suit';
 
 import resource from './api-auth-resource.js';
 

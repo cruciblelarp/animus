@@ -1,6 +1,5 @@
 /* globals require, module */
 
-import query from 'cypher-query';
 import neo4j from 'neo4j-simple';
 
 import config from './config.js';
@@ -8,7 +7,10 @@ import exit from './exit.js';
 
 let connection = null;
 
-export default function (onComplete) {
+/**
+ * @returns {Promise} A neo4j database connection.
+ */
+export function connect() {
 	return new Promise((resolve, reject) => {
 		try {
 
@@ -18,13 +20,17 @@ export default function (onComplete) {
 				});
 			}
 
-			onComplete && onComplete(null, connection);
 			return resolve(connection);
 
 		} catch (error) {
-			onComplete && onComplete(error);
 			return reject(error);
 		}
+	});
+}
+
+export default function query(query, params) {
+	return connect().then((db) => {
+		return db.query(query, params);
 	});
 }
 

@@ -1,8 +1,6 @@
 /* globals module, require */
 'use strict';
 
-import suit from 'suit';
-
 import resource from './api-auth-resource.js';
 
 const operation = resource.DELETE().as('json');
