@@ -8,16 +8,24 @@ import exit from './exit.js';
 
 let connection = null;
 
-export default function () {
+export default function (onComplete) {
+	return new Promise((resolve, reject) => {
+		try {
 
-	if (!connection) {
-		connection = neo4j(config.database.url, {
-			idName: 'id'
-		});
-	}
+			if (!connection) {
+				connection = neo4j(config.database.url, {
+					idName: 'id'
+				});
+			}
 
-	return connection;
+			onComplete && onComplete(null, connection);
+			return resolve(connection);
 
+		} catch (error) {
+			onComplete && onComplete(error);
+			return reject(error);
+		}
+	});
 }
 
 exit(function(resolve) {

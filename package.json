@@ -77,7 +77,6 @@
     "neo4j-simple": "^0.7.12",
     "node-sass": "^3.3.3",
     "session-file-store": "0.0.14",
-    "suit": "^0.4.0",
     "traceur": "0.0.102",
     "traceur-runner": "^2.0.1",
     "traceur-source-maps": "^1.0.6",

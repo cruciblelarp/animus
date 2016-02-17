@@ -17,7 +17,7 @@ export const request = (email, password) => {
 	return req({
 		resolveWithFullResponse: true,
 		uri: `${setup.baseurl}/auth`,
-		method: 'POST',
+		method: 'PUT',
 		simple: false,
 		json: true,
 		body: body

@@ -3,7 +3,6 @@
 
 import _ from 'underscore';
 import crypto from 'crypto';
-import suit from 'suit';
 
 import resource from './api-auth-resource.js';
 
@@ -16,38 +15,41 @@ let cipher_login = '' +
 	'MATCH (user:User { email: {email} })' +
 	'  RETURN user;';
 
-operation.validator = (data) => {
-	return suit.fit(data, (c) => {
-		return {
+operation.validator = (c) => {
+	return {
 
-			body: {
+		body: {
 
-				email: [
-					c.email,
-					c.required
-				],
+			email: [
+				c.email,
+				c.required
+			],
 
-				password: [
-					c.string,
-					c.required
-				]
+			password: [
+				c.string,
+				c.required
+			]
 
-			}
+		}
 
-		};
-	});
+	};
 };
 
 operation.handler = (request, response, params) => {
 
+	const email = params.body.email;
+	const password = params.body.password;
+	console.info(`Starting login for ${email}...`);
+
 	return query(cipher_login, {
-		email: params.email
+		email: email
 
 	}).then(function(results) {
 
 		let result = _.first(results);
 
 		if (!result) {
+			console.info(`Couldn't find user for email ${email}`);
 			return response.status(404);
 		}
 
@@ -57,10 +59,11 @@ operation.handler = (request, response, params) => {
 
 		// run crypto hash on supplied password.
 		let hash = crypto.createHash('md5')
-				.update(params.password)
+				.update(password)
 				.digest('hex');
 
 		if (hash !== user.password) {
+			console.info(`Couldn't validate user's password`);
 			return response.status(401);
 		}
 
