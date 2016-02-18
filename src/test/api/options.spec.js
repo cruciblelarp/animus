@@ -8,12 +8,9 @@ const expect = chai.expect;
 import * as setup from './setup.js';
 
 export const request = () => {
-	return req({
-		resolveWithFullResponse: true,
+	return setup.request({
 		uri: `${setup.baseurl}`,
-		method: 'OPTIONS',
-		simple: false,
-		json: true
+		method: 'OPTIONS'
 	});
 };
 

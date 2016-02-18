@@ -3,6 +3,7 @@
 
 import _ from 'underscore';
 import crypto from 'crypto';
+import httpConst from 'http-constants';
 
 import resource from './api-auth-resource.js';
 import query from '../../neo4j.js'
@@ -52,7 +53,7 @@ operation.handler = (request, response, params) => {
 
 		if (!result || !result.user) {
 			console.info(`Couldn't find user for email ${email}`);
-			return response.status(404).json({});;
+			return response.status(httpConst.codes.NOT_FOUND).json({});
 		}
 
 		const user = _.extend({}, result.user, {
@@ -66,7 +67,7 @@ operation.handler = (request, response, params) => {
 
 		if (hash !== user.password) {
 			console.info(`Couldn't validate user's password`);
-			return response.status(401).json({});
+			return response.status(httpConst.codes.UNAUTHORIZED).json({});
 		}
 
 		user.token = crypto.createHash('md5')
@@ -74,7 +75,7 @@ operation.handler = (request, response, params) => {
 				.digest('hex');
 
 		request.session.user = user;
-		return response.status(200).json(user);
+		return response.status(httpConst.codes.OK).json(user);
 
 	});
 

@@ -2,7 +2,6 @@
 'use strict';
 
 import chai from 'chai';
-import req from 'request-promise';
 
 const expect = chai.expect;
 
@@ -14,12 +13,9 @@ export const request = (email, password) => {
 	email && ( body.email = email );
 	password && ( body.password = password );
 
-	return req({
-		resolveWithFullResponse: true,
+	return setup.request({
 		uri: `${setup.baseurl}/auth`,
 		method: 'PUT',
-		simple: false,
-		json: true,
 		body: body
 	});
 

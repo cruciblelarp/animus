@@ -1,7 +1,6 @@
 /* globals require, describe, it */
 
 let chai = require('chai');
-let req = require('request-promise');
 
 let expect = chai.expect;
 
@@ -9,12 +8,13 @@ import * as setup from '../setup.js';
 import { request as login } from '../auth/login.spec.js';
 
 export const request = () => {
-	return req({
+	return setup.request({
 		resolveWithFullResponse: true,
 		uri: `${setup.baseurl}/users`,
 		method: 'GET',
 		simple: false,
-		json: true
+		json: true,
+		jar: true
 	});
 };
 
@@ -32,7 +32,7 @@ describe("GET:/users", () => {
 
 	it('should provide a list of users', () => {
 
-		return login('email@somewhere.com', 'realpassword').then((response) => {
+		return login('email@somewhere.com', 'password').then((response) => {
 			expect(response.statusCode).to.equal(200);
 			return request();
 

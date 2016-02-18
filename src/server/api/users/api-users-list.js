@@ -20,7 +20,7 @@ export const name = 'list';
 
 operation.validator = (c) => {
 	return {
-	}
+	};
 };
 
 operation.handler = (request, response, params) => {
