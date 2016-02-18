@@ -5,13 +5,13 @@ import _ from 'underscore';
 import crypto from 'crypto';
 
 import resource from './api-auth-resource.js';
+import query from '../../neo4j.js'
 
 import '../../prototypes.js'
-import query from '../../neo4j.js'
 
 const operation = resource.PUT().as('json');
 
-let cipher_login = '' +
+const cipher_login = '' +
 	'MATCH (user:User { email: {email} })' +
 	'  RETURN user;';
 

@@ -1,62 +1,45 @@
 /* globals module, require */
 
+import _ from 'underscore';
+
+import resource from './api-users-resource.js';
+import query from '../../neo4j.js';
+
 import '../../prototypes.js'
 
-let _ = require('underscore');
+const operation = resource.GET().as('json');
 
-let cipher_list = '' +
+const cipher_list = '' +
 	'MATCH (node:User),(user:User)' +
 	'  WHERE id(user) = {userId}' +
 	'  AND (node) - [:Requires] -> (:Permission) <- [:Possesses] - (user)' +
 	'  XOR NOT (node) - [:Requires] -> (:Permission)' +
 	'  RETURN id(node);';
 
-let whitelist = [
-	'name'
-];
-
 export const name = 'list';
 
-module.exports = {
-
-	method: 'GET',
-
-	contentTypes: [
-		'application/json',
-		'text/json'
-	],
-
-	validator: function(c) {
-		return {
-
-		};
-
-	},
-
-	resolver: function(params, session, resolve, reject) {
-
-		query(cipher_list, {
-			userId: session.user.id
-
-		}).then(function(results) {
-
-			return Promise.resolve();
-
-		}).then(resolve, reject);
-
-	},
-
-	schema: {
-
-		request: {
-			//jsonschema
-		},
-
-		response: {
-			//jsonschema
-		}
-
+operation.validator = (c) => {
+	return {
 	}
-
 };
 
+operation.handler = (request, response, params) => {
+
+	const userId = request.session.user && request.session.user.id;
+
+	if (!userId) {
+		return response.status(401).json({});
+	}
+
+	return query(cipher_list, {
+		userId: userId
+
+	}).then(function(results) {
+
+		console.info(JSON.stringify(results, null, '\t'));
+
+		return Promise.resolve();
+
+	});
+
+};
