@@ -46,25 +46,27 @@ operation.handler = (request, response, params) => {
 
 	}).then(function(results) {
 
-		let result = _.first(results);
+		//console.info(JSON.stringify(results, null, '\t'));
 
-		if (!result) {
+		const result = _.first(_.first(_.first(results)));
+
+		if (!result || !result.user) {
 			console.info(`Couldn't find user for email ${email}`);
-			return response.status(404);
+			return response.status(404).json({});;
 		}
 
-		let user = _.extend({}, result.user.properties, {
+		const user = _.extend({}, result.user, {
 			id: result.user._id
 		});
 
 		// run crypto hash on supplied password.
-		let hash = crypto.createHash('md5')
+		const hash = crypto.createHash('md5')
 				.update(password)
 				.digest('hex');
 
 		if (hash !== user.password) {
 			console.info(`Couldn't validate user's password`);
-			return response.status(401);
+			return response.status(401).json({});
 		}
 
 		user.token = crypto.createHash('md5')

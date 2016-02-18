@@ -32,7 +32,7 @@ describe("GET:/users", () => {
 
 	it('should provide a list of users', () => {
 
-		return login('realuser', 'realpassword').then((response) => {
+		return login('email@somewhere.com', 'realpassword').then((response) => {
 			expect(response.statusCode).to.equal(200);
 			return request();
 

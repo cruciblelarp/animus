@@ -65,7 +65,7 @@ describe('POST:/auth', () => {
 		return request('notauser@dontexist.com', 'irrelevantpassword').then((result) => {
 
 			expect(result).to.exist;
-			expect(result.statusCode).to.equal(400);
+			expect(result.statusCode).to.equal(404);
 
 		});
 
@@ -76,7 +76,7 @@ describe('POST:/auth', () => {
 		return request('email@somewhere.com', 'wrongpassword').then((result) => {
 
 			expect(result).to.exist;
-			expect(result.statusCode).to.equal(400);
+			expect(result.statusCode).to.equal(401);
 
 		});
 
@@ -88,7 +88,7 @@ describe('POST:/auth', () => {
 
 			expect(result).to.exist;
 			console.info(JSON.stringify(result.body));
-			expect(result.statusCode).to.equal(204);
+			expect(result.statusCode).to.equal(200);
 
 		});
 
