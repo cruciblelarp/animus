@@ -80,6 +80,7 @@
     "traceur": "0.0.102",
     "traceur-runner": "^2.0.1",
     "traceur-source-maps": "^1.0.6",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "http-constants": "1.1.0"
   }
 }

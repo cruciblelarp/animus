@@ -90,4 +90,26 @@ describe('POST:/auth', () => {
 
 	});
 
+	describe('when successfully logged-in', () => {
+
+		let result = null;
+
+		before(() => {
+			return request('email@somewhere.com', 'password').then((response) => {
+				result = response;
+			});
+		});
+
+		it('should not have a password listed.', () => {
+			expect(result.password).to.not.exist;
+		});
+
+		it('should have a list of user permissions', () => {
+			expect(result.permissions).to.exist;
+			expect(result.permissions).to.be.an('array');
+			expect(result.permissions.length).to.be.greaterThan(0);
+		});
+
+	});
+
 });
