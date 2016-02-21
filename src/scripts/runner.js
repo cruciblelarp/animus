@@ -10,11 +10,12 @@ var config = require('./config');
 module.exports = function() {
 
 	return nodemon({
-		script: 'src/server/server.js',
+		script: 'index.js',
 		ext: 'js',
 		ignore: [
-			config.PATH_STATIC,
-			config.PATH_SCRIPTS
+			'src/server/static',
+			'src/scripts',
+			'src/client'
 		]
 	});
 

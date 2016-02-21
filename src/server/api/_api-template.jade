@@ -1,0 +1,17 @@
+doctype xml
+doctype html
+html(manifest='/')
+
+	head
+
+		meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=no")
+
+		title Crucible LARP Manager
+
+		script(src='lib/require.js', data-main='/etc/require.js')
+
+		link(rel='stylesheet', href='styles.min.css')
+
+	body
+
+		div(data-ui-view)

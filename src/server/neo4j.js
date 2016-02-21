@@ -1,48 +1,44 @@
 /* globals require, module */
 
-var neo4j = require('neo4j');
-var Promise = require('promise');
+import neo4j from 'neo4j-simple';
 
-var config = require('./config');
-var exit = require('./exit');
+import config from './config.js';
+import exit from './exit.js';
 
-var connection = null;
+let connection = null;
 
-function load() {
+/**
+ * @returns {Promise} A neo4j database connection.
+ */
+export function connect() {
+	return new Promise((resolve, reject) => {
+		try {
 
-	if (!connection) {
-		connection = new neo4j.GraphDatabase(config.database);
-	}
+			if (!connection) {
+				connection = neo4j(config.database.url, {
+					idName: 'id'
+				});
+			}
 
-	return connection;
+			return resolve(connection);
 
+		} catch (error) {
+			return reject(error);
+		}
+	});
 }
 
-module.exports = function(query, params) {
-	return new Promise(function(resolve, reject) {
-		load().cypher({
-			query: query,
-			params: params
-		}, function(error, results) {
-			error
-				? reject(error)
-				: resolve(results);
-		});
+export default function query(query, params) {
+	return connect().then((db) => {
+		return db.query(query, params);
 	});
-};
+}
 
-exit.listen(function(resolve) {
+exit(function(resolve) {
 
 	if (!connection) {
 		console.log('Neo4j client has not been initialised.');
 		return resolve(config.constant.EXIT_OK);
 	}
-
-	return connection.close().then(function() {
-		return Promise.resolve(config.constant.EXIT_OK);
-	}).catch(function(error) {
-		console.log(error);
-		return Promise.resolve(config.constant.EXIT_NEO4J);
-	});
 
 });

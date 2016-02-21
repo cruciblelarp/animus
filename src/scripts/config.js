@@ -51,7 +51,7 @@ $config.libraries = [
 	'node_modules/sockit-angular/dist/sockit-angular.js'
 ];
 
-$config.requirejs = require($config.PATH_STATIC_REL + '/require-config');
-$config.requirejs.baseUrl = 'src/server/static';
+$config.requirejs = require('../client/require-config');
+$config.requirejs.baseUrl = 'src/client';
 
 module.exports = $config;

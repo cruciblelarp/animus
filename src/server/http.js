@@ -2,16 +2,18 @@
 
 var http = require('http');
 
-var app = require('./express');
-var exit = require('./exit');
-var config = require('./config');
+import app from './express.js';
+import exit from './exit.js';
+import config from './config.js';
 
 var Server = http.Server;
 
 // create and start the HTTP server with static file serving.
-var server = module.exports = new Server(app);
+let server = new Server(app);
 
-exit.listen(function(resolve) {
+export default server;
+
+exit(function(resolve) {
 
 	if (!server) {
 		console.log('Http server has not been created.');

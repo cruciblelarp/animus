@@ -1,17 +1,18 @@
 /* globals require, module, __dirname */
 
-var express = require('express');
-var fileStore = require('session-file-store');
-var errorHandler = require('errorhandler');
-var session = require('express-session');
-var helmet = require('helmet');
-var bodyParser = require('body-parser');
+import express from 'express';
+import fileStore from 'session-file-store';
+import errorHandler from 'errorhandler';
+import session from 'express-session';
+import helmet from 'helmet';
+import bodyParser from 'body-parser';
+import paths from 'path';
 
-var config = require('./config');
+import config from './config';
 
-var FileStore = fileStore(session);
+let FileStore = fileStore(session);
 
-var app = express();
+let app = express();
 
 app.use(errorHandler());
 app.use(bodyParser());
@@ -32,20 +33,6 @@ app.use(session({
 	})
 }));
 
-app.use(express.static(config.path.base + '/static', {
-	index: false
-}));
+app.use(express.static('src/server/static'));
 
-app.set('view engine', 'jade');
-app.set('views', __dirname);
-
-app.get('/', function(req, res) {
-	req.session.touch();
-	res.render('main', {
-		dev: req.query['dev']
-			? req.query['dev'] === 'true'
-			: config.debug
-	});
-});
-
-module.exports = app;
+export default app;

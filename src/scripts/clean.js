@@ -8,10 +8,12 @@ var clean = require('gulp-clean');
 var config = require('./config');
 
 module.exports = function() {
-	return gulp.src([
-		config.PATH_STATIC_LIBS,
-		config.PATH_STATIC + '/**/*.min.*'
-	]).pipe(clean({
-		force: true
-	}));
+	return gulp
+
+			.src('target')
+
+			.pipe(clean({
+				force: true
+			}));
+
 };

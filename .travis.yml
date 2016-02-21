@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - "0.10"
+  - '5.6'
 
 jdk:
   - oraclejdk7 # Needed for neo4j
@@ -9,15 +9,35 @@ jdk:
 env:
   global:
     - NEO4J_VERSION="2.1.7"
+    - CXX=g++-4.8
+
+addons:
+  apt:
+
+    sources:
+      - ubuntu-toolchain-r-test
+
+    packages:
+      - g++-4.8
 
 before_install:
   - wget dist.neo4j.org/neo4j-community-$NEO4J_VERSION-unix.tar.gz
   - tar -xzf neo4j-community-$NEO4J_VERSION-unix.tar.gz
   - echo org.neo4j.server.database.location=src/test/dump > neo4j-community-$NEO4J_VERSION/conf/neo4j-server.properties
   - neo4j-community-$NEO4J_VERSION/bin/neo4j start
+  - npm install -g npm@latest
+
+after_install:
+  - npm config set tag-version-prefix "" --global
+  - npm config set tag-version-prefix ""
 
 before_script:
-  - gulp manifest
+  - npm version `git describe --tags` --no-git-tag
+  - cat package.json | grep version
+
+script:
+  - gulp build
+  - gulp test
   - gulp docs
 
 after_success:

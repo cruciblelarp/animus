@@ -1,6 +1,6 @@
 /* globals require, module, __dirname */
 
-module.exports = {
+export default {
 
 	path: {
 		base: __dirname
@@ -34,7 +34,8 @@ module.exports = {
 		EXIT_SOCKET: 3,
 		EXIT_SWARM: 4,
 		EXIT_TIMEOUT: 5,
-		EXIT_ERROR: 6
+		EXIT_ERROR: 6,
+		EXIT_NEO4J: 7
 
 	}
 
